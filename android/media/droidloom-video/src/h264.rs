@@ -420,11 +420,27 @@ impl H264Session {
     pub fn std_sps(&self, id: usize) -> Option<StdVideoH264SequenceParameterSet> {
         let sps = self.sps.get(id)?;
         Some(StdVideoH264SequenceParameterSet {
-            flags: StdVideoH264SpsFlags {
-                constraint_set0_flag_bits: u32::from(sps.constraint_flags) & 0x3F,
+            flags: {
+                let mut flags = StdVideoH264SpsFlags { constraint_set0_flag_bits: 0 };
+                let bits = flags.constraint_set0_flag_bits;
+                let mut packed = bits & 0x3F; // constraint set 0..5
+                if sps.direct_8x8_inference_flag {
+                    packed |= StdVideoH264SpsFlags::DIRECT_8X8_INFERENCE_FLAG;
+                }
+                if sps.mb_adaptive_frame_field_flag {
+                    packed |= StdVideoH264SpsFlags::MB_ADAPTIVE_FRAME_FIELD_FLAG;
+                }
+                if sps.frame_mbs_only_flag {
+                    packed |= StdVideoH264SpsFlags::FRAME_MBS_ONLY_FLAG;
+                }
+                if sps.delta_pic_order_always_zero_flag {
+                    packed |= StdVideoH264SpsFlags::DELTA_PIC_ORDER_ALWAYS_ZERO_FLAG;
+                }
+                flags.constraint_set0_flag_bits = packed;
+                flags
             },
             profile_idc: sps.profile_idc as i32,
-            level_idc: sps.level_idc as i32,
+            level_idc: std_level_idc(sps.level_idc),
             chroma_format_idc: sps.chroma_format_idc as i32,
             seq_parameter_set_id: sps.seq_parameter_set_id as u8,
             bit_depth_luma_minus8: sps.bit_depth_luma_minus8 as u8,
@@ -476,7 +492,11 @@ impl H264Session {
     /// The decode picture info of one slice, from the parsed header.
     pub fn picture_info(&self, header: &SliceHeader) -> StdVideoDecodeH264PictureInfo {
         let mut flags = StdVideoDecodeH264PictureInfoFlags { field_pic_flag_bits: 0 };
+        let is_intra = header.is_idr
+            || header.slice_type == 2 || header.slice_type == 4 || header.slice_type == 7
+            || header.slice_type == 9;
         flags.field_pic_flag_bits |= u32::from(header.field_pic_flag) << 0;
+        flags.field_pic_flag_bits |= u32::from(is_intra) << 1;
         flags.field_pic_flag_bits |= u32::from(header.is_idr) << 2;
         flags.field_pic_flag_bits |= u32::from(header.is_ref) << 4;
         StdVideoDecodeH264PictureInfo {
@@ -488,6 +508,19 @@ impl H264Session {
             frame_num: header.frame_num as u16,
             idr_pic_id: header.idr_pic_id as u16,
             PicOrderCnt: [0, 0],
+        }
+    }
+
+    /// Maps the stream's raw H.264 `level_idc` (10..52) to the
+    /// `StdVideoH264LevelIdc` sequential enum (0..15).
+    pub fn std_level_idc(raw: u32) -> i32 {
+        match raw {
+            10 => 0, 11 => 1, 12 => 2, 13 => 3,
+            20 => 4, 21 => 5, 22 => 6,
+            30 => 7, 31 => 8, 32 => 9,
+            40 => 10, 41 => 11, 42 => 12,
+            50 => 13, 51 => 14,
+            _ => 15,
         }
     }
 
