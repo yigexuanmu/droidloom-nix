@@ -488,6 +488,20 @@ in
     # `droidloomctl start` workflow would not.
     environment.systemPackages = [ cfg.package ];
 
+    # The dma-heap backends allocate media buffers from the system DMA
+    # heap (/dev/dma_heap/system). The heap device only appears once the
+    # system_heap module is loaded (kernels commonly build it as a module
+    # and nothing autoloads it), and the cell opens the device as the
+    # desktop user, so load it at boot and make it group-accessible.
+    boot.kernelModules = lib.mkIf
+      (lib.elem cfg.graphicsBackend [ "drm_dma_heap" "kgsl_dma_heap" "forwarding" ])
+      [ "system_heap" ];
+    services.udev.extraRules = lib.mkIf
+      (lib.elem cfg.graphicsBackend [ "drm_dma_heap" "kgsl_dma_heap" "forwarding" ])
+      ''
+        SUBSYSTEM=="dma_heap", KERNEL=="system", MODE="0660", GROUP="video"
+      '';
+
     assertions = [
       {
         assertion = builtins.hasAttr cfg.user config.users.users;
