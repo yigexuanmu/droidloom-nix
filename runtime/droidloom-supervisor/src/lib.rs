@@ -138,6 +138,13 @@ pub enum GraphicsBackend {
     /// Host Vulkan through droidloom-gpu-server, for GPUs without an Android
     /// driver (NVIDIA), ANGLE GLES and linear system DMA-heap images.
     Forwarding,
+    /// Source-built Mesa NVK with the Rust RM backend talking to the NVIDIA
+    /// kernel module from inside the cell, ANGLE GLES: no forwarding process,
+    /// no IPC, and the driver's own hardware video decode. Never chosen by
+    /// `auto`; an explicit cell spec turns it on. The cell then sees the
+    /// NVIDIA character devices, and multi-GPU hosts pin `/dev/nvidia0` to
+    /// the configured GPU.
+    NvkRm,
 }
 
 /// System DMA heap that Codec2 allocates its linear media buffers from. Every
@@ -153,6 +160,12 @@ impl GraphicsBackend {
             Self::DrmDmaHeap => &["/dev/dma_heap/system"],
             Self::KgslDmaHeap => &["/dev/kgsl-3d0", "/dev/dma_heap/system"],
             Self::Forwarding => &["/dev/dma_heap/system"],
+            Self::NvkRm => &[
+                "/dev/nvidiactl",
+                "/dev/nvidia0",
+                "/dev/nvidia-uvm",
+                "/dev/dma_heap/system",
+            ],
         }
     }
 
@@ -161,6 +174,7 @@ impl GraphicsBackend {
         match self {
             Self::Drm | Self::DrmDmaHeap | Self::KgslDmaHeap => &[],
             Self::Forwarding => &[("ro.hardware.vulkan", "droidloom"), ("ro.hardware.egl", "angle")],
+            Self::NvkRm => &[("ro.hardware.vulkan", "nvidia"), ("ro.hardware.egl", "angle")],
         }
     }
 
@@ -771,13 +785,20 @@ mod tests {
     }
 
     #[test]
-    fn graphics_backend_is_explicit_and_bounded() {
+    fn graphics_backend_is_explicit_and_bounded() -> Result<(), serde_json::Error> {
         let original = spec();
         let mut json = serde_json::to_value(&original).unwrap();
         json.as_object_mut().unwrap().remove("graphics_backend");
         let decoded: CellSpec = serde_json::from_value(json.clone()).unwrap();
         assert_eq!(decoded.graphics_backend, GraphicsBackend::Drm);
         assert!(decoded.graphics_backend.auxiliary_devices().is_empty());
+        json["graphics_backend"] = serde_json::json!("nvk_rm");
+        let decoded: CellSpec = serde_json::from_value(json.clone())?;
+        assert_eq!(decoded.graphics_backend, GraphicsBackend::NvkRm);
+        assert_eq!(
+            decoded.graphics_backend.auxiliary_devices(),
+            ["/dev/nvidiactl", "/dev/nvidia0", "/dev/nvidia-uvm", "/dev/dma_heap/system"].as_slice()
+        );
         json["graphics_backend"] = serde_json::json!("drm_dma_heap");
         let decoded: CellSpec = serde_json::from_value(json.clone()).unwrap();
         assert_eq!(decoded.graphics_backend, GraphicsBackend::DrmDmaHeap);
@@ -796,6 +817,7 @@ mod tests {
         assert_eq!(decoded.graphics_backend.auxiliary_devices(), &["/dev/dma_heap/system"]);
         json["graphics_backend"] = serde_json::json!("/dev/dri/card0");
         assert!(serde_json::from_value::<CellSpec>(json).is_err());
+        Ok(())
     }
 
     #[test]

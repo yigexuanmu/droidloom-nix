@@ -955,6 +955,8 @@ pub fn enter_development_cell(spec: &CellSpec) -> Result<(), DevelopmentError> {
     if spec.graphics_backend == crate::GraphicsBackend::Forwarding {
         init.env("vendor.minigbm.vram", "vulkan");
     }
+    // NVK with the RM backend allocates its own VRAM and hands out DMA-BUFs
+    // in the GPU's layouts; nothing but the media heap comes from minigbm.
     if spec.graphics_backend == crate::GraphicsBackend::KgslDmaHeap {
         init.env("MESA_LOADER_DRIVER_OVERRIDE", "zink");
     }

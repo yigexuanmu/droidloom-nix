@@ -238,6 +238,11 @@ impl Display for Graphics {
                 "Android renders on the {} through droidloom-gpu-server (GPU forwarding); the cell's render node is {}",
                 self.renderer, self.render_node
             ),
+            GraphicsBackend::NvkRm => write!(
+                f,
+                "Android renders natively on the {} (Mesa NVK over the RM backend); the cell's render node is {}",
+                self.renderer, self.render_node
+            ),
             _ => write!(f, "Android renders natively on the {} (Mesa); GPU forwarding is off", self.renderer),
         }
     }
