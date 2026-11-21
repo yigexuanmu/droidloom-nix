@@ -440,7 +440,7 @@ impl H264Session {
                 flags
             },
             profile_idc: sps.profile_idc as i32,
-            level_idc: std_level_idc(sps.level_idc),
+            level_idc: Self::std_level_idc(sps.level_idc),
             chroma_format_idc: sps.chroma_format_idc as i32,
             seq_parameter_set_id: sps.seq_parameter_set_id as u8,
             bit_depth_luma_minus8: sps.bit_depth_luma_minus8 as u8,

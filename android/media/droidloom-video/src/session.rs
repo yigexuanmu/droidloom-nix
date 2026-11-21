@@ -1034,15 +1034,42 @@ impl VideoSession {
         };
 
         let aligned = self.coded_extent;
-        // Begin coding binds ALL the session's DPB slots with their
-        // resources: the slots are usable from session creation, and the
-        // decode's setup slot must be among the bound ones (07149/07239).
+        // Begin coding binds the slots the decode uses: the active DPB
+        // slots the picture references, plus the current picture's resource
+        // bound as an inactive reference (slotIndex = -1) so the setup
+        // resource matches a bound one (07149). The picture resources use
+        // the content extent — what the decoder expects.
+        let content = self.content_extent;
+        let setup_resource = gvk::VkVideoPictureResourceInfoKHR {
+            sType: gvk::VK_STRUCTURE_TYPE_VIDEO_PICTURE_RESOURCE_INFO_KHR,
+            pNext: std::ptr::null(),
+            codedOffset: gvk::VkOffset2D { x: 0, y: 0 },
+            codedExtent: gvk::VkExtent2D { width: content.0, height: content.1 },
+            baseArrayLayer: 0,
+            imageViewBinding: self.dpb_images[setup_slot].view,
+        };
+        let setup_std = session_state.reference_info(header.frame_num);
+        let setup_dpb_info = gvk::VkVideoDecodeH264DpbSlotInfoKHR {
+            sType: gvk::VK_STRUCTURE_TYPE_VIDEO_DECODE_H264_DPB_SLOT_INFO_KHR,
+            pNext: std::ptr::null(),
+            pStdReferenceInfo: &setup_std,
+        };
+        let setup_slot_info = gvk::VkVideoReferenceSlotInfoKHR {
+            sType: gvk::VK_STRUCTURE_TYPE_VIDEO_REFERENCE_SLOT_INFO_KHR,
+            pNext: (&setup_dpb_info as *const _) as *const core::ffi::c_void,
+            slotIndex: setup_slot as i32,
+            pPictureResource: &setup_resource,
+        };
         let mut begin_stds: Vec<gvk::StdVideoDecodeH264ReferenceInfo> = Vec::new();
         let mut begin_dpb_infos: Vec<gvk::VkVideoDecodeH264DpbSlotInfoKHR> = Vec::new();
         let mut begin_resources: Vec<gvk::VkVideoPictureResourceInfoKHR> = Vec::new();
         let mut begin_slots: Vec<gvk::VkVideoReferenceSlotInfoKHR> = Vec::new();
-        for (index, picture) in self.dpb_images.iter().enumerate() {
-            begin_stds.push(session_state.reference_info(u32::from(self.slot_state[index].frame_num)));
+        // The active DPB slots the picture references.
+        for (index, state) in self.slot_state.iter().enumerate() {
+            if !state.active || index == setup_slot {
+                continue;
+            }
+            begin_stds.push(session_state.reference_info(u32::from(state.frame_num)));
             begin_dpb_infos.push(gvk::VkVideoDecodeH264DpbSlotInfoKHR {
                 sType: gvk::VK_STRUCTURE_TYPE_VIDEO_DECODE_H264_DPB_SLOT_INFO_KHR,
                 pNext: std::ptr::null(),
@@ -1052,9 +1079,9 @@ impl VideoSession {
                 sType: gvk::VK_STRUCTURE_TYPE_VIDEO_PICTURE_RESOURCE_INFO_KHR,
                 pNext: std::ptr::null(),
                 codedOffset: gvk::VkOffset2D { x: 0, y: 0 },
-                codedExtent: gvk::VkExtent2D { width: aligned.0, height: aligned.1 },
+                codedExtent: gvk::VkExtent2D { width: content.0, height: content.1 },
                 baseArrayLayer: 0,
-                imageViewBinding: picture.view,
+                imageViewBinding: self.dpb_images[index].view,
             });
             begin_slots.push(gvk::VkVideoReferenceSlotInfoKHR {
                 sType: gvk::VK_STRUCTURE_TYPE_VIDEO_REFERENCE_SLOT_INFO_KHR,
@@ -1070,77 +1097,41 @@ impl VideoSession {
             slot.pNext = (&begin_dpb_infos[i] as *const gvk::VkVideoDecodeH264DpbSlotInfoKHR).cast();
             slot.pPictureResource = &begin_resources[i];
         }
-        let setup_std = session_state.reference_info(header.frame_num);
-        let setup_resource = gvk::VkVideoPictureResourceInfoKHR {
-            sType: gvk::VK_STRUCTURE_TYPE_VIDEO_PICTURE_RESOURCE_INFO_KHR,
-            pNext: std::ptr::null(),
-            codedOffset: gvk::VkOffset2D { x: 0, y: 0 },
-            codedExtent: gvk::VkExtent2D { width: aligned.0, height: aligned.1 },
-            baseArrayLayer: 0,
-            imageViewBinding: self.dpb_images[setup_slot].view,
-        };
-        let setup_dpb_info = gvk::VkVideoDecodeH264DpbSlotInfoKHR {
-            sType: gvk::VK_STRUCTURE_TYPE_VIDEO_DECODE_H264_DPB_SLOT_INFO_KHR,
-            pNext: std::ptr::null(),
-            pStdReferenceInfo: &setup_std,
-        };
-        let setup_slot_info = gvk::VkVideoReferenceSlotInfoKHR {
-            sType: gvk::VK_STRUCTURE_TYPE_VIDEO_REFERENCE_SLOT_INFO_KHR,
-            pNext: (&setup_dpb_info as *const _) as *const core::ffi::c_void,
-            slotIndex: setup_slot as i32,
-            pPictureResource: &setup_resource,
-        };
         // The current picture's resource, bound as an inactive reference
-        // (slotIndex = -1): exempt from the active-slot requirement and the
-        // match the setup slot's resource needs (07149).
+        // (slotIndex = -1): exempt from the active-slot requirement, and the
+        // resource the setup slot names matches it (07149).
         let current_inactive = gvk::VkVideoReferenceSlotInfoKHR {
             sType: gvk::VK_STRUCTURE_TYPE_VIDEO_REFERENCE_SLOT_INFO_KHR,
             pNext: std::ptr::null(),
             slotIndex: -1,
             pPictureResource: &setup_resource,
         };
-        let mut all_begin_slots = begin_slots.clone();
-        all_begin_slots.push(current_inactive);
+        begin_slots.push(current_inactive);
         let begin_info = gvk::VkVideoBeginCodingInfoKHR {
             sType: gvk::VK_STRUCTURE_TYPE_VIDEO_BEGIN_CODING_INFO_KHR,
             pNext: std::ptr::null(),
             flags: 0,
             videoSession: self.session,
             videoSessionParameters: self.parameters.unwrap_or(0),
-            referenceSlotCount: all_begin_slots.len() as u32,
-            pReferenceSlots: all_begin_slots.as_ptr(),
+            referenceSlotCount: begin_slots.len() as u32,
+            pReferenceSlots: begin_slots.as_ptr(),
         };
 
-        // The decode's reference slots: the active slots the picture reads.
-        // For this engine's single-reference model that is every active slot
-        // except the setup slot; the decoder picks per the slice headers.
+        // The decode's reference slots: the active DPB slots the picture
+        // references, excluding the setup slot.
         let mut decode_dpb_infos = Vec::new();
         let mut decode_resources = Vec::new();
         let mut decode_slots = Vec::new();
         for (i, slot) in begin_slots.iter().enumerate() {
-            let index = slot.slotIndex as usize;
-            if index == setup_slot || !self.slot_state[index].active {
+            if slot.slotIndex == setup_slot as i32 || slot.slotIndex == -1 {
                 continue;
             }
             decode_dpb_infos.push(begin_dpb_infos[i]);
             decode_resources.push(begin_resources[i]);
             decode_slots.push(*slot);
         }
+        // The H.264 picture info, chained into the decode info.
         let picture_info = session_state.picture_info(header);
-        let setup_std = session_state.reference_info(header.frame_num);
-        let setup_resource = gvk::VkVideoPictureResourceInfoKHR {
-            sType: gvk::VK_STRUCTURE_TYPE_VIDEO_PICTURE_RESOURCE_INFO_KHR,
-            pNext: std::ptr::null(),
-            codedOffset: gvk::VkOffset2D { x: 0, y: 0 },
-            codedExtent: gvk::VkExtent2D { width: aligned.0, height: aligned.1 },
-            baseArrayLayer: 0,
-            imageViewBinding: self.dpb_images[setup_slot].view,
-        };
-        let setup_dpb_info = gvk::VkVideoDecodeH264DpbSlotInfoKHR {
-            sType: gvk::VK_STRUCTURE_TYPE_VIDEO_DECODE_H264_DPB_SLOT_INFO_KHR,
-            pNext: std::ptr::null(),
-            pStdReferenceInfo: &setup_std,
-        };
         let h264_picture = gvk::VkVideoDecodeH264PictureInfoKHR {
             sType: gvk::VK_STRUCTURE_TYPE_VIDEO_DECODE_H264_PICTURE_INFO_KHR,
             pNext: std::ptr::null(),
@@ -1213,9 +1204,9 @@ impl VideoSession {
         Ok(setup_slot as u32)
     }
 
-    /// The coded extent the session was opened for.
+    /// The content extent the session was opened for.
     pub fn coded_extent(&self) -> (u32, u32) {
-        self.coded_extent
+        self.content_extent
     }
 
     /// Copies one DPB picture's planes into the host-visible copy buffer and
