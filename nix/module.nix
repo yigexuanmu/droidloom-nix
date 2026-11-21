@@ -178,6 +178,12 @@ let
     "L+ /usr/bin/pkexec - - - - ${config.security.wrapperDir}/pkexec"
     "L+ /usr/bin/runuser - - - - ${pkgs.util-linux}/bin/runuser"
     "L+ /usr/bin/systemctl - - - - /run/current-system/sw/bin/systemctl"
+    # droidloom-applications writes XDG desktop entries whose Exec and
+    # TryExec call /usr/bin/droidloomctl (the pacman package installs the
+    # binary there). Launchers that honor TryExec (fuzzel) hide every
+    # Droidloom entry while the link is missing, and the ones that do not
+    # (noctalia) fail to launch.
+    "L+ /usr/bin/droidloomctl - - - - ${droidloom}/bin/droidloomctl"
     # tools/droidloom-translation-bench/src/main.rs terminates benchmark
     # workloads with /usr/bin/kill.
     "L+ /usr/bin/kill - - - - ${pkgs.util-linux}/bin/kill"
