@@ -5,6 +5,68 @@
 pub mod vk {
     pub use core::ffi::{c_char, c_int, c_void};
 
+    pub const STD_VIDEO_AV1_GLOBAL_MOTION_PARAMS: u32 = 6u32;
+    pub const STD_VIDEO_AV1_LOOP_FILTER_ADJUSTMENTS: u32 = 2u32;
+    pub const STD_VIDEO_AV1_MAX_CDEF_FILTER_STRENGTHS: u32 = 8u32;
+    pub const STD_VIDEO_AV1_MAX_LOOP_FILTER_STRENGTHS: u32 = 4u32;
+    pub const STD_VIDEO_AV1_MAX_NUM_CB_POINTS: u32 = 10u32;
+    pub const STD_VIDEO_AV1_MAX_NUM_CR_POINTS: u32 = 10u32;
+    pub const STD_VIDEO_AV1_MAX_NUM_PLANES: u32 = 3u32;
+    pub const STD_VIDEO_AV1_MAX_NUM_POS_CHROMA: u32 = 25u32;
+    pub const STD_VIDEO_AV1_MAX_NUM_POS_LUMA: u32 = 24u32;
+    pub const STD_VIDEO_AV1_MAX_NUM_Y_POINTS: u32 = 14u32;
+    pub const STD_VIDEO_AV1_MAX_SEGMENTS: u32 = 8u32;
+    pub const STD_VIDEO_AV1_MAX_TILE_COLS: u32 = 64u32;
+    pub const STD_VIDEO_AV1_MAX_TILE_ROWS: u32 = 64u32;
+    pub const STD_VIDEO_AV1_NUM_REF_FRAMES: u32 = 8u32;
+    pub const STD_VIDEO_AV1_PRIMARY_REF_NONE: u8 = 7u8;
+    pub const STD_VIDEO_AV1_REFS_PER_FRAME: u32 = 7u32;
+    pub const STD_VIDEO_AV1_SEG_LVL_MAX: u32 = 8u32;
+    pub const STD_VIDEO_AV1_SELECT_INTEGER_MV: u8 = 2u8;
+    pub const STD_VIDEO_AV1_SELECT_SCREEN_CONTENT_TOOLS: u32 = 2u32;
+    pub const STD_VIDEO_AV1_SKIP_MODE_FRAMES: u32 = 2u32;
+    pub const STD_VIDEO_AV1_TOTAL_REFS_PER_FRAME: u32 = 8u32;
+    pub const STD_VIDEO_DECODE_H264_FIELD_ORDER_COUNT_LIST_SIZE: u32 = 2u32;
+    pub const STD_VIDEO_DECODE_H265_REF_PIC_SET_LIST_SIZE: u32 = 8u32;
+    pub const STD_VIDEO_H264_CPB_CNT_LIST_SIZE: u32 = 32u32;
+    pub const STD_VIDEO_H264_MAX_CHROMA_PLANES: u32 = 2u32;
+    pub const STD_VIDEO_H264_MAX_NUM_LIST_REF: u32 = 32u32;
+    pub const STD_VIDEO_H264_NO_REFERENCE_PICTURE: u8 = 0xFFu8;
+    pub const STD_VIDEO_H264_SCALING_LIST_4X4_NUM_ELEMENTS: u32 = 16u32;
+    pub const STD_VIDEO_H264_SCALING_LIST_4X4_NUM_LISTS: u32 = 6u32;
+    pub const STD_VIDEO_H264_SCALING_LIST_8X8_NUM_ELEMENTS: u32 = 64u32;
+    pub const STD_VIDEO_H264_SCALING_LIST_8X8_NUM_LISTS: u32 = 6u32;
+    pub const STD_VIDEO_H265_CHROMA_QP_OFFSET_LIST_SIZE: u32 = 6u32;
+    pub const STD_VIDEO_H265_CHROMA_QP_OFFSET_TILE_COLS_LIST_SIZE: u32 = 19u32;
+    pub const STD_VIDEO_H265_CHROMA_QP_OFFSET_TILE_ROWS_LIST_SIZE: u32 = 21u32;
+    pub const STD_VIDEO_H265_CPB_CNT_LIST_SIZE: u32 = 32u32;
+    pub const STD_VIDEO_H265_MAX_CHROMA_PLANES: u32 = 2u32;
+    pub const STD_VIDEO_H265_MAX_DELTA_POC: u32 = 48u32;
+    pub const STD_VIDEO_H265_MAX_DPB_SIZE: u32 = 16u32;
+    pub const STD_VIDEO_H265_MAX_LONG_TERM_PICS: u32 = 16u32;
+    pub const STD_VIDEO_H265_MAX_LONG_TERM_REF_PICS_SPS: u32 = 32u32;
+    pub const STD_VIDEO_H265_MAX_NUM_LIST_REF: u32 = 15u32;
+    pub const STD_VIDEO_H265_MAX_SHORT_TERM_REF_PIC_SETS: u32 = 64u32;
+    pub const STD_VIDEO_H265_NO_REFERENCE_PICTURE: u8 = 0xFFu8;
+    pub const STD_VIDEO_H265_PREDICTOR_PALETTE_COMPONENTS_LIST_SIZE: u32 = 3u32;
+    pub const STD_VIDEO_H265_PREDICTOR_PALETTE_COMP_ENTRIES_LIST_SIZE: u32 = 128u32;
+    pub const STD_VIDEO_H265_SCALING_LIST_16X16_NUM_ELEMENTS: u32 = 64u32;
+    pub const STD_VIDEO_H265_SCALING_LIST_16X16_NUM_LISTS: u32 = 6u32;
+    pub const STD_VIDEO_H265_SCALING_LIST_32X32_NUM_ELEMENTS: u32 = 64u32;
+    pub const STD_VIDEO_H265_SCALING_LIST_32X32_NUM_LISTS: u32 = 2u32;
+    pub const STD_VIDEO_H265_SCALING_LIST_4X4_NUM_ELEMENTS: u32 = 16u32;
+    pub const STD_VIDEO_H265_SCALING_LIST_4X4_NUM_LISTS: u32 = 6u32;
+    pub const STD_VIDEO_H265_SCALING_LIST_8X8_NUM_ELEMENTS: u32 = 64u32;
+    pub const STD_VIDEO_H265_SCALING_LIST_8X8_NUM_LISTS: u32 = 6u32;
+    pub const STD_VIDEO_H265_SUBLAYERS_LIST_SIZE: u32 = 7u32;
+    pub const STD_VIDEO_VP9_LOOP_FILTER_ADJUSTMENTS: u32 = 2u32;
+    pub const STD_VIDEO_VP9_MAX_REF_FRAMES: u32 = 4u32;
+    pub const STD_VIDEO_VP9_MAX_SEGMENTATION_PRED_PROB: u32 = 3u32;
+    pub const STD_VIDEO_VP9_MAX_SEGMENTATION_TREE_PROBS: u32 = 7u32;
+    pub const STD_VIDEO_VP9_MAX_SEGMENTS: u32 = 8u32;
+    pub const STD_VIDEO_VP9_NUM_REF_FRAMES: u32 = 8u32;
+    pub const STD_VIDEO_VP9_REFS_PER_FRAME: u32 = 3u32;
+    pub const STD_VIDEO_VP9_SEG_LVL_MAX: u32 = 4u32;
     pub const VK_ATTACHMENT_UNUSED: u32 = !0u32;
     pub const VK_COMPRESSED_TRIANGLE_FORMAT_DGF1_BYTE_ALIGNMENT_AMDX: u32 = 128u32;
     pub const VK_COMPRESSED_TRIANGLE_FORMAT_DGF1_BYTE_STRIDE_AMDX: u32 = 128u32;
@@ -60,6 +122,31 @@ pub mod vk {
     pub type PFN_vkInternalFreeNotification = usize;
     pub type PFN_vkReallocationFunction = usize;
     pub type PFN_vkVoidFunction = Option<unsafe extern "system" fn()>;
+    pub type StdVideoAV1ChromaSamplePosition = i32;
+    pub type StdVideoAV1ColorPrimaries = i32;
+    pub type StdVideoAV1FrameRestorationType = i32;
+    pub type StdVideoAV1FrameType = i32;
+    pub type StdVideoAV1InterpolationFilter = i32;
+    pub type StdVideoAV1Level = i32;
+    pub type StdVideoAV1MatrixCoefficients = i32;
+    pub type StdVideoAV1Profile = i32;
+    pub type StdVideoAV1TransferCharacteristics = i32;
+    pub type StdVideoAV1TxMode = i32;
+    pub type StdVideoH264AspectRatioIdc = i32;
+    pub type StdVideoH264ChromaFormatIdc = i32;
+    pub type StdVideoH264LevelIdc = i32;
+    pub type StdVideoH264PocType = i32;
+    pub type StdVideoH264ProfileIdc = i32;
+    pub type StdVideoH264WeightedBipredIdc = i32;
+    pub type StdVideoH265AspectRatioIdc = i32;
+    pub type StdVideoH265ChromaFormatIdc = i32;
+    pub type StdVideoH265LevelIdc = i32;
+    pub type StdVideoH265ProfileIdc = i32;
+    pub type StdVideoVP9ColorSpace = i32;
+    pub type StdVideoVP9FrameType = i32;
+    pub type StdVideoVP9InterpolationFilter = i32;
+    pub type StdVideoVP9Level = i32;
+    pub type StdVideoVP9Profile = i32;
     pub type VkAccessFlags = VkFlags;
     pub type VkAccessFlags2 = VkFlags64;
     pub type VkAccessFlags3KHR = VkFlags64;
@@ -263,6 +350,22 @@ pub mod vk {
     pub type VkTessellationDomainOrigin = i32;
     pub type VkToolPurposeFlags = VkFlags;
     pub type VkVertexInputRate = i32;
+    pub type VkVideoBeginCodingFlagsKHR = VkFlags;
+    pub type VkVideoCapabilityFlagsKHR = VkFlags;
+    pub type VkVideoChromaSubsamplingFlagsKHR = VkFlags;
+    pub type VkVideoCodecOperationFlagBitsKHR = i32;
+    pub type VkVideoCodecOperationFlagsKHR = VkFlags;
+    pub type VkVideoCodingControlFlagsKHR = VkFlags;
+    pub type VkVideoComponentBitDepthFlagsKHR = VkFlags;
+    pub type VkVideoDecodeCapabilityFlagsKHR = VkFlags;
+    pub type VkVideoDecodeFlagsKHR = VkFlags;
+    pub type VkVideoDecodeH264PictureLayoutFlagBitsKHR = i32;
+    pub type VkVideoDecodeUsageFlagsKHR = VkFlags;
+    pub type VkVideoEndCodingFlagsKHR = VkFlags;
+    pub type VkVideoSessionCreateFlagsKHR = VkFlags;
+    pub type VkVideoSessionKHR = u64;
+    pub type VkVideoSessionParametersCreateFlagsKHR = VkFlags;
+    pub type VkVideoSessionParametersKHR = u64;
     pub type VkViewportCoordinateSwizzleNV = i32;
     pub const VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_GROUP_PROPERTIES: VkStructureType = 1000070000;
     pub const VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_EXTERNAL_FENCE_INFO: VkStructureType = 1000112000;
@@ -403,6 +506,21 @@ pub mod vk {
     pub const VK_STRUCTURE_TYPE_VERTEX_INPUT_BINDING_DESCRIPTION_2_EXT: VkStructureType = 1000352001;
     pub const VK_STRUCTURE_TYPE_VERTEX_INPUT_ATTRIBUTE_DESCRIPTION_2_EXT: VkStructureType = 1000352002;
     pub const VK_STRUCTURE_TYPE_DEPTH_BIAS_INFO_EXT: VkStructureType = 1000283001;
+    pub const VK_STRUCTURE_TYPE_VIDEO_PROFILE_INFO_KHR: VkStructureType = 1000023000;
+    pub const VK_STRUCTURE_TYPE_VIDEO_CAPABILITIES_KHR: VkStructureType = 1000023001;
+    pub const VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VIDEO_FORMAT_INFO_KHR: VkStructureType = 1000023014;
+    pub const VK_STRUCTURE_TYPE_VIDEO_FORMAT_PROPERTIES_KHR: VkStructureType = 1000023015;
+    pub const VK_STRUCTURE_TYPE_VIDEO_SESSION_CREATE_INFO_KHR: VkStructureType = 1000023005;
+    pub const VK_STRUCTURE_TYPE_VIDEO_SESSION_MEMORY_REQUIREMENTS_KHR: VkStructureType = 1000023003;
+    pub const VK_STRUCTURE_TYPE_BIND_VIDEO_SESSION_MEMORY_INFO_KHR: VkStructureType = 1000023004;
+    pub const VK_STRUCTURE_TYPE_VIDEO_SESSION_PARAMETERS_CREATE_INFO_KHR: VkStructureType = 1000023006;
+    pub const VK_STRUCTURE_TYPE_VIDEO_SESSION_PARAMETERS_UPDATE_INFO_KHR: VkStructureType = 1000023007;
+    pub const VK_STRUCTURE_TYPE_VIDEO_PICTURE_RESOURCE_INFO_KHR: VkStructureType = 1000023002;
+    pub const VK_STRUCTURE_TYPE_VIDEO_REFERENCE_SLOT_INFO_KHR: VkStructureType = 1000023011;
+    pub const VK_STRUCTURE_TYPE_VIDEO_BEGIN_CODING_INFO_KHR: VkStructureType = 1000023008;
+    pub const VK_STRUCTURE_TYPE_VIDEO_END_CODING_INFO_KHR: VkStructureType = 1000023009;
+    pub const VK_STRUCTURE_TYPE_VIDEO_CODING_CONTROL_INFO_KHR: VkStructureType = 1000023010;
+    pub const VK_STRUCTURE_TYPE_VIDEO_DECODE_INFO_KHR: VkStructureType = 1000024000;
     pub const VK_STRUCTURE_TYPE_AMIGO_PROFILING_SUBMIT_INFO_SEC: VkStructureType = 1000485001;
     pub const VK_STRUCTURE_TYPE_DEVICE_GROUP_SUBMIT_INFO: VkStructureType = 1000060005;
     pub const VK_STRUCTURE_TYPE_FRAME_BOUNDARY_EXT: VkStructureType = 1000375001;
@@ -608,6 +726,9 @@ pub mod vk {
     pub const VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VARIABLE_POINTERS_FEATURES: VkStructureType = 1000120000;
     pub const VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VERTEX_ATTRIBUTE_ROBUSTNESS_FEATURES_EXT: VkStructureType = 1000608000;
     pub const VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VERTEX_INPUT_DYNAMIC_STATE_FEATURES_EXT: VkStructureType = 1000352000;
+    pub const VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VIDEO_DECODE_VP9_FEATURES_KHR: VkStructureType = 1000514000;
+    pub const VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VIDEO_MAINTENANCE_1_FEATURES_KHR: VkStructureType = 1000515000;
+    pub const VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VIDEO_MAINTENANCE_2_FEATURES_KHR: VkStructureType = 1000586000;
     pub const VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_MEMORY_MODEL_FEATURES: VkStructureType = 1000211000;
     pub const VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_WORKGROUP_MEMORY_EXPLICIT_LAYOUT_FEATURES_KHR: VkStructureType = 1000336000;
     pub const VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_YCBCR_2_PLANE_444_FORMATS_FEATURES_EXT: VkStructureType = 1000330000;
@@ -623,11 +744,14 @@ pub mod vk {
     pub const VK_STRUCTURE_TYPE_IMAGE_STENCIL_USAGE_CREATE_INFO: VkStructureType = 1000246000;
     pub const VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_EXTERNAL_IMAGE_FORMAT_INFO: VkStructureType = 1000071000;
     pub const VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_IMAGE_VIEW_IMAGE_FORMAT_INFO_EXT: VkStructureType = 1000170000;
+    pub const VK_STRUCTURE_TYPE_VIDEO_PROFILE_LIST_INFO_KHR: VkStructureType = 1000023013;
     pub const VK_STRUCTURE_TYPE_EXTERNAL_IMAGE_FORMAT_PROPERTIES: VkStructureType = 1000071001;
     pub const VK_STRUCTURE_TYPE_FILTER_CUBIC_IMAGE_VIEW_IMAGE_FORMAT_PROPERTIES_EXT: VkStructureType = 1000170001;
     pub const VK_STRUCTURE_TYPE_SAMPLER_YCBCR_CONVERSION_IMAGE_FORMAT_PROPERTIES: VkStructureType = 1000156005;
     pub const VK_STRUCTURE_TYPE_TEXTURE_LOD_GATHER_FORMAT_PROPERTIES_AMD: VkStructureType = 1000041000;
     pub const VK_STRUCTURE_TYPE_QUEUE_FAMILY_OWNERSHIP_TRANSFER_PROPERTIES_KHR: VkStructureType = 1000584002;
+    pub const VK_STRUCTURE_TYPE_QUEUE_FAMILY_QUERY_RESULT_STATUS_PROPERTIES_KHR: VkStructureType = 1000023016;
+    pub const VK_STRUCTURE_TYPE_QUEUE_FAMILY_VIDEO_PROPERTIES_KHR: VkStructureType = 1000023012;
     pub const VK_STRUCTURE_TYPE_SEMAPHORE_TYPE_CREATE_INFO: VkStructureType = 1000207002;
     pub const VK_STRUCTURE_TYPE_DEVICE_QUEUE_SHADER_CORE_CONTROL_CREATE_INFO_ARM: VkStructureType = 1000417000;
     pub const VK_STRUCTURE_TYPE_DEVICE_DEVICE_MEMORY_REPORT_CREATE_INFO_EXT: VkStructureType = 1000284001;
@@ -709,6 +833,11 @@ pub mod vk {
     pub const VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_INLINE_UNIFORM_BLOCK_CREATE_INFO: VkStructureType = 1000138003;
     pub const VK_STRUCTURE_TYPE_DESCRIPTOR_SET_VARIABLE_DESCRIPTOR_COUNT_ALLOCATE_INFO: VkStructureType = 1000161003;
     pub const VK_STRUCTURE_TYPE_DESCRIPTOR_SET_VARIABLE_DESCRIPTOR_COUNT_LAYOUT_SUPPORT: VkStructureType = 1000161004;
+    pub const VK_STRUCTURE_TYPE_VIDEO_DECODE_AV1_PROFILE_INFO_KHR: VkStructureType = 1000512003;
+    pub const VK_STRUCTURE_TYPE_VIDEO_DECODE_H264_PROFILE_INFO_KHR: VkStructureType = 1000040003;
+    pub const VK_STRUCTURE_TYPE_VIDEO_DECODE_H265_PROFILE_INFO_KHR: VkStructureType = 1000187003;
+    pub const VK_STRUCTURE_TYPE_VIDEO_DECODE_USAGE_INFO_KHR: VkStructureType = 1000024002;
+    pub const VK_STRUCTURE_TYPE_VIDEO_DECODE_VP9_PROFILE_INFO_KHR: VkStructureType = 1000514003;
     pub const VK_STRUCTURE_TYPE_COMMAND_BUFFER_INHERITANCE_RENDER_PASS_TRANSFORM_INFO_QCOM: VkStructureType = 1000282000;
     pub const VK_STRUCTURE_TYPE_COMMAND_BUFFER_INHERITANCE_RENDERING_INFO: VkStructureType = 1000044004;
     pub const VK_STRUCTURE_TYPE_COMMAND_BUFFER_INHERITANCE_VIEWPORT_SCISSOR_INFO_NV: VkStructureType = 1000278001;
@@ -724,6 +853,27 @@ pub mod vk {
     pub const VK_STRUCTURE_TYPE_RENDER_PASS_TRANSFORM_BEGIN_INFO_QCOM: VkStructureType = 1000282001;
     pub const VK_STRUCTURE_TYPE_COPY_COMMAND_TRANSFORM_INFO_QCOM: VkStructureType = 1000333000;
     pub const VK_STRUCTURE_TYPE_BLIT_IMAGE_CUBIC_WEIGHTS_INFO_QCOM: VkStructureType = 1000519002;
+    pub const VK_STRUCTURE_TYPE_VIDEO_DECODE_AV1_CAPABILITIES_KHR: VkStructureType = 1000512000;
+    pub const VK_STRUCTURE_TYPE_VIDEO_DECODE_CAPABILITIES_KHR: VkStructureType = 1000024001;
+    pub const VK_STRUCTURE_TYPE_VIDEO_DECODE_H264_CAPABILITIES_KHR: VkStructureType = 1000040000;
+    pub const VK_STRUCTURE_TYPE_VIDEO_DECODE_H265_CAPABILITIES_KHR: VkStructureType = 1000187000;
+    pub const VK_STRUCTURE_TYPE_VIDEO_DECODE_VP9_CAPABILITIES_KHR: VkStructureType = 1000514001;
+    pub const VK_STRUCTURE_TYPE_VIDEO_DECODE_AV1_SESSION_PARAMETERS_CREATE_INFO_KHR: VkStructureType = 1000512004;
+    pub const VK_STRUCTURE_TYPE_VIDEO_DECODE_H264_SESSION_PARAMETERS_ADD_INFO_KHR: VkStructureType = 1000040005;
+    pub const VK_STRUCTURE_TYPE_VIDEO_DECODE_H264_SESSION_PARAMETERS_CREATE_INFO_KHR: VkStructureType = 1000040004;
+    pub const VK_STRUCTURE_TYPE_VIDEO_DECODE_H265_SESSION_PARAMETERS_ADD_INFO_KHR: VkStructureType = 1000187002;
+    pub const VK_STRUCTURE_TYPE_VIDEO_DECODE_H265_SESSION_PARAMETERS_CREATE_INFO_KHR: VkStructureType = 1000187001;
+    pub const VK_STRUCTURE_TYPE_VIDEO_DECODE_AV1_DPB_SLOT_INFO_KHR: VkStructureType = 1000512005;
+    pub const VK_STRUCTURE_TYPE_VIDEO_DECODE_H264_DPB_SLOT_INFO_KHR: VkStructureType = 1000040006;
+    pub const VK_STRUCTURE_TYPE_VIDEO_DECODE_H265_DPB_SLOT_INFO_KHR: VkStructureType = 1000187005;
+    pub const VK_STRUCTURE_TYPE_VIDEO_DECODE_AV1_INLINE_SESSION_PARAMETERS_INFO_KHR: VkStructureType = 1000586003;
+    pub const VK_STRUCTURE_TYPE_VIDEO_DECODE_AV1_PICTURE_INFO_KHR: VkStructureType = 1000512001;
+    pub const VK_STRUCTURE_TYPE_VIDEO_DECODE_H264_INLINE_SESSION_PARAMETERS_INFO_KHR: VkStructureType = 1000586001;
+    pub const VK_STRUCTURE_TYPE_VIDEO_DECODE_H264_PICTURE_INFO_KHR: VkStructureType = 1000040001;
+    pub const VK_STRUCTURE_TYPE_VIDEO_DECODE_H265_INLINE_SESSION_PARAMETERS_INFO_KHR: VkStructureType = 1000586002;
+    pub const VK_STRUCTURE_TYPE_VIDEO_DECODE_H265_PICTURE_INFO_KHR: VkStructureType = 1000187004;
+    pub const VK_STRUCTURE_TYPE_VIDEO_DECODE_VP9_PICTURE_INFO_KHR: VkStructureType = 1000514002;
+    pub const VK_STRUCTURE_TYPE_VIDEO_INLINE_QUERY_INFO_KHR: VkStructureType = 1000515001;
     pub const VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_LAYERED_API_VULKAN_PROPERTIES_KHR: VkStructureType = 1000562004;
 
     #[repr(C)]
@@ -2822,6 +2972,156 @@ pub mod vk {
     }
     #[repr(C)]
     #[derive(Clone, Copy)]
+    pub struct VkVideoProfileInfoKHR {
+        pub sType: VkStructureType,
+        pub pNext: *const c_void,
+        pub videoCodecOperation: VkVideoCodecOperationFlagBitsKHR,
+        pub chromaSubsampling: VkVideoChromaSubsamplingFlagsKHR,
+        pub lumaBitDepth: VkVideoComponentBitDepthFlagsKHR,
+        pub chromaBitDepth: VkVideoComponentBitDepthFlagsKHR,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct VkVideoCapabilitiesKHR {
+        pub sType: VkStructureType,
+        pub pNext: *mut c_void,
+        pub flags: VkVideoCapabilityFlagsKHR,
+        pub minBitstreamBufferOffsetAlignment: VkDeviceSize,
+        pub minBitstreamBufferSizeAlignment: VkDeviceSize,
+        pub pictureAccessGranularity: VkExtent2D,
+        pub minCodedExtent: VkExtent2D,
+        pub maxCodedExtent: VkExtent2D,
+        pub maxDpbSlots: u32,
+        pub maxActiveReferencePictures: u32,
+        pub stdHeaderVersion: VkExtensionProperties,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct VkPhysicalDeviceVideoFormatInfoKHR {
+        pub sType: VkStructureType,
+        pub pNext: *const c_void,
+        pub imageUsage: VkImageUsageFlags,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct VkVideoFormatPropertiesKHR {
+        pub sType: VkStructureType,
+        pub pNext: *mut c_void,
+        pub format: VkFormat,
+        pub componentMapping: VkComponentMapping,
+        pub imageCreateFlags: VkImageCreateFlags,
+        pub imageType: VkImageType,
+        pub imageTiling: VkImageTiling,
+        pub imageUsageFlags: VkImageUsageFlags,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct VkVideoSessionCreateInfoKHR {
+        pub sType: VkStructureType,
+        pub pNext: *const c_void,
+        pub queueFamilyIndex: u32,
+        pub flags: VkVideoSessionCreateFlagsKHR,
+        pub pVideoProfile: *const VkVideoProfileInfoKHR,
+        pub pictureFormat: VkFormat,
+        pub maxCodedExtent: VkExtent2D,
+        pub referencePictureFormat: VkFormat,
+        pub maxDpbSlots: u32,
+        pub maxActiveReferencePictures: u32,
+        pub pStdHeaderVersion: *const VkExtensionProperties,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct VkVideoSessionMemoryRequirementsKHR {
+        pub sType: VkStructureType,
+        pub pNext: *mut c_void,
+        pub memoryBindIndex: u32,
+        pub memoryRequirements: VkMemoryRequirements,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct VkBindVideoSessionMemoryInfoKHR {
+        pub sType: VkStructureType,
+        pub pNext: *const c_void,
+        pub memoryBindIndex: u32,
+        pub memory: VkDeviceMemory,
+        pub memoryOffset: VkDeviceSize,
+        pub memorySize: VkDeviceSize,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct VkVideoSessionParametersCreateInfoKHR {
+        pub sType: VkStructureType,
+        pub pNext: *const c_void,
+        pub flags: VkVideoSessionParametersCreateFlagsKHR,
+        pub videoSessionParametersTemplate: VkVideoSessionParametersKHR,
+        pub videoSession: VkVideoSessionKHR,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct VkVideoSessionParametersUpdateInfoKHR {
+        pub sType: VkStructureType,
+        pub pNext: *const c_void,
+        pub updateSequenceCount: u32,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct VkVideoPictureResourceInfoKHR {
+        pub sType: VkStructureType,
+        pub pNext: *const c_void,
+        pub codedOffset: VkOffset2D,
+        pub codedExtent: VkExtent2D,
+        pub baseArrayLayer: u32,
+        pub imageViewBinding: VkImageView,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct VkVideoReferenceSlotInfoKHR {
+        pub sType: VkStructureType,
+        pub pNext: *const c_void,
+        pub slotIndex: i32,
+        pub pPictureResource: *const VkVideoPictureResourceInfoKHR,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct VkVideoBeginCodingInfoKHR {
+        pub sType: VkStructureType,
+        pub pNext: *const c_void,
+        pub flags: VkVideoBeginCodingFlagsKHR,
+        pub videoSession: VkVideoSessionKHR,
+        pub videoSessionParameters: VkVideoSessionParametersKHR,
+        pub referenceSlotCount: u32,
+        pub pReferenceSlots: *const VkVideoReferenceSlotInfoKHR,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct VkVideoEndCodingInfoKHR {
+        pub sType: VkStructureType,
+        pub pNext: *const c_void,
+        pub flags: VkVideoEndCodingFlagsKHR,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct VkVideoCodingControlInfoKHR {
+        pub sType: VkStructureType,
+        pub pNext: *const c_void,
+        pub flags: VkVideoCodingControlFlagsKHR,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct VkVideoDecodeInfoKHR {
+        pub sType: VkStructureType,
+        pub pNext: *const c_void,
+        pub flags: VkVideoDecodeFlagsKHR,
+        pub srcBuffer: VkBuffer,
+        pub srcBufferOffset: VkDeviceSize,
+        pub srcBufferRange: VkDeviceSize,
+        pub dstPictureResource: VkVideoPictureResourceInfoKHR,
+        pub pSetupReferenceSlot: *const VkVideoReferenceSlotInfoKHR,
+        pub referenceSlotCount: u32,
+        pub pReferenceSlots: *const VkVideoReferenceSlotInfoKHR,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
     pub struct VkAmigoProfilingSubmitInfoSEC {
         pub sType: VkStructureType,
         pub pNext: *const c_void,
@@ -4684,6 +4984,27 @@ pub mod vk {
     }
     #[repr(C)]
     #[derive(Clone, Copy)]
+    pub struct VkPhysicalDeviceVideoDecodeVP9FeaturesKHR {
+        pub sType: VkStructureType,
+        pub pNext: *mut c_void,
+        pub videoDecodeVP9: VkBool32,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct VkPhysicalDeviceVideoMaintenance1FeaturesKHR {
+        pub sType: VkStructureType,
+        pub pNext: *mut c_void,
+        pub videoMaintenance1: VkBool32,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct VkPhysicalDeviceVideoMaintenance2FeaturesKHR {
+        pub sType: VkStructureType,
+        pub pNext: *mut c_void,
+        pub videoMaintenance2: VkBool32,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
     pub struct VkPhysicalDeviceVulkanMemoryModelFeatures {
         pub sType: VkStructureType,
         pub pNext: *mut c_void,
@@ -4813,6 +5134,14 @@ pub mod vk {
     }
     #[repr(C)]
     #[derive(Clone, Copy)]
+    pub struct VkVideoProfileListInfoKHR {
+        pub sType: VkStructureType,
+        pub pNext: *const c_void,
+        pub profileCount: u32,
+        pub pProfiles: *const VkVideoProfileInfoKHR,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
     pub struct VkExternalImageFormatProperties {
         pub sType: VkStructureType,
         pub pNext: *mut c_void,
@@ -4846,6 +5175,20 @@ pub mod vk {
         pub sType: VkStructureType,
         pub pNext: *mut c_void,
         pub optimalImageTransferToQueueFamilies: u32,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct VkQueueFamilyQueryResultStatusPropertiesKHR {
+        pub sType: VkStructureType,
+        pub pNext: *mut c_void,
+        pub queryResultStatusSupport: VkBool32,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct VkQueueFamilyVideoPropertiesKHR {
+        pub sType: VkStructureType,
+        pub pNext: *mut c_void,
+        pub videoCodecOperations: VkVideoCodecOperationFlagsKHR,
     }
     #[repr(C)]
     #[derive(Clone, Copy)]
@@ -5522,6 +5865,43 @@ pub mod vk {
     }
     #[repr(C)]
     #[derive(Clone, Copy)]
+    pub struct VkVideoDecodeAV1ProfileInfoKHR {
+        pub sType: VkStructureType,
+        pub pNext: *const c_void,
+        pub stdProfile: StdVideoAV1Profile,
+        pub filmGrainSupport: VkBool32,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct VkVideoDecodeH264ProfileInfoKHR {
+        pub sType: VkStructureType,
+        pub pNext: *const c_void,
+        pub stdProfileIdc: StdVideoH264ProfileIdc,
+        pub pictureLayout: VkVideoDecodeH264PictureLayoutFlagBitsKHR,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct VkVideoDecodeH265ProfileInfoKHR {
+        pub sType: VkStructureType,
+        pub pNext: *const c_void,
+        pub stdProfileIdc: StdVideoH265ProfileIdc,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct VkVideoDecodeUsageInfoKHR {
+        pub sType: VkStructureType,
+        pub pNext: *const c_void,
+        pub videoUsageHints: VkVideoDecodeUsageFlagsKHR,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct VkVideoDecodeVP9ProfileInfoKHR {
+        pub sType: VkStructureType,
+        pub pNext: *const c_void,
+        pub stdProfile: StdVideoVP9Profile,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
     pub struct VkCommandBufferInheritanceRenderPassTransformInfoQCOM {
         pub sType: VkStructureType,
         pub pNext: *const c_void,
@@ -5639,6 +6019,1386 @@ pub mod vk {
         pub sType: VkStructureType,
         pub pNext: *const c_void,
         pub cubicWeights: VkCubicFilterWeightsQCOM,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct VkVideoDecodeAV1CapabilitiesKHR {
+        pub sType: VkStructureType,
+        pub pNext: *mut c_void,
+        pub maxLevel: StdVideoAV1Level,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct VkVideoDecodeCapabilitiesKHR {
+        pub sType: VkStructureType,
+        pub pNext: *mut c_void,
+        pub flags: VkVideoDecodeCapabilityFlagsKHR,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct VkVideoDecodeH264CapabilitiesKHR {
+        pub sType: VkStructureType,
+        pub pNext: *mut c_void,
+        pub maxLevelIdc: StdVideoH264LevelIdc,
+        pub fieldOffsetGranularity: VkOffset2D,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct VkVideoDecodeH265CapabilitiesKHR {
+        pub sType: VkStructureType,
+        pub pNext: *mut c_void,
+        pub maxLevelIdc: StdVideoH265LevelIdc,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct VkVideoDecodeVP9CapabilitiesKHR {
+        pub sType: VkStructureType,
+        pub pNext: *mut c_void,
+        pub maxLevel: StdVideoVP9Level,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct StdVideoAV1SequenceHeaderFlags {
+        pub still_picture_bits: u32,
+    }
+    impl StdVideoAV1SequenceHeaderFlags {
+        /// Bit 0 of the packed unit.
+        pub const STILL_PICTURE: u32 = 1 << 0;
+        /// Bit 1 of the packed unit.
+        pub const REDUCED_STILL_PICTURE_HEADER: u32 = 1 << 1;
+        /// Bit 2 of the packed unit.
+        pub const USE_128X128_SUPERBLOCK: u32 = 1 << 2;
+        /// Bit 3 of the packed unit.
+        pub const ENABLE_FILTER_INTRA: u32 = 1 << 3;
+        /// Bit 4 of the packed unit.
+        pub const ENABLE_INTRA_EDGE_FILTER: u32 = 1 << 4;
+        /// Bit 5 of the packed unit.
+        pub const ENABLE_INTERINTRA_COMPOUND: u32 = 1 << 5;
+        /// Bit 6 of the packed unit.
+        pub const ENABLE_MASKED_COMPOUND: u32 = 1 << 6;
+        /// Bit 7 of the packed unit.
+        pub const ENABLE_WARPED_MOTION: u32 = 1 << 7;
+        /// Bit 8 of the packed unit.
+        pub const ENABLE_DUAL_FILTER: u32 = 1 << 8;
+        /// Bit 9 of the packed unit.
+        pub const ENABLE_ORDER_HINT: u32 = 1 << 9;
+        /// Bit 10 of the packed unit.
+        pub const ENABLE_JNT_COMP: u32 = 1 << 10;
+        /// Bit 11 of the packed unit.
+        pub const ENABLE_REF_FRAME_MVS: u32 = 1 << 11;
+        /// Bit 12 of the packed unit.
+        pub const FRAME_ID_NUMBERS_PRESENT_FLAG: u32 = 1 << 12;
+        /// Bit 13 of the packed unit.
+        pub const ENABLE_SUPERRES: u32 = 1 << 13;
+        /// Bit 14 of the packed unit.
+        pub const ENABLE_CDEF: u32 = 1 << 14;
+        /// Bit 15 of the packed unit.
+        pub const ENABLE_RESTORATION: u32 = 1 << 15;
+        /// Bit 16 of the packed unit.
+        pub const FILM_GRAIN_PARAMS_PRESENT: u32 = 1 << 16;
+        /// Bit 17 of the packed unit.
+        pub const TIMING_INFO_PRESENT_FLAG: u32 = 1 << 17;
+        /// Bit 18 of the packed unit.
+        pub const INITIAL_DISPLAY_DELAY_PRESENT_FLAG: u32 = 1 << 18;
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct StdVideoAV1ColorConfigFlags {
+        pub mono_chrome_bits: u32,
+    }
+    impl StdVideoAV1ColorConfigFlags {
+        /// Bit 0 of the packed unit.
+        pub const MONO_CHROME: u32 = 1 << 0;
+        /// Bit 1 of the packed unit.
+        pub const COLOR_RANGE: u32 = 1 << 1;
+        /// Bit 2 of the packed unit.
+        pub const SEPARATE_UV_DELTA_Q: u32 = 1 << 2;
+        /// Bit 3 of the packed unit.
+        pub const COLOR_DESCRIPTION_PRESENT_FLAG: u32 = 1 << 3;
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct StdVideoAV1ColorConfig {
+        pub flags: StdVideoAV1ColorConfigFlags,
+        pub BitDepth: u8,
+        pub subsampling_x: u8,
+        pub subsampling_y: u8,
+        pub reserved1: u8,
+        pub color_primaries: StdVideoAV1ColorPrimaries,
+        pub transfer_characteristics: StdVideoAV1TransferCharacteristics,
+        pub matrix_coefficients: StdVideoAV1MatrixCoefficients,
+        pub chroma_sample_position: StdVideoAV1ChromaSamplePosition,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct StdVideoAV1TimingInfoFlags {
+        pub equal_picture_interval_bits: u32,
+    }
+    impl StdVideoAV1TimingInfoFlags {
+        /// Bit 0 of the packed unit.
+        pub const EQUAL_PICTURE_INTERVAL: u32 = 1 << 0;
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct StdVideoAV1TimingInfo {
+        pub flags: StdVideoAV1TimingInfoFlags,
+        pub num_units_in_display_tick: u32,
+        pub time_scale: u32,
+        pub num_ticks_per_picture_minus_1: u32,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct StdVideoAV1SequenceHeader {
+        pub flags: StdVideoAV1SequenceHeaderFlags,
+        pub seq_profile: StdVideoAV1Profile,
+        pub frame_width_bits_minus_1: u8,
+        pub frame_height_bits_minus_1: u8,
+        pub max_frame_width_minus_1: u16,
+        pub max_frame_height_minus_1: u16,
+        pub delta_frame_id_length_minus_2: u8,
+        pub additional_frame_id_length_minus_1: u8,
+        pub order_hint_bits_minus_1: u8,
+        pub seq_force_integer_mv: u8,
+        pub seq_force_screen_content_tools: u8,
+        pub reserved1: [u8; 5],
+        pub pColorConfig: *const StdVideoAV1ColorConfig,
+        pub pTimingInfo: *const StdVideoAV1TimingInfo,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct VkVideoDecodeAV1SessionParametersCreateInfoKHR {
+        pub sType: VkStructureType,
+        pub pNext: *const c_void,
+        pub pStdSequenceHeader: *const StdVideoAV1SequenceHeader,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct StdVideoH264SpsFlags {
+        pub constraint_set0_flag_bits: u32,
+    }
+    impl StdVideoH264SpsFlags {
+        /// Bit 0 of the packed unit.
+        pub const CONSTRAINT_SET0_FLAG: u32 = 1 << 0;
+        /// Bit 1 of the packed unit.
+        pub const CONSTRAINT_SET1_FLAG: u32 = 1 << 1;
+        /// Bit 2 of the packed unit.
+        pub const CONSTRAINT_SET2_FLAG: u32 = 1 << 2;
+        /// Bit 3 of the packed unit.
+        pub const CONSTRAINT_SET3_FLAG: u32 = 1 << 3;
+        /// Bit 4 of the packed unit.
+        pub const CONSTRAINT_SET4_FLAG: u32 = 1 << 4;
+        /// Bit 5 of the packed unit.
+        pub const CONSTRAINT_SET5_FLAG: u32 = 1 << 5;
+        /// Bit 6 of the packed unit.
+        pub const DIRECT_8X8_INFERENCE_FLAG: u32 = 1 << 6;
+        /// Bit 7 of the packed unit.
+        pub const MB_ADAPTIVE_FRAME_FIELD_FLAG: u32 = 1 << 7;
+        /// Bit 8 of the packed unit.
+        pub const FRAME_MBS_ONLY_FLAG: u32 = 1 << 8;
+        /// Bit 9 of the packed unit.
+        pub const DELTA_PIC_ORDER_ALWAYS_ZERO_FLAG: u32 = 1 << 9;
+        /// Bit 10 of the packed unit.
+        pub const SEPARATE_COLOUR_PLANE_FLAG: u32 = 1 << 10;
+        /// Bit 11 of the packed unit.
+        pub const GAPS_IN_FRAME_NUM_VALUE_ALLOWED_FLAG: u32 = 1 << 11;
+        /// Bit 12 of the packed unit.
+        pub const QPPRIME_Y_ZERO_TRANSFORM_BYPASS_FLAG: u32 = 1 << 12;
+        /// Bit 13 of the packed unit.
+        pub const FRAME_CROPPING_FLAG: u32 = 1 << 13;
+        /// Bit 14 of the packed unit.
+        pub const SEQ_SCALING_MATRIX_PRESENT_FLAG: u32 = 1 << 14;
+        /// Bit 15 of the packed unit.
+        pub const VUI_PARAMETERS_PRESENT_FLAG: u32 = 1 << 15;
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct StdVideoH264ScalingLists {
+        pub scaling_list_present_mask: u16,
+        pub use_default_scaling_matrix_mask: u16,
+        pub ScalingList4x4: [[u8; STD_VIDEO_H264_SCALING_LIST_4X4_NUM_ELEMENTS as usize]; STD_VIDEO_H264_SCALING_LIST_4X4_NUM_LISTS as usize],
+        pub ScalingList8x8: [[u8; STD_VIDEO_H264_SCALING_LIST_8X8_NUM_ELEMENTS as usize]; STD_VIDEO_H264_SCALING_LIST_8X8_NUM_LISTS as usize],
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct StdVideoH264SpsVuiFlags {
+        pub aspect_ratio_info_present_flag_bits: u32,
+    }
+    impl StdVideoH264SpsVuiFlags {
+        /// Bit 0 of the packed unit.
+        pub const ASPECT_RATIO_INFO_PRESENT_FLAG: u32 = 1 << 0;
+        /// Bit 1 of the packed unit.
+        pub const OVERSCAN_INFO_PRESENT_FLAG: u32 = 1 << 1;
+        /// Bit 2 of the packed unit.
+        pub const OVERSCAN_APPROPRIATE_FLAG: u32 = 1 << 2;
+        /// Bit 3 of the packed unit.
+        pub const VIDEO_SIGNAL_TYPE_PRESENT_FLAG: u32 = 1 << 3;
+        /// Bit 4 of the packed unit.
+        pub const VIDEO_FULL_RANGE_FLAG: u32 = 1 << 4;
+        /// Bit 5 of the packed unit.
+        pub const COLOR_DESCRIPTION_PRESENT_FLAG: u32 = 1 << 5;
+        /// Bit 6 of the packed unit.
+        pub const CHROMA_LOC_INFO_PRESENT_FLAG: u32 = 1 << 6;
+        /// Bit 7 of the packed unit.
+        pub const TIMING_INFO_PRESENT_FLAG: u32 = 1 << 7;
+        /// Bit 8 of the packed unit.
+        pub const FIXED_FRAME_RATE_FLAG: u32 = 1 << 8;
+        /// Bit 9 of the packed unit.
+        pub const BITSTREAM_RESTRICTION_FLAG: u32 = 1 << 9;
+        /// Bit 10 of the packed unit.
+        pub const NAL_HRD_PARAMETERS_PRESENT_FLAG: u32 = 1 << 10;
+        /// Bit 11 of the packed unit.
+        pub const VCL_HRD_PARAMETERS_PRESENT_FLAG: u32 = 1 << 11;
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct StdVideoH264HrdParameters {
+        pub cpb_cnt_minus1: u8,
+        pub bit_rate_scale: u8,
+        pub cpb_size_scale: u8,
+        pub reserved1: u8,
+        pub bit_rate_value_minus1: [u32; STD_VIDEO_H264_CPB_CNT_LIST_SIZE as usize],
+        pub cpb_size_value_minus1: [u32; STD_VIDEO_H264_CPB_CNT_LIST_SIZE as usize],
+        pub cbr_flag: [u8; STD_VIDEO_H264_CPB_CNT_LIST_SIZE as usize],
+        pub initial_cpb_removal_delay_length_minus1: u32,
+        pub cpb_removal_delay_length_minus1: u32,
+        pub dpb_output_delay_length_minus1: u32,
+        pub time_offset_length: u32,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct StdVideoH264SequenceParameterSetVui {
+        pub flags: StdVideoH264SpsVuiFlags,
+        pub aspect_ratio_idc: StdVideoH264AspectRatioIdc,
+        pub sar_width: u16,
+        pub sar_height: u16,
+        pub video_format: u8,
+        pub colour_primaries: u8,
+        pub transfer_characteristics: u8,
+        pub matrix_coefficients: u8,
+        pub num_units_in_tick: u32,
+        pub time_scale: u32,
+        pub max_num_reorder_frames: u8,
+        pub max_dec_frame_buffering: u8,
+        pub chroma_sample_loc_type_top_field: u8,
+        pub chroma_sample_loc_type_bottom_field: u8,
+        pub reserved1: u32,
+        pub pHrdParameters: *const StdVideoH264HrdParameters,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct StdVideoH264SequenceParameterSet {
+        pub flags: StdVideoH264SpsFlags,
+        pub profile_idc: StdVideoH264ProfileIdc,
+        pub level_idc: StdVideoH264LevelIdc,
+        pub chroma_format_idc: StdVideoH264ChromaFormatIdc,
+        pub seq_parameter_set_id: u8,
+        pub bit_depth_luma_minus8: u8,
+        pub bit_depth_chroma_minus8: u8,
+        pub log2_max_frame_num_minus4: u8,
+        pub pic_order_cnt_type: StdVideoH264PocType,
+        pub offset_for_non_ref_pic: i32,
+        pub offset_for_top_to_bottom_field: i32,
+        pub log2_max_pic_order_cnt_lsb_minus4: u8,
+        pub num_ref_frames_in_pic_order_cnt_cycle: u8,
+        pub max_num_ref_frames: u8,
+        pub reserved1: u8,
+        pub pic_width_in_mbs_minus1: u32,
+        pub pic_height_in_map_units_minus1: u32,
+        pub frame_crop_left_offset: u32,
+        pub frame_crop_right_offset: u32,
+        pub frame_crop_top_offset: u32,
+        pub frame_crop_bottom_offset: u32,
+        pub reserved2: u32,
+        pub pOffsetForRefFrame: *const i32,
+        pub pScalingLists: *const StdVideoH264ScalingLists,
+        pub pSequenceParameterSetVui: *const StdVideoH264SequenceParameterSetVui,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct StdVideoH264PpsFlags {
+        pub transform_8x8_mode_flag_bits: u32,
+    }
+    impl StdVideoH264PpsFlags {
+        /// Bit 0 of the packed unit.
+        pub const TRANSFORM_8X8_MODE_FLAG: u32 = 1 << 0;
+        /// Bit 1 of the packed unit.
+        pub const REDUNDANT_PIC_CNT_PRESENT_FLAG: u32 = 1 << 1;
+        /// Bit 2 of the packed unit.
+        pub const CONSTRAINED_INTRA_PRED_FLAG: u32 = 1 << 2;
+        /// Bit 3 of the packed unit.
+        pub const DEBLOCKING_FILTER_CONTROL_PRESENT_FLAG: u32 = 1 << 3;
+        /// Bit 4 of the packed unit.
+        pub const WEIGHTED_PRED_FLAG: u32 = 1 << 4;
+        /// Bit 5 of the packed unit.
+        pub const BOTTOM_FIELD_PIC_ORDER_IN_FRAME_PRESENT_FLAG: u32 = 1 << 5;
+        /// Bit 6 of the packed unit.
+        pub const ENTROPY_CODING_MODE_FLAG: u32 = 1 << 6;
+        /// Bit 7 of the packed unit.
+        pub const PIC_SCALING_MATRIX_PRESENT_FLAG: u32 = 1 << 7;
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct StdVideoH264PictureParameterSet {
+        pub flags: StdVideoH264PpsFlags,
+        pub seq_parameter_set_id: u8,
+        pub pic_parameter_set_id: u8,
+        pub num_ref_idx_l0_default_active_minus1: u8,
+        pub num_ref_idx_l1_default_active_minus1: u8,
+        pub weighted_bipred_idc: StdVideoH264WeightedBipredIdc,
+        pub pic_init_qp_minus26: i8,
+        pub pic_init_qs_minus26: i8,
+        pub chroma_qp_index_offset: i8,
+        pub second_chroma_qp_index_offset: i8,
+        pub pScalingLists: *const StdVideoH264ScalingLists,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct VkVideoDecodeH264SessionParametersAddInfoKHR {
+        pub sType: VkStructureType,
+        pub pNext: *const c_void,
+        pub stdSPSCount: u32,
+        pub pStdSPSs: *const StdVideoH264SequenceParameterSet,
+        pub stdPPSCount: u32,
+        pub pStdPPSs: *const StdVideoH264PictureParameterSet,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct VkVideoDecodeH264SessionParametersCreateInfoKHR {
+        pub sType: VkStructureType,
+        pub pNext: *const c_void,
+        pub maxStdSPSCount: u32,
+        pub maxStdPPSCount: u32,
+        pub pParametersAddInfo: *const VkVideoDecodeH264SessionParametersAddInfoKHR,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct StdVideoH265VpsFlags {
+        pub vps_temporal_id_nesting_flag_bits: u32,
+    }
+    impl StdVideoH265VpsFlags {
+        /// Bit 0 of the packed unit.
+        pub const VPS_TEMPORAL_ID_NESTING_FLAG: u32 = 1 << 0;
+        /// Bit 1 of the packed unit.
+        pub const VPS_SUB_LAYER_ORDERING_INFO_PRESENT_FLAG: u32 = 1 << 1;
+        /// Bit 2 of the packed unit.
+        pub const VPS_TIMING_INFO_PRESENT_FLAG: u32 = 1 << 2;
+        /// Bit 3 of the packed unit.
+        pub const VPS_POC_PROPORTIONAL_TO_TIMING_FLAG: u32 = 1 << 3;
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct StdVideoH265DecPicBufMgr {
+        pub max_latency_increase_plus1: [u32; STD_VIDEO_H265_SUBLAYERS_LIST_SIZE as usize],
+        pub max_dec_pic_buffering_minus1: [u8; STD_VIDEO_H265_SUBLAYERS_LIST_SIZE as usize],
+        pub max_num_reorder_pics: [u8; STD_VIDEO_H265_SUBLAYERS_LIST_SIZE as usize],
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct StdVideoH265HrdFlags {
+        pub nal_hrd_parameters_present_flag_bits: u32,
+    }
+    impl StdVideoH265HrdFlags {
+        /// Bit 0 of the packed unit.
+        pub const NAL_HRD_PARAMETERS_PRESENT_FLAG: u32 = 1 << 0;
+        /// Bit 1 of the packed unit.
+        pub const VCL_HRD_PARAMETERS_PRESENT_FLAG: u32 = 1 << 1;
+        /// Bit 2 of the packed unit.
+        pub const SUB_PIC_HRD_PARAMS_PRESENT_FLAG: u32 = 1 << 2;
+        /// Bit 3 of the packed unit.
+        pub const SUB_PIC_CPB_PARAMS_IN_PIC_TIMING_SEI_FLAG: u32 = 1 << 3;
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct StdVideoH265SubLayerHrdParameters {
+        pub bit_rate_value_minus1: [u32; STD_VIDEO_H265_CPB_CNT_LIST_SIZE as usize],
+        pub cpb_size_value_minus1: [u32; STD_VIDEO_H265_CPB_CNT_LIST_SIZE as usize],
+        pub cpb_size_du_value_minus1: [u32; STD_VIDEO_H265_CPB_CNT_LIST_SIZE as usize],
+        pub bit_rate_du_value_minus1: [u32; STD_VIDEO_H265_CPB_CNT_LIST_SIZE as usize],
+        pub cbr_flag: u32,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct StdVideoH265HrdParameters {
+        pub flags: StdVideoH265HrdFlags,
+        pub tick_divisor_minus2: u8,
+        pub du_cpb_removal_delay_increment_length_minus1: u8,
+        pub dpb_output_delay_du_length_minus1: u8,
+        pub bit_rate_scale: u8,
+        pub cpb_size_scale: u8,
+        pub cpb_size_du_scale: u8,
+        pub initial_cpb_removal_delay_length_minus1: u8,
+        pub au_cpb_removal_delay_length_minus1: u8,
+        pub dpb_output_delay_length_minus1: u8,
+        pub cpb_cnt_minus1: [u8; STD_VIDEO_H265_SUBLAYERS_LIST_SIZE as usize],
+        pub elemental_duration_in_tc_minus1: [u16; STD_VIDEO_H265_SUBLAYERS_LIST_SIZE as usize],
+        pub reserved: [u16; 3],
+        pub pSubLayerHrdParametersNal: *const StdVideoH265SubLayerHrdParameters,
+        pub pSubLayerHrdParametersVcl: *const StdVideoH265SubLayerHrdParameters,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct StdVideoH265ProfileTierLevelFlags {
+        pub general_tier_flag_bits: u32,
+    }
+    impl StdVideoH265ProfileTierLevelFlags {
+        /// Bit 0 of the packed unit.
+        pub const GENERAL_TIER_FLAG: u32 = 1 << 0;
+        /// Bit 1 of the packed unit.
+        pub const GENERAL_PROGRESSIVE_SOURCE_FLAG: u32 = 1 << 1;
+        /// Bit 2 of the packed unit.
+        pub const GENERAL_INTERLACED_SOURCE_FLAG: u32 = 1 << 2;
+        /// Bit 3 of the packed unit.
+        pub const GENERAL_NON_PACKED_CONSTRAINT_FLAG: u32 = 1 << 3;
+        /// Bit 4 of the packed unit.
+        pub const GENERAL_FRAME_ONLY_CONSTRAINT_FLAG: u32 = 1 << 4;
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct StdVideoH265ProfileTierLevel {
+        pub flags: StdVideoH265ProfileTierLevelFlags,
+        pub general_profile_idc: StdVideoH265ProfileIdc,
+        pub general_level_idc: StdVideoH265LevelIdc,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct StdVideoH265VideoParameterSet {
+        pub flags: StdVideoH265VpsFlags,
+        pub vps_video_parameter_set_id: u8,
+        pub vps_max_sub_layers_minus1: u8,
+        pub reserved1: u8,
+        pub reserved2: u8,
+        pub vps_num_units_in_tick: u32,
+        pub vps_time_scale: u32,
+        pub vps_num_ticks_poc_diff_one_minus1: u32,
+        pub reserved3: u32,
+        pub pDecPicBufMgr: *const StdVideoH265DecPicBufMgr,
+        pub pHrdParameters: *const StdVideoH265HrdParameters,
+        pub pProfileTierLevel: *const StdVideoH265ProfileTierLevel,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct StdVideoH265SpsFlags {
+        pub sps_temporal_id_nesting_flag_bits: u32,
+    }
+    impl StdVideoH265SpsFlags {
+        /// Bit 0 of the packed unit.
+        pub const SPS_TEMPORAL_ID_NESTING_FLAG: u32 = 1 << 0;
+        /// Bit 1 of the packed unit.
+        pub const SEPARATE_COLOUR_PLANE_FLAG: u32 = 1 << 1;
+        /// Bit 2 of the packed unit.
+        pub const CONFORMANCE_WINDOW_FLAG: u32 = 1 << 2;
+        /// Bit 3 of the packed unit.
+        pub const SPS_SUB_LAYER_ORDERING_INFO_PRESENT_FLAG: u32 = 1 << 3;
+        /// Bit 4 of the packed unit.
+        pub const SCALING_LIST_ENABLED_FLAG: u32 = 1 << 4;
+        /// Bit 5 of the packed unit.
+        pub const SPS_SCALING_LIST_DATA_PRESENT_FLAG: u32 = 1 << 5;
+        /// Bit 6 of the packed unit.
+        pub const AMP_ENABLED_FLAG: u32 = 1 << 6;
+        /// Bit 7 of the packed unit.
+        pub const SAMPLE_ADAPTIVE_OFFSET_ENABLED_FLAG: u32 = 1 << 7;
+        /// Bit 8 of the packed unit.
+        pub const PCM_ENABLED_FLAG: u32 = 1 << 8;
+        /// Bit 9 of the packed unit.
+        pub const PCM_LOOP_FILTER_DISABLED_FLAG: u32 = 1 << 9;
+        /// Bit 10 of the packed unit.
+        pub const LONG_TERM_REF_PICS_PRESENT_FLAG: u32 = 1 << 10;
+        /// Bit 11 of the packed unit.
+        pub const SPS_TEMPORAL_MVP_ENABLED_FLAG: u32 = 1 << 11;
+        /// Bit 12 of the packed unit.
+        pub const STRONG_INTRA_SMOOTHING_ENABLED_FLAG: u32 = 1 << 12;
+        /// Bit 13 of the packed unit.
+        pub const VUI_PARAMETERS_PRESENT_FLAG: u32 = 1 << 13;
+        /// Bit 14 of the packed unit.
+        pub const SPS_EXTENSION_PRESENT_FLAG: u32 = 1 << 14;
+        /// Bit 15 of the packed unit.
+        pub const SPS_RANGE_EXTENSION_FLAG: u32 = 1 << 15;
+        /// Bit 16 of the packed unit.
+        pub const TRANSFORM_SKIP_ROTATION_ENABLED_FLAG: u32 = 1 << 16;
+        /// Bit 17 of the packed unit.
+        pub const TRANSFORM_SKIP_CONTEXT_ENABLED_FLAG: u32 = 1 << 17;
+        /// Bit 18 of the packed unit.
+        pub const IMPLICIT_RDPCM_ENABLED_FLAG: u32 = 1 << 18;
+        /// Bit 19 of the packed unit.
+        pub const EXPLICIT_RDPCM_ENABLED_FLAG: u32 = 1 << 19;
+        /// Bit 20 of the packed unit.
+        pub const EXTENDED_PRECISION_PROCESSING_FLAG: u32 = 1 << 20;
+        /// Bit 21 of the packed unit.
+        pub const INTRA_SMOOTHING_DISABLED_FLAG: u32 = 1 << 21;
+        /// Bit 22 of the packed unit.
+        pub const HIGH_PRECISION_OFFSETS_ENABLED_FLAG: u32 = 1 << 22;
+        /// Bit 23 of the packed unit.
+        pub const PERSISTENT_RICE_ADAPTATION_ENABLED_FLAG: u32 = 1 << 23;
+        /// Bit 24 of the packed unit.
+        pub const CABAC_BYPASS_ALIGNMENT_ENABLED_FLAG: u32 = 1 << 24;
+        /// Bit 25 of the packed unit.
+        pub const SPS_SCC_EXTENSION_FLAG: u32 = 1 << 25;
+        /// Bit 26 of the packed unit.
+        pub const SPS_CURR_PIC_REF_ENABLED_FLAG: u32 = 1 << 26;
+        /// Bit 27 of the packed unit.
+        pub const PALETTE_MODE_ENABLED_FLAG: u32 = 1 << 27;
+        /// Bit 28 of the packed unit.
+        pub const SPS_PALETTE_PREDICTOR_INITIALIZERS_PRESENT_FLAG: u32 = 1 << 28;
+        /// Bit 29 of the packed unit.
+        pub const INTRA_BOUNDARY_FILTERING_DISABLED_FLAG: u32 = 1 << 29;
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct StdVideoH265ScalingLists {
+        pub ScalingList4x4: [[u8; STD_VIDEO_H265_SCALING_LIST_4X4_NUM_ELEMENTS as usize]; STD_VIDEO_H265_SCALING_LIST_4X4_NUM_LISTS as usize],
+        pub ScalingList8x8: [[u8; STD_VIDEO_H265_SCALING_LIST_8X8_NUM_ELEMENTS as usize]; STD_VIDEO_H265_SCALING_LIST_8X8_NUM_LISTS as usize],
+        pub ScalingList16x16: [[u8; STD_VIDEO_H265_SCALING_LIST_16X16_NUM_ELEMENTS as usize]; STD_VIDEO_H265_SCALING_LIST_16X16_NUM_LISTS as usize],
+        pub ScalingList32x32: [[u8; STD_VIDEO_H265_SCALING_LIST_32X32_NUM_ELEMENTS as usize]; STD_VIDEO_H265_SCALING_LIST_32X32_NUM_LISTS as usize],
+        pub ScalingListDCCoef16x16: [u8; STD_VIDEO_H265_SCALING_LIST_16X16_NUM_LISTS as usize],
+        pub ScalingListDCCoef32x32: [u8; STD_VIDEO_H265_SCALING_LIST_32X32_NUM_LISTS as usize],
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct StdVideoH265ShortTermRefPicSetFlags {
+        pub inter_ref_pic_set_prediction_flag_bits: u32,
+    }
+    impl StdVideoH265ShortTermRefPicSetFlags {
+        /// Bit 0 of the packed unit.
+        pub const INTER_REF_PIC_SET_PREDICTION_FLAG: u32 = 1 << 0;
+        /// Bit 1 of the packed unit.
+        pub const DELTA_RPS_SIGN: u32 = 1 << 1;
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct StdVideoH265ShortTermRefPicSet {
+        pub flags: StdVideoH265ShortTermRefPicSetFlags,
+        pub delta_idx_minus1: u32,
+        pub use_delta_flag: u16,
+        pub abs_delta_rps_minus1: u16,
+        pub used_by_curr_pic_flag: u16,
+        pub used_by_curr_pic_s0_flag: u16,
+        pub used_by_curr_pic_s1_flag: u16,
+        pub reserved1: u16,
+        pub reserved2: u8,
+        pub reserved3: u8,
+        pub num_negative_pics: u8,
+        pub num_positive_pics: u8,
+        pub delta_poc_s0_minus1: [u16; STD_VIDEO_H265_MAX_DPB_SIZE as usize],
+        pub delta_poc_s1_minus1: [u16; STD_VIDEO_H265_MAX_DPB_SIZE as usize],
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct StdVideoH265LongTermRefPicsSps {
+        pub used_by_curr_pic_lt_sps_flag: u32,
+        pub lt_ref_pic_poc_lsb_sps: [u32; STD_VIDEO_H265_MAX_LONG_TERM_REF_PICS_SPS as usize],
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct StdVideoH265SpsVuiFlags {
+        pub aspect_ratio_info_present_flag_bits: u32,
+    }
+    impl StdVideoH265SpsVuiFlags {
+        /// Bit 0 of the packed unit.
+        pub const ASPECT_RATIO_INFO_PRESENT_FLAG: u32 = 1 << 0;
+        /// Bit 1 of the packed unit.
+        pub const OVERSCAN_INFO_PRESENT_FLAG: u32 = 1 << 1;
+        /// Bit 2 of the packed unit.
+        pub const OVERSCAN_APPROPRIATE_FLAG: u32 = 1 << 2;
+        /// Bit 3 of the packed unit.
+        pub const VIDEO_SIGNAL_TYPE_PRESENT_FLAG: u32 = 1 << 3;
+        /// Bit 4 of the packed unit.
+        pub const VIDEO_FULL_RANGE_FLAG: u32 = 1 << 4;
+        /// Bit 5 of the packed unit.
+        pub const COLOUR_DESCRIPTION_PRESENT_FLAG: u32 = 1 << 5;
+        /// Bit 6 of the packed unit.
+        pub const CHROMA_LOC_INFO_PRESENT_FLAG: u32 = 1 << 6;
+        /// Bit 7 of the packed unit.
+        pub const NEUTRAL_CHROMA_INDICATION_FLAG: u32 = 1 << 7;
+        /// Bit 8 of the packed unit.
+        pub const FIELD_SEQ_FLAG: u32 = 1 << 8;
+        /// Bit 9 of the packed unit.
+        pub const FRAME_FIELD_INFO_PRESENT_FLAG: u32 = 1 << 9;
+        /// Bit 10 of the packed unit.
+        pub const DEFAULT_DISPLAY_WINDOW_FLAG: u32 = 1 << 10;
+        /// Bit 11 of the packed unit.
+        pub const VUI_TIMING_INFO_PRESENT_FLAG: u32 = 1 << 11;
+        /// Bit 12 of the packed unit.
+        pub const VUI_POC_PROPORTIONAL_TO_TIMING_FLAG: u32 = 1 << 12;
+        /// Bit 13 of the packed unit.
+        pub const VUI_HRD_PARAMETERS_PRESENT_FLAG: u32 = 1 << 13;
+        /// Bit 14 of the packed unit.
+        pub const BITSTREAM_RESTRICTION_FLAG: u32 = 1 << 14;
+        /// Bit 15 of the packed unit.
+        pub const TILES_FIXED_STRUCTURE_FLAG: u32 = 1 << 15;
+        /// Bit 16 of the packed unit.
+        pub const MOTION_VECTORS_OVER_PIC_BOUNDARIES_FLAG: u32 = 1 << 16;
+        /// Bit 17 of the packed unit.
+        pub const RESTRICTED_REF_PIC_LISTS_FLAG: u32 = 1 << 17;
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct StdVideoH265SequenceParameterSetVui {
+        pub flags: StdVideoH265SpsVuiFlags,
+        pub aspect_ratio_idc: StdVideoH265AspectRatioIdc,
+        pub sar_width: u16,
+        pub sar_height: u16,
+        pub video_format: u8,
+        pub colour_primaries: u8,
+        pub transfer_characteristics: u8,
+        pub matrix_coeffs: u8,
+        pub chroma_sample_loc_type_top_field: u8,
+        pub chroma_sample_loc_type_bottom_field: u8,
+        pub reserved1: u8,
+        pub reserved2: u8,
+        pub def_disp_win_left_offset: u16,
+        pub def_disp_win_right_offset: u16,
+        pub def_disp_win_top_offset: u16,
+        pub def_disp_win_bottom_offset: u16,
+        pub vui_num_units_in_tick: u32,
+        pub vui_time_scale: u32,
+        pub vui_num_ticks_poc_diff_one_minus1: u32,
+        pub min_spatial_segmentation_idc: u16,
+        pub reserved3: u16,
+        pub max_bytes_per_pic_denom: u8,
+        pub max_bits_per_min_cu_denom: u8,
+        pub log2_max_mv_length_horizontal: u8,
+        pub log2_max_mv_length_vertical: u8,
+        pub pHrdParameters: *const StdVideoH265HrdParameters,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct StdVideoH265PredictorPaletteEntries {
+        pub PredictorPaletteEntries: [[u16; STD_VIDEO_H265_PREDICTOR_PALETTE_COMP_ENTRIES_LIST_SIZE as usize]; STD_VIDEO_H265_PREDICTOR_PALETTE_COMPONENTS_LIST_SIZE as usize],
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct StdVideoH265SequenceParameterSet {
+        pub flags: StdVideoH265SpsFlags,
+        pub chroma_format_idc: StdVideoH265ChromaFormatIdc,
+        pub pic_width_in_luma_samples: u32,
+        pub pic_height_in_luma_samples: u32,
+        pub sps_video_parameter_set_id: u8,
+        pub sps_max_sub_layers_minus1: u8,
+        pub sps_seq_parameter_set_id: u8,
+        pub bit_depth_luma_minus8: u8,
+        pub bit_depth_chroma_minus8: u8,
+        pub log2_max_pic_order_cnt_lsb_minus4: u8,
+        pub log2_min_luma_coding_block_size_minus3: u8,
+        pub log2_diff_max_min_luma_coding_block_size: u8,
+        pub log2_min_luma_transform_block_size_minus2: u8,
+        pub log2_diff_max_min_luma_transform_block_size: u8,
+        pub max_transform_hierarchy_depth_inter: u8,
+        pub max_transform_hierarchy_depth_intra: u8,
+        pub num_short_term_ref_pic_sets: u8,
+        pub num_long_term_ref_pics_sps: u8,
+        pub pcm_sample_bit_depth_luma_minus1: u8,
+        pub pcm_sample_bit_depth_chroma_minus1: u8,
+        pub log2_min_pcm_luma_coding_block_size_minus3: u8,
+        pub log2_diff_max_min_pcm_luma_coding_block_size: u8,
+        pub reserved1: u8,
+        pub reserved2: u8,
+        pub palette_max_size: u8,
+        pub delta_palette_max_predictor_size: u8,
+        pub motion_vector_resolution_control_idc: u8,
+        pub sps_num_palette_predictor_initializers_minus1: u8,
+        pub conf_win_left_offset: u32,
+        pub conf_win_right_offset: u32,
+        pub conf_win_top_offset: u32,
+        pub conf_win_bottom_offset: u32,
+        pub pProfileTierLevel: *const StdVideoH265ProfileTierLevel,
+        pub pDecPicBufMgr: *const StdVideoH265DecPicBufMgr,
+        pub pScalingLists: *const StdVideoH265ScalingLists,
+        pub pShortTermRefPicSet: *const StdVideoH265ShortTermRefPicSet,
+        pub pLongTermRefPicsSps: *const StdVideoH265LongTermRefPicsSps,
+        pub pSequenceParameterSetVui: *const StdVideoH265SequenceParameterSetVui,
+        pub pPredictorPaletteEntries: *const StdVideoH265PredictorPaletteEntries,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct StdVideoH265PpsFlags {
+        pub dependent_slice_segments_enabled_flag_bits: u32,
+    }
+    impl StdVideoH265PpsFlags {
+        /// Bit 0 of the packed unit.
+        pub const DEPENDENT_SLICE_SEGMENTS_ENABLED_FLAG: u32 = 1 << 0;
+        /// Bit 1 of the packed unit.
+        pub const OUTPUT_FLAG_PRESENT_FLAG: u32 = 1 << 1;
+        /// Bit 2 of the packed unit.
+        pub const SIGN_DATA_HIDING_ENABLED_FLAG: u32 = 1 << 2;
+        /// Bit 3 of the packed unit.
+        pub const CABAC_INIT_PRESENT_FLAG: u32 = 1 << 3;
+        /// Bit 4 of the packed unit.
+        pub const CONSTRAINED_INTRA_PRED_FLAG: u32 = 1 << 4;
+        /// Bit 5 of the packed unit.
+        pub const TRANSFORM_SKIP_ENABLED_FLAG: u32 = 1 << 5;
+        /// Bit 6 of the packed unit.
+        pub const CU_QP_DELTA_ENABLED_FLAG: u32 = 1 << 6;
+        /// Bit 7 of the packed unit.
+        pub const PPS_SLICE_CHROMA_QP_OFFSETS_PRESENT_FLAG: u32 = 1 << 7;
+        /// Bit 8 of the packed unit.
+        pub const WEIGHTED_PRED_FLAG: u32 = 1 << 8;
+        /// Bit 9 of the packed unit.
+        pub const WEIGHTED_BIPRED_FLAG: u32 = 1 << 9;
+        /// Bit 10 of the packed unit.
+        pub const TRANSQUANT_BYPASS_ENABLED_FLAG: u32 = 1 << 10;
+        /// Bit 11 of the packed unit.
+        pub const TILES_ENABLED_FLAG: u32 = 1 << 11;
+        /// Bit 12 of the packed unit.
+        pub const ENTROPY_CODING_SYNC_ENABLED_FLAG: u32 = 1 << 12;
+        /// Bit 13 of the packed unit.
+        pub const UNIFORM_SPACING_FLAG: u32 = 1 << 13;
+        /// Bit 14 of the packed unit.
+        pub const LOOP_FILTER_ACROSS_TILES_ENABLED_FLAG: u32 = 1 << 14;
+        /// Bit 15 of the packed unit.
+        pub const PPS_LOOP_FILTER_ACROSS_SLICES_ENABLED_FLAG: u32 = 1 << 15;
+        /// Bit 16 of the packed unit.
+        pub const DEBLOCKING_FILTER_CONTROL_PRESENT_FLAG: u32 = 1 << 16;
+        /// Bit 17 of the packed unit.
+        pub const DEBLOCKING_FILTER_OVERRIDE_ENABLED_FLAG: u32 = 1 << 17;
+        /// Bit 18 of the packed unit.
+        pub const PPS_DEBLOCKING_FILTER_DISABLED_FLAG: u32 = 1 << 18;
+        /// Bit 19 of the packed unit.
+        pub const PPS_SCALING_LIST_DATA_PRESENT_FLAG: u32 = 1 << 19;
+        /// Bit 20 of the packed unit.
+        pub const LISTS_MODIFICATION_PRESENT_FLAG: u32 = 1 << 20;
+        /// Bit 21 of the packed unit.
+        pub const SLICE_SEGMENT_HEADER_EXTENSION_PRESENT_FLAG: u32 = 1 << 21;
+        /// Bit 22 of the packed unit.
+        pub const PPS_EXTENSION_PRESENT_FLAG: u32 = 1 << 22;
+        /// Bit 23 of the packed unit.
+        pub const CROSS_COMPONENT_PREDICTION_ENABLED_FLAG: u32 = 1 << 23;
+        /// Bit 24 of the packed unit.
+        pub const CHROMA_QP_OFFSET_LIST_ENABLED_FLAG: u32 = 1 << 24;
+        /// Bit 25 of the packed unit.
+        pub const PPS_CURR_PIC_REF_ENABLED_FLAG: u32 = 1 << 25;
+        /// Bit 26 of the packed unit.
+        pub const RESIDUAL_ADAPTIVE_COLOUR_TRANSFORM_ENABLED_FLAG: u32 = 1 << 26;
+        /// Bit 27 of the packed unit.
+        pub const PPS_SLICE_ACT_QP_OFFSETS_PRESENT_FLAG: u32 = 1 << 27;
+        /// Bit 28 of the packed unit.
+        pub const PPS_PALETTE_PREDICTOR_INITIALIZERS_PRESENT_FLAG: u32 = 1 << 28;
+        /// Bit 29 of the packed unit.
+        pub const MONOCHROME_PALETTE_FLAG: u32 = 1 << 29;
+        /// Bit 30 of the packed unit.
+        pub const PPS_RANGE_EXTENSION_FLAG: u32 = 1 << 30;
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct StdVideoH265PictureParameterSet {
+        pub flags: StdVideoH265PpsFlags,
+        pub pps_pic_parameter_set_id: u8,
+        pub pps_seq_parameter_set_id: u8,
+        pub sps_video_parameter_set_id: u8,
+        pub num_extra_slice_header_bits: u8,
+        pub num_ref_idx_l0_default_active_minus1: u8,
+        pub num_ref_idx_l1_default_active_minus1: u8,
+        pub init_qp_minus26: i8,
+        pub diff_cu_qp_delta_depth: u8,
+        pub pps_cb_qp_offset: i8,
+        pub pps_cr_qp_offset: i8,
+        pub pps_beta_offset_div2: i8,
+        pub pps_tc_offset_div2: i8,
+        pub log2_parallel_merge_level_minus2: u8,
+        pub log2_max_transform_skip_block_size_minus2: u8,
+        pub diff_cu_chroma_qp_offset_depth: u8,
+        pub chroma_qp_offset_list_len_minus1: u8,
+        pub cb_qp_offset_list: [i8; STD_VIDEO_H265_CHROMA_QP_OFFSET_LIST_SIZE as usize],
+        pub cr_qp_offset_list: [i8; STD_VIDEO_H265_CHROMA_QP_OFFSET_LIST_SIZE as usize],
+        pub log2_sao_offset_scale_luma: u8,
+        pub log2_sao_offset_scale_chroma: u8,
+        pub pps_act_y_qp_offset_plus5: i8,
+        pub pps_act_cb_qp_offset_plus5: i8,
+        pub pps_act_cr_qp_offset_plus3: i8,
+        pub pps_num_palette_predictor_initializers: u8,
+        pub luma_bit_depth_entry_minus8: u8,
+        pub chroma_bit_depth_entry_minus8: u8,
+        pub num_tile_columns_minus1: u8,
+        pub num_tile_rows_minus1: u8,
+        pub reserved1: u8,
+        pub reserved2: u8,
+        pub column_width_minus1: [u16; STD_VIDEO_H265_CHROMA_QP_OFFSET_TILE_COLS_LIST_SIZE as usize],
+        pub row_height_minus1: [u16; STD_VIDEO_H265_CHROMA_QP_OFFSET_TILE_ROWS_LIST_SIZE as usize],
+        pub reserved3: u32,
+        pub pScalingLists: *const StdVideoH265ScalingLists,
+        pub pPredictorPaletteEntries: *const StdVideoH265PredictorPaletteEntries,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct VkVideoDecodeH265SessionParametersAddInfoKHR {
+        pub sType: VkStructureType,
+        pub pNext: *const c_void,
+        pub stdVPSCount: u32,
+        pub pStdVPSs: *const StdVideoH265VideoParameterSet,
+        pub stdSPSCount: u32,
+        pub pStdSPSs: *const StdVideoH265SequenceParameterSet,
+        pub stdPPSCount: u32,
+        pub pStdPPSs: *const StdVideoH265PictureParameterSet,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct VkVideoDecodeH265SessionParametersCreateInfoKHR {
+        pub sType: VkStructureType,
+        pub pNext: *const c_void,
+        pub maxStdVPSCount: u32,
+        pub maxStdSPSCount: u32,
+        pub maxStdPPSCount: u32,
+        pub pParametersAddInfo: *const VkVideoDecodeH265SessionParametersAddInfoKHR,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct StdVideoDecodeAV1ReferenceInfoFlags {
+        pub disable_frame_end_update_cdf_bits: u32,
+    }
+    impl StdVideoDecodeAV1ReferenceInfoFlags {
+        /// Bit 0 of the packed unit.
+        pub const DISABLE_FRAME_END_UPDATE_CDF: u32 = 1 << 0;
+        /// Bit 1 of the packed unit.
+        pub const SEGMENTATION_ENABLED: u32 = 1 << 1;
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct StdVideoDecodeAV1ReferenceInfo {
+        pub flags: StdVideoDecodeAV1ReferenceInfoFlags,
+        pub frame_type: u8,
+        pub RefFrameSignBias: u8,
+        pub OrderHint: u8,
+        pub SavedOrderHints: [u8; STD_VIDEO_AV1_NUM_REF_FRAMES as usize],
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct VkVideoDecodeAV1DpbSlotInfoKHR {
+        pub sType: VkStructureType,
+        pub pNext: *const c_void,
+        pub pStdReferenceInfo: *const StdVideoDecodeAV1ReferenceInfo,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct StdVideoDecodeH264ReferenceInfoFlags {
+        pub top_field_flag_bits: u32,
+    }
+    impl StdVideoDecodeH264ReferenceInfoFlags {
+        /// Bit 0 of the packed unit.
+        pub const TOP_FIELD_FLAG: u32 = 1 << 0;
+        /// Bit 1 of the packed unit.
+        pub const BOTTOM_FIELD_FLAG: u32 = 1 << 1;
+        /// Bit 2 of the packed unit.
+        pub const USED_FOR_LONG_TERM_REFERENCE: u32 = 1 << 2;
+        /// Bit 3 of the packed unit.
+        pub const IS_NON_EXISTING: u32 = 1 << 3;
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct StdVideoDecodeH264ReferenceInfo {
+        pub flags: StdVideoDecodeH264ReferenceInfoFlags,
+        pub FrameNum: u16,
+        pub reserved: u16,
+        pub PicOrderCnt: [i32; STD_VIDEO_DECODE_H264_FIELD_ORDER_COUNT_LIST_SIZE as usize],
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct VkVideoDecodeH264DpbSlotInfoKHR {
+        pub sType: VkStructureType,
+        pub pNext: *const c_void,
+        pub pStdReferenceInfo: *const StdVideoDecodeH264ReferenceInfo,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct StdVideoDecodeH265ReferenceInfoFlags {
+        pub used_for_long_term_reference_bits: u32,
+    }
+    impl StdVideoDecodeH265ReferenceInfoFlags {
+        /// Bit 0 of the packed unit.
+        pub const USED_FOR_LONG_TERM_REFERENCE: u32 = 1 << 0;
+        /// Bit 1 of the packed unit.
+        pub const UNUSED_FOR_REFERENCE: u32 = 1 << 1;
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct StdVideoDecodeH265ReferenceInfo {
+        pub flags: StdVideoDecodeH265ReferenceInfoFlags,
+        pub PicOrderCntVal: i32,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct VkVideoDecodeH265DpbSlotInfoKHR {
+        pub sType: VkStructureType,
+        pub pNext: *const c_void,
+        pub pStdReferenceInfo: *const StdVideoDecodeH265ReferenceInfo,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct VkVideoDecodeAV1InlineSessionParametersInfoKHR {
+        pub sType: VkStructureType,
+        pub pNext: *const c_void,
+        pub pStdSequenceHeader: *const StdVideoAV1SequenceHeader,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct StdVideoDecodeAV1PictureInfoFlags {
+        pub error_resilient_mode_bits: u32,
+    }
+    impl StdVideoDecodeAV1PictureInfoFlags {
+        /// Bit 0 of the packed unit.
+        pub const ERROR_RESILIENT_MODE: u32 = 1 << 0;
+        /// Bit 1 of the packed unit.
+        pub const DISABLE_CDF_UPDATE: u32 = 1 << 1;
+        /// Bit 2 of the packed unit.
+        pub const USE_SUPERRES: u32 = 1 << 2;
+        /// Bit 3 of the packed unit.
+        pub const RENDER_AND_FRAME_SIZE_DIFFERENT: u32 = 1 << 3;
+        /// Bit 4 of the packed unit.
+        pub const ALLOW_SCREEN_CONTENT_TOOLS: u32 = 1 << 4;
+        /// Bit 5 of the packed unit.
+        pub const IS_FILTER_SWITCHABLE: u32 = 1 << 5;
+        /// Bit 6 of the packed unit.
+        pub const FORCE_INTEGER_MV: u32 = 1 << 6;
+        /// Bit 7 of the packed unit.
+        pub const FRAME_SIZE_OVERRIDE_FLAG: u32 = 1 << 7;
+        /// Bit 8 of the packed unit.
+        pub const BUFFER_REMOVAL_TIME_PRESENT_FLAG: u32 = 1 << 8;
+        /// Bit 9 of the packed unit.
+        pub const ALLOW_INTRABC: u32 = 1 << 9;
+        /// Bit 10 of the packed unit.
+        pub const FRAME_REFS_SHORT_SIGNALING: u32 = 1 << 10;
+        /// Bit 11 of the packed unit.
+        pub const ALLOW_HIGH_PRECISION_MV: u32 = 1 << 11;
+        /// Bit 12 of the packed unit.
+        pub const IS_MOTION_MODE_SWITCHABLE: u32 = 1 << 12;
+        /// Bit 13 of the packed unit.
+        pub const USE_REF_FRAME_MVS: u32 = 1 << 13;
+        /// Bit 14 of the packed unit.
+        pub const DISABLE_FRAME_END_UPDATE_CDF: u32 = 1 << 14;
+        /// Bit 15 of the packed unit.
+        pub const ALLOW_WARPED_MOTION: u32 = 1 << 15;
+        /// Bit 16 of the packed unit.
+        pub const REDUCED_TX_SET: u32 = 1 << 16;
+        /// Bit 17 of the packed unit.
+        pub const REFERENCE_SELECT: u32 = 1 << 17;
+        /// Bit 18 of the packed unit.
+        pub const SKIP_MODE_PRESENT: u32 = 1 << 18;
+        /// Bit 19 of the packed unit.
+        pub const DELTA_Q_PRESENT: u32 = 1 << 19;
+        /// Bit 20 of the packed unit.
+        pub const DELTA_LF_PRESENT: u32 = 1 << 20;
+        /// Bit 21 of the packed unit.
+        pub const DELTA_LF_MULTI: u32 = 1 << 21;
+        /// Bit 22 of the packed unit.
+        pub const SEGMENTATION_ENABLED: u32 = 1 << 22;
+        /// Bit 23 of the packed unit.
+        pub const SEGMENTATION_UPDATE_MAP: u32 = 1 << 23;
+        /// Bit 24 of the packed unit.
+        pub const SEGMENTATION_TEMPORAL_UPDATE: u32 = 1 << 24;
+        /// Bit 25 of the packed unit.
+        pub const SEGMENTATION_UPDATE_DATA: u32 = 1 << 25;
+        /// Bit 26 of the packed unit.
+        pub const USESLR: u32 = 1 << 26;
+        /// Bit 27 of the packed unit.
+        pub const USESCHROMALR: u32 = 1 << 27;
+        /// Bit 28 of the packed unit.
+        pub const APPLY_GRAIN: u32 = 1 << 28;
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct StdVideoAV1TileInfoFlags {
+        pub uniform_tile_spacing_flag_bits: u32,
+    }
+    impl StdVideoAV1TileInfoFlags {
+        /// Bit 0 of the packed unit.
+        pub const UNIFORM_TILE_SPACING_FLAG: u32 = 1 << 0;
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct StdVideoAV1TileInfo {
+        pub flags: StdVideoAV1TileInfoFlags,
+        pub TileCols: u8,
+        pub TileRows: u8,
+        pub context_update_tile_id: u16,
+        pub tile_size_bytes_minus_1: u8,
+        pub reserved1: [u8; 7],
+        pub pMiColStarts: *const u16,
+        pub pMiRowStarts: *const u16,
+        pub pWidthInSbsMinus1: *const u16,
+        pub pHeightInSbsMinus1: *const u16,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct StdVideoAV1QuantizationFlags {
+        pub using_qmatrix_bits: u32,
+    }
+    impl StdVideoAV1QuantizationFlags {
+        /// Bit 0 of the packed unit.
+        pub const USING_QMATRIX: u32 = 1 << 0;
+        /// Bit 1 of the packed unit.
+        pub const DIFF_UV_DELTA: u32 = 1 << 1;
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct StdVideoAV1Quantization {
+        pub flags: StdVideoAV1QuantizationFlags,
+        pub base_q_idx: u8,
+        pub DeltaQYDc: i8,
+        pub DeltaQUDc: i8,
+        pub DeltaQUAc: i8,
+        pub DeltaQVDc: i8,
+        pub DeltaQVAc: i8,
+        pub qm_y: u8,
+        pub qm_u: u8,
+        pub qm_v: u8,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct StdVideoAV1Segmentation {
+        pub FeatureEnabled: [u8; STD_VIDEO_AV1_MAX_SEGMENTS as usize],
+        pub FeatureData: [[i16; STD_VIDEO_AV1_SEG_LVL_MAX as usize]; STD_VIDEO_AV1_MAX_SEGMENTS as usize],
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct StdVideoAV1LoopFilterFlags {
+        pub loop_filter_delta_enabled_bits: u32,
+    }
+    impl StdVideoAV1LoopFilterFlags {
+        /// Bit 0 of the packed unit.
+        pub const LOOP_FILTER_DELTA_ENABLED: u32 = 1 << 0;
+        /// Bit 1 of the packed unit.
+        pub const LOOP_FILTER_DELTA_UPDATE: u32 = 1 << 1;
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct StdVideoAV1LoopFilter {
+        pub flags: StdVideoAV1LoopFilterFlags,
+        pub loop_filter_level: [u8; STD_VIDEO_AV1_MAX_LOOP_FILTER_STRENGTHS as usize],
+        pub loop_filter_sharpness: u8,
+        pub update_ref_delta: u8,
+        pub loop_filter_ref_deltas: [i8; STD_VIDEO_AV1_TOTAL_REFS_PER_FRAME as usize],
+        pub update_mode_delta: u8,
+        pub loop_filter_mode_deltas: [i8; STD_VIDEO_AV1_LOOP_FILTER_ADJUSTMENTS as usize],
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct StdVideoAV1CDEF {
+        pub cdef_damping_minus_3: u8,
+        pub cdef_bits: u8,
+        pub cdef_y_pri_strength: [u8; STD_VIDEO_AV1_MAX_CDEF_FILTER_STRENGTHS as usize],
+        pub cdef_y_sec_strength: [u8; STD_VIDEO_AV1_MAX_CDEF_FILTER_STRENGTHS as usize],
+        pub cdef_uv_pri_strength: [u8; STD_VIDEO_AV1_MAX_CDEF_FILTER_STRENGTHS as usize],
+        pub cdef_uv_sec_strength: [u8; STD_VIDEO_AV1_MAX_CDEF_FILTER_STRENGTHS as usize],
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct StdVideoAV1LoopRestoration {
+        pub FrameRestorationType: [StdVideoAV1FrameRestorationType; STD_VIDEO_AV1_MAX_NUM_PLANES as usize],
+        pub LoopRestorationSize: [u16; STD_VIDEO_AV1_MAX_NUM_PLANES as usize],
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct StdVideoAV1GlobalMotion {
+        pub GmType: [u8; STD_VIDEO_AV1_NUM_REF_FRAMES as usize],
+        pub gm_params: [[i32; STD_VIDEO_AV1_GLOBAL_MOTION_PARAMS as usize]; STD_VIDEO_AV1_NUM_REF_FRAMES as usize],
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct StdVideoAV1FilmGrainFlags {
+        pub chroma_scaling_from_luma_bits: u32,
+    }
+    impl StdVideoAV1FilmGrainFlags {
+        /// Bit 0 of the packed unit.
+        pub const CHROMA_SCALING_FROM_LUMA: u32 = 1 << 0;
+        /// Bit 1 of the packed unit.
+        pub const OVERLAP_FLAG: u32 = 1 << 1;
+        /// Bit 2 of the packed unit.
+        pub const CLIP_TO_RESTRICTED_RANGE: u32 = 1 << 2;
+        /// Bit 3 of the packed unit.
+        pub const UPDATE_GRAIN: u32 = 1 << 3;
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct StdVideoAV1FilmGrain {
+        pub flags: StdVideoAV1FilmGrainFlags,
+        pub grain_scaling_minus_8: u8,
+        pub ar_coeff_lag: u8,
+        pub ar_coeff_shift_minus_6: u8,
+        pub grain_scale_shift: u8,
+        pub grain_seed: u16,
+        pub film_grain_params_ref_idx: u8,
+        pub num_y_points: u8,
+        pub point_y_value: [u8; STD_VIDEO_AV1_MAX_NUM_Y_POINTS as usize],
+        pub point_y_scaling: [u8; STD_VIDEO_AV1_MAX_NUM_Y_POINTS as usize],
+        pub num_cb_points: u8,
+        pub point_cb_value: [u8; STD_VIDEO_AV1_MAX_NUM_CB_POINTS as usize],
+        pub point_cb_scaling: [u8; STD_VIDEO_AV1_MAX_NUM_CB_POINTS as usize],
+        pub num_cr_points: u8,
+        pub point_cr_value: [u8; STD_VIDEO_AV1_MAX_NUM_CR_POINTS as usize],
+        pub point_cr_scaling: [u8; STD_VIDEO_AV1_MAX_NUM_CR_POINTS as usize],
+        pub ar_coeffs_y_plus_128: [i8; STD_VIDEO_AV1_MAX_NUM_POS_LUMA as usize],
+        pub ar_coeffs_cb_plus_128: [i8; STD_VIDEO_AV1_MAX_NUM_POS_CHROMA as usize],
+        pub ar_coeffs_cr_plus_128: [i8; STD_VIDEO_AV1_MAX_NUM_POS_CHROMA as usize],
+        pub cb_mult: u8,
+        pub cb_luma_mult: u8,
+        pub cb_offset: u16,
+        pub cr_mult: u8,
+        pub cr_luma_mult: u8,
+        pub cr_offset: u16,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct StdVideoDecodeAV1PictureInfo {
+        pub flags: StdVideoDecodeAV1PictureInfoFlags,
+        pub frame_type: StdVideoAV1FrameType,
+        pub current_frame_id: u32,
+        pub OrderHint: u8,
+        pub primary_ref_frame: u8,
+        pub refresh_frame_flags: u8,
+        pub reserved1: u8,
+        pub interpolation_filter: StdVideoAV1InterpolationFilter,
+        pub TxMode: StdVideoAV1TxMode,
+        pub delta_q_res: u8,
+        pub delta_lf_res: u8,
+        pub SkipModeFrame: [u8; STD_VIDEO_AV1_SKIP_MODE_FRAMES as usize],
+        pub coded_denom: u8,
+        pub reserved2: [u8; 3],
+        pub OrderHints: [u8; STD_VIDEO_AV1_NUM_REF_FRAMES as usize],
+        pub expectedFrameId: [u32; STD_VIDEO_AV1_NUM_REF_FRAMES as usize],
+        pub pTileInfo: *const StdVideoAV1TileInfo,
+        pub pQuantization: *const StdVideoAV1Quantization,
+        pub pSegmentation: *const StdVideoAV1Segmentation,
+        pub pLoopFilter: *const StdVideoAV1LoopFilter,
+        pub pCDEF: *const StdVideoAV1CDEF,
+        pub pLoopRestoration: *const StdVideoAV1LoopRestoration,
+        pub pGlobalMotion: *const StdVideoAV1GlobalMotion,
+        pub pFilmGrain: *const StdVideoAV1FilmGrain,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct VkVideoDecodeAV1PictureInfoKHR {
+        pub sType: VkStructureType,
+        pub pNext: *const c_void,
+        pub pStdPictureInfo: *const StdVideoDecodeAV1PictureInfo,
+        pub referenceNameSlotIndices: [i32; VK_MAX_VIDEO_AV1_REFERENCES_PER_FRAME_KHR as usize],
+        pub frameHeaderOffset: u32,
+        pub tileCount: u32,
+        pub pTileOffsets: *const u32,
+        pub pTileSizes: *const u32,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct VkVideoDecodeH264InlineSessionParametersInfoKHR {
+        pub sType: VkStructureType,
+        pub pNext: *const c_void,
+        pub pStdSPS: *const StdVideoH264SequenceParameterSet,
+        pub pStdPPS: *const StdVideoH264PictureParameterSet,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct StdVideoDecodeH264PictureInfoFlags {
+        pub field_pic_flag_bits: u32,
+    }
+    impl StdVideoDecodeH264PictureInfoFlags {
+        /// Bit 0 of the packed unit.
+        pub const FIELD_PIC_FLAG: u32 = 1 << 0;
+        /// Bit 1 of the packed unit.
+        pub const IS_INTRA: u32 = 1 << 1;
+        /// Bit 2 of the packed unit.
+        pub const IDRPICFLAG: u32 = 1 << 2;
+        /// Bit 3 of the packed unit.
+        pub const BOTTOM_FIELD_FLAG: u32 = 1 << 3;
+        /// Bit 4 of the packed unit.
+        pub const IS_REFERENCE: u32 = 1 << 4;
+        /// Bit 5 of the packed unit.
+        pub const COMPLEMENTARY_FIELD_PAIR: u32 = 1 << 5;
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct StdVideoDecodeH264PictureInfo {
+        pub flags: StdVideoDecodeH264PictureInfoFlags,
+        pub seq_parameter_set_id: u8,
+        pub pic_parameter_set_id: u8,
+        pub reserved1: u8,
+        pub reserved2: u8,
+        pub frame_num: u16,
+        pub idr_pic_id: u16,
+        pub PicOrderCnt: [i32; STD_VIDEO_DECODE_H264_FIELD_ORDER_COUNT_LIST_SIZE as usize],
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct VkVideoDecodeH264PictureInfoKHR {
+        pub sType: VkStructureType,
+        pub pNext: *const c_void,
+        pub pStdPictureInfo: *const StdVideoDecodeH264PictureInfo,
+        pub sliceCount: u32,
+        pub pSliceOffsets: *const u32,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct VkVideoDecodeH265InlineSessionParametersInfoKHR {
+        pub sType: VkStructureType,
+        pub pNext: *const c_void,
+        pub pStdVPS: *const StdVideoH265VideoParameterSet,
+        pub pStdSPS: *const StdVideoH265SequenceParameterSet,
+        pub pStdPPS: *const StdVideoH265PictureParameterSet,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct StdVideoDecodeH265PictureInfoFlags {
+        pub IrapPicFlag_bits: u32,
+    }
+    impl StdVideoDecodeH265PictureInfoFlags {
+        /// Bit 0 of the packed unit.
+        pub const IRAPPICFLAG: u32 = 1 << 0;
+        /// Bit 1 of the packed unit.
+        pub const IDRPICFLAG: u32 = 1 << 1;
+        /// Bit 2 of the packed unit.
+        pub const ISREFERENCE: u32 = 1 << 2;
+        /// Bit 3 of the packed unit.
+        pub const SHORT_TERM_REF_PIC_SET_SPS_FLAG: u32 = 1 << 3;
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct StdVideoDecodeH265PictureInfo {
+        pub flags: StdVideoDecodeH265PictureInfoFlags,
+        pub sps_video_parameter_set_id: u8,
+        pub pps_seq_parameter_set_id: u8,
+        pub pps_pic_parameter_set_id: u8,
+        pub NumDeltaPocsOfRefRpsIdx: u8,
+        pub PicOrderCntVal: i32,
+        pub NumBitsForSTRefPicSetInSlice: u16,
+        pub reserved: u16,
+        pub RefPicSetStCurrBefore: [u8; STD_VIDEO_DECODE_H265_REF_PIC_SET_LIST_SIZE as usize],
+        pub RefPicSetStCurrAfter: [u8; STD_VIDEO_DECODE_H265_REF_PIC_SET_LIST_SIZE as usize],
+        pub RefPicSetLtCurr: [u8; STD_VIDEO_DECODE_H265_REF_PIC_SET_LIST_SIZE as usize],
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct VkVideoDecodeH265PictureInfoKHR {
+        pub sType: VkStructureType,
+        pub pNext: *const c_void,
+        pub pStdPictureInfo: *const StdVideoDecodeH265PictureInfo,
+        pub sliceSegmentCount: u32,
+        pub pSliceSegmentOffsets: *const u32,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct StdVideoDecodeVP9PictureInfoFlags {
+        pub error_resilient_mode_bits: u32,
+    }
+    impl StdVideoDecodeVP9PictureInfoFlags {
+        /// Bit 0 of the packed unit.
+        pub const ERROR_RESILIENT_MODE: u32 = 1 << 0;
+        /// Bit 1 of the packed unit.
+        pub const INTRA_ONLY: u32 = 1 << 1;
+        /// Bit 2 of the packed unit.
+        pub const ALLOW_HIGH_PRECISION_MV: u32 = 1 << 2;
+        /// Bit 3 of the packed unit.
+        pub const REFRESH_FRAME_CONTEXT: u32 = 1 << 3;
+        /// Bit 4 of the packed unit.
+        pub const FRAME_PARALLEL_DECODING_MODE: u32 = 1 << 4;
+        /// Bit 5 of the packed unit.
+        pub const SEGMENTATION_ENABLED: u32 = 1 << 5;
+        /// Bit 6 of the packed unit.
+        pub const SHOW_FRAME: u32 = 1 << 6;
+        /// Bit 7 of the packed unit.
+        pub const USEPREVFRAMEMVS: u32 = 1 << 7;
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct StdVideoVP9ColorConfigFlags {
+        pub color_range_bits: u32,
+    }
+    impl StdVideoVP9ColorConfigFlags {
+        /// Bit 0 of the packed unit.
+        pub const COLOR_RANGE: u32 = 1 << 0;
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct StdVideoVP9ColorConfig {
+        pub flags: StdVideoVP9ColorConfigFlags,
+        pub BitDepth: u8,
+        pub subsampling_x: u8,
+        pub subsampling_y: u8,
+        pub reserved1: u8,
+        pub color_space: StdVideoVP9ColorSpace,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct StdVideoVP9LoopFilterFlags {
+        pub loop_filter_delta_enabled_bits: u32,
+    }
+    impl StdVideoVP9LoopFilterFlags {
+        /// Bit 0 of the packed unit.
+        pub const LOOP_FILTER_DELTA_ENABLED: u32 = 1 << 0;
+        /// Bit 1 of the packed unit.
+        pub const LOOP_FILTER_DELTA_UPDATE: u32 = 1 << 1;
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct StdVideoVP9LoopFilter {
+        pub flags: StdVideoVP9LoopFilterFlags,
+        pub loop_filter_level: u8,
+        pub loop_filter_sharpness: u8,
+        pub update_ref_delta: u8,
+        pub loop_filter_ref_deltas: [i8; STD_VIDEO_VP9_MAX_REF_FRAMES as usize],
+        pub update_mode_delta: u8,
+        pub loop_filter_mode_deltas: [i8; STD_VIDEO_VP9_LOOP_FILTER_ADJUSTMENTS as usize],
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct StdVideoVP9SegmentationFlags {
+        pub segmentation_update_map_bits: u32,
+    }
+    impl StdVideoVP9SegmentationFlags {
+        /// Bit 0 of the packed unit.
+        pub const SEGMENTATION_UPDATE_MAP: u32 = 1 << 0;
+        /// Bit 1 of the packed unit.
+        pub const SEGMENTATION_TEMPORAL_UPDATE: u32 = 1 << 1;
+        /// Bit 2 of the packed unit.
+        pub const SEGMENTATION_UPDATE_DATA: u32 = 1 << 2;
+        /// Bit 3 of the packed unit.
+        pub const SEGMENTATION_ABS_OR_DELTA_UPDATE: u32 = 1 << 3;
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct StdVideoVP9Segmentation {
+        pub flags: StdVideoVP9SegmentationFlags,
+        pub segmentation_tree_probs: [u8; STD_VIDEO_VP9_MAX_SEGMENTATION_TREE_PROBS as usize],
+        pub segmentation_pred_prob: [u8; STD_VIDEO_VP9_MAX_SEGMENTATION_PRED_PROB as usize],
+        pub FeatureEnabled: [u8; STD_VIDEO_VP9_MAX_SEGMENTS as usize],
+        pub FeatureData: [[i16; STD_VIDEO_VP9_SEG_LVL_MAX as usize]; STD_VIDEO_VP9_MAX_SEGMENTS as usize],
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct StdVideoDecodeVP9PictureInfo {
+        pub flags: StdVideoDecodeVP9PictureInfoFlags,
+        pub profile: StdVideoVP9Profile,
+        pub frame_type: StdVideoVP9FrameType,
+        pub frame_context_idx: u8,
+        pub reset_frame_context: u8,
+        pub refresh_frame_flags: u8,
+        pub ref_frame_sign_bias_mask: u8,
+        pub interpolation_filter: StdVideoVP9InterpolationFilter,
+        pub base_q_idx: u8,
+        pub delta_q_y_dc: i8,
+        pub delta_q_uv_dc: i8,
+        pub delta_q_uv_ac: i8,
+        pub tile_cols_log2: u8,
+        pub tile_rows_log2: u8,
+        pub reserved1: [u16; 3],
+        pub pColorConfig: *const StdVideoVP9ColorConfig,
+        pub pLoopFilter: *const StdVideoVP9LoopFilter,
+        pub pSegmentation: *const StdVideoVP9Segmentation,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct VkVideoDecodeVP9PictureInfoKHR {
+        pub sType: VkStructureType,
+        pub pNext: *const c_void,
+        pub pStdPictureInfo: *const StdVideoDecodeVP9PictureInfo,
+        pub referenceNameSlotIndices: [i32; VK_MAX_VIDEO_VP9_REFERENCES_PER_FRAME_KHR as usize],
+        pub uncompressedHeaderOffset: u32,
+        pub compressedHeaderOffset: u32,
+        pub tilesOffset: u32,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct VkVideoInlineQueryInfoKHR {
+        pub sType: VkStructureType,
+        pub pNext: *const c_void,
+        pub queryPool: VkQueryPool,
+        pub firstQuery: u32,
+        pub queryCount: u32,
     }
     #[repr(C)]
     #[derive(Clone, Copy)]
@@ -5863,6 +7623,19 @@ pub mod vk {
     pub type PFN_vkCmdSetVertexInputEXT = unsafe extern "system" fn(commandBuffer: VkCommandBuffer, vertexBindingDescriptionCount: u32, pVertexBindingDescriptions: *const VkVertexInputBindingDescription2EXT, vertexAttributeDescriptionCount: u32, pVertexAttributeDescriptions: *const VkVertexInputAttributeDescription2EXT);
     pub type PFN_vkCmdSetLineStipple = unsafe extern "system" fn(commandBuffer: VkCommandBuffer, lineStippleFactor: u32, lineStipplePattern: u16);
     pub type PFN_vkCmdSetDepthBias2EXT = unsafe extern "system" fn(commandBuffer: VkCommandBuffer, pDepthBiasInfo: *const VkDepthBiasInfoEXT);
+    pub type PFN_vkGetPhysicalDeviceVideoCapabilitiesKHR = unsafe extern "system" fn(physicalDevice: VkPhysicalDevice, pVideoProfile: *const VkVideoProfileInfoKHR, pCapabilities: *mut VkVideoCapabilitiesKHR) -> VkResult;
+    pub type PFN_vkGetPhysicalDeviceVideoFormatPropertiesKHR = unsafe extern "system" fn(physicalDevice: VkPhysicalDevice, pVideoFormatInfo: *const VkPhysicalDeviceVideoFormatInfoKHR, pVideoFormatPropertyCount: *mut u32, pVideoFormatProperties: *mut VkVideoFormatPropertiesKHR) -> VkResult;
+    pub type PFN_vkCreateVideoSessionKHR = unsafe extern "system" fn(device: VkDevice, pCreateInfo: *const VkVideoSessionCreateInfoKHR, pAllocator: *const VkAllocationCallbacks, pVideoSession: *mut VkVideoSessionKHR) -> VkResult;
+    pub type PFN_vkDestroyVideoSessionKHR = unsafe extern "system" fn(device: VkDevice, videoSession: VkVideoSessionKHR, pAllocator: *const VkAllocationCallbacks);
+    pub type PFN_vkGetVideoSessionMemoryRequirementsKHR = unsafe extern "system" fn(device: VkDevice, videoSession: VkVideoSessionKHR, pMemoryRequirementsCount: *mut u32, pMemoryRequirements: *mut VkVideoSessionMemoryRequirementsKHR) -> VkResult;
+    pub type PFN_vkBindVideoSessionMemoryKHR = unsafe extern "system" fn(device: VkDevice, videoSession: VkVideoSessionKHR, bindSessionMemoryInfoCount: u32, pBindSessionMemoryInfos: *const VkBindVideoSessionMemoryInfoKHR) -> VkResult;
+    pub type PFN_vkCreateVideoSessionParametersKHR = unsafe extern "system" fn(device: VkDevice, pCreateInfo: *const VkVideoSessionParametersCreateInfoKHR, pAllocator: *const VkAllocationCallbacks, pVideoSessionParameters: *mut VkVideoSessionParametersKHR) -> VkResult;
+    pub type PFN_vkUpdateVideoSessionParametersKHR = unsafe extern "system" fn(device: VkDevice, videoSessionParameters: VkVideoSessionParametersKHR, pUpdateInfo: *const VkVideoSessionParametersUpdateInfoKHR) -> VkResult;
+    pub type PFN_vkDestroyVideoSessionParametersKHR = unsafe extern "system" fn(device: VkDevice, videoSessionParameters: VkVideoSessionParametersKHR, pAllocator: *const VkAllocationCallbacks);
+    pub type PFN_vkCmdBeginVideoCodingKHR = unsafe extern "system" fn(commandBuffer: VkCommandBuffer, pBeginInfo: *const VkVideoBeginCodingInfoKHR);
+    pub type PFN_vkCmdEndVideoCodingKHR = unsafe extern "system" fn(commandBuffer: VkCommandBuffer, pEndCodingInfo: *const VkVideoEndCodingInfoKHR);
+    pub type PFN_vkCmdControlVideoCodingKHR = unsafe extern "system" fn(commandBuffer: VkCommandBuffer, pCodingControlInfo: *const VkVideoCodingControlInfoKHR);
+    pub type PFN_vkCmdDecodeVideoKHR = unsafe extern "system" fn(commandBuffer: VkCommandBuffer, pDecodeInfo: *const VkVideoDecodeInfoKHR);
 }
 
 /// Record opcodes. Values below 16 are transport records.
@@ -6082,8 +7855,21 @@ pub mod op {
     pub const vkCmdSetVertexInputEXT: u32 = 228;
     pub const vkCmdSetLineStipple: u32 = 229;
     pub const vkCmdSetDepthBias2EXT: u32 = 230;
+    pub const vkGetPhysicalDeviceVideoCapabilitiesKHR: u32 = 231;
+    pub const vkGetPhysicalDeviceVideoFormatPropertiesKHR: u32 = 232;
+    pub const vkCreateVideoSessionKHR: u32 = 233;
+    pub const vkDestroyVideoSessionKHR: u32 = 234;
+    pub const vkGetVideoSessionMemoryRequirementsKHR: u32 = 235;
+    pub const vkBindVideoSessionMemoryKHR: u32 = 236;
+    pub const vkCreateVideoSessionParametersKHR: u32 = 237;
+    pub const vkUpdateVideoSessionParametersKHR: u32 = 238;
+    pub const vkDestroyVideoSessionParametersKHR: u32 = 239;
+    pub const vkCmdBeginVideoCodingKHR: u32 = 240;
+    pub const vkCmdEndVideoCodingKHR: u32 = 241;
+    pub const vkCmdControlVideoCodingKHR: u32 = 242;
+    pub const vkCmdDecodeVideoKHR: u32 = 243;
     /// One past the highest opcode.
-    pub const END: u32 = 231;
+    pub const END: u32 = 244;
 }
 
 /// The fixed part of each record, after its header. Pointers are
@@ -7468,6 +9254,91 @@ pub mod frame {
     pub struct vkCmdSetDepthBias2EXT {
         pub pDepthBiasInfo: i64,
     }
+    #[repr(C, align(8))]
+    pub struct vkGetPhysicalDeviceVideoCapabilitiesKHR {
+        pub physicalDevice: u64,
+        pub pVideoProfile: i64,
+        pub pCapabilities: i64,
+        /// Offset of the reply block: the return value, then outputs.
+        pub reply: i64,
+    }
+    #[repr(C, align(8))]
+    pub struct vkGetPhysicalDeviceVideoFormatPropertiesKHR {
+        pub physicalDevice: u64,
+        pub pVideoFormatInfo: i64,
+        pub pVideoFormatPropertyCount: i64,
+        pub pVideoFormatProperties: i64,
+        /// Offset of the reply block: the return value, then outputs.
+        pub reply: i64,
+    }
+    #[repr(C, align(8))]
+    pub struct vkCreateVideoSessionKHR {
+        pub device: u64,
+        pub pCreateInfo: i64,
+        pub pVideoSession: u64,
+        /// Offset of the reply block: the return value, then outputs.
+        pub reply: i64,
+    }
+    #[repr(C, align(8))]
+    pub struct vkDestroyVideoSessionKHR {
+        pub device: u64,
+        pub videoSession: u64,
+    }
+    #[repr(C, align(8))]
+    pub struct vkGetVideoSessionMemoryRequirementsKHR {
+        pub device: u64,
+        pub videoSession: u64,
+        pub pMemoryRequirementsCount: i64,
+        pub pMemoryRequirements: i64,
+        /// Offset of the reply block: the return value, then outputs.
+        pub reply: i64,
+    }
+    #[repr(C, align(8))]
+    pub struct vkBindVideoSessionMemoryKHR {
+        pub device: u64,
+        pub videoSession: u64,
+        pub bindSessionMemoryInfoCount: u32,
+        pub pBindSessionMemoryInfos: i64,
+        /// Offset of the reply block: the return value, then outputs.
+        pub reply: i64,
+    }
+    #[repr(C, align(8))]
+    pub struct vkCreateVideoSessionParametersKHR {
+        pub device: u64,
+        pub pCreateInfo: i64,
+        pub pVideoSessionParameters: u64,
+        /// Offset of the reply block: the return value, then outputs.
+        pub reply: i64,
+    }
+    #[repr(C, align(8))]
+    pub struct vkUpdateVideoSessionParametersKHR {
+        pub device: u64,
+        pub videoSessionParameters: u64,
+        pub pUpdateInfo: i64,
+        /// Offset of the reply block: the return value, then outputs.
+        pub reply: i64,
+    }
+    #[repr(C, align(8))]
+    pub struct vkDestroyVideoSessionParametersKHR {
+        pub device: u64,
+        pub videoSessionParameters: u64,
+    }
+    #[repr(C, align(8))]
+    pub struct vkCmdBeginVideoCodingKHR {
+        pub pBeginInfo: i64,
+    }
+    #[repr(C, align(8))]
+    pub struct vkCmdEndVideoCodingKHR {
+        pub pEndCodingInfo: i64,
+    }
+    #[repr(C, align(8))]
+    pub struct vkCmdControlVideoCodingKHR {
+        pub pCodingControlInfo: i64,
+    }
+    #[repr(C, align(8))]
+    pub struct vkCmdDecodeVideoKHR {
+        pub pDecodeInfo: i64,
+    }
 }
 
 /// Output structures whose array follows them in a reply.
@@ -7477,4 +9348,4 @@ pub const OUTPUT_ARRAYS: [&str; 2] = [
 ];
 
 /// Both ends must be generated from the same inputs.
-pub const PROTOCOL: u64 = 0x84861f5de7546d23;
+pub const PROTOCOL: u64 = 0x1f8756e80ad5c877;

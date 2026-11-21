@@ -1846,8 +1846,7 @@ pub unsafe fn enc_n_VkShaderModuleCreateInfo<W: Sink>(w: &mut W, src: *const VkS
 pub unsafe fn fix_VkShaderModuleCreateInfo<W: Sink>(w: &mut W, at: i64, src: *const VkShaderModuleCreateInfo) {
     let next = enc_chain(w, (*src).pNext);
     w.put(at + offset_of!(VkShaderModuleCreateInfo, pNext) as i64, next);
-    let data = if (*src).pCode.is_null() { 0 } else { rt::enc_pod::<u32, W>(w, (*src).pCode, ((*src).codeSize as usize) / 4) };
-    w.put(at + offset_of!(VkShaderModuleCreateInfo, pCode) as i64, data);
+    w.put(at + offset_of!(VkShaderModuleCreateInfo, pCode) as i64, 0usize);
 }
 
 #[inline]
@@ -2064,8 +2063,7 @@ pub unsafe fn enc_n_VkPipelineMultisampleStateCreateInfo<W: Sink>(w: &mut W, src
 pub unsafe fn fix_VkPipelineMultisampleStateCreateInfo<W: Sink>(w: &mut W, at: i64, src: *const VkPipelineMultisampleStateCreateInfo) {
     let next = enc_chain(w, (*src).pNext);
     w.put(at + offset_of!(VkPipelineMultisampleStateCreateInfo, pNext) as i64, next);
-    let data = if (*src).pSampleMask.is_null() { 0 } else { rt::enc_pod::<VkSampleMask, W>(w, (*src).pSampleMask, (((*src).rasterizationSamples as usize) + 31) / 32) };
-    w.put(at + offset_of!(VkPipelineMultisampleStateCreateInfo, pSampleMask) as i64, data);
+    w.put(at + offset_of!(VkPipelineMultisampleStateCreateInfo, pSampleMask) as i64, 0usize);
 }
 
 #[inline]
@@ -3333,6 +3331,349 @@ pub unsafe fn enc_n_VkDepthBiasInfoEXT<W: Sink>(w: &mut W, src: *const VkDepthBi
 pub unsafe fn fix_VkDepthBiasInfoEXT<W: Sink>(w: &mut W, at: i64, src: *const VkDepthBiasInfoEXT) {
     let next = enc_chain(w, (*src).pNext);
     w.put(at + offset_of!(VkDepthBiasInfoEXT, pNext) as i64, next);
+}
+
+#[inline]
+pub unsafe fn enc_VkVideoProfileInfoKHR<W: Sink>(w: &mut W, src: *const VkVideoProfileInfoKHR) -> i64 {
+    let at = w.alloc(size_of::<VkVideoProfileInfoKHR>());
+    w.copy(at, src.cast(), size_of::<VkVideoProfileInfoKHR>());
+    fix_VkVideoProfileInfoKHR(w, at, src);
+    at
+}
+
+pub unsafe fn enc_n_VkVideoProfileInfoKHR<W: Sink>(w: &mut W, src: *const VkVideoProfileInfoKHR, n: usize) -> i64 {
+    let at = w.alloc(size_of::<VkVideoProfileInfoKHR>() * n);
+    w.copy(at, src.cast(), size_of::<VkVideoProfileInfoKHR>() * n);
+    for i in 0..n {
+        fix_VkVideoProfileInfoKHR(w, at + (i * size_of::<VkVideoProfileInfoKHR>()) as i64, src.add(i));
+    }
+    at
+}
+
+pub unsafe fn fix_VkVideoProfileInfoKHR<W: Sink>(w: &mut W, at: i64, src: *const VkVideoProfileInfoKHR) {
+    let next = enc_chain(w, (*src).pNext);
+    w.put(at + offset_of!(VkVideoProfileInfoKHR, pNext) as i64, next);
+}
+
+#[inline]
+pub unsafe fn enc_VkVideoCapabilitiesKHR<W: Sink>(w: &mut W, src: *const VkVideoCapabilitiesKHR) -> i64 {
+    let at = w.alloc(size_of::<VkVideoCapabilitiesKHR>());
+    w.copy(at, src.cast(), size_of::<VkVideoCapabilitiesKHR>());
+    fix_VkVideoCapabilitiesKHR(w, at, src);
+    at
+}
+
+pub unsafe fn enc_n_VkVideoCapabilitiesKHR<W: Sink>(w: &mut W, src: *const VkVideoCapabilitiesKHR, n: usize) -> i64 {
+    let at = w.alloc(size_of::<VkVideoCapabilitiesKHR>() * n);
+    w.copy(at, src.cast(), size_of::<VkVideoCapabilitiesKHR>() * n);
+    for i in 0..n {
+        fix_VkVideoCapabilitiesKHR(w, at + (i * size_of::<VkVideoCapabilitiesKHR>()) as i64, src.add(i));
+    }
+    at
+}
+
+pub unsafe fn fix_VkVideoCapabilitiesKHR<W: Sink>(w: &mut W, at: i64, src: *const VkVideoCapabilitiesKHR) {
+    let next = enc_chain(w, (*src).pNext);
+    w.put(at + offset_of!(VkVideoCapabilitiesKHR, pNext) as i64, next);
+}
+
+#[inline]
+pub unsafe fn enc_VkPhysicalDeviceVideoFormatInfoKHR<W: Sink>(w: &mut W, src: *const VkPhysicalDeviceVideoFormatInfoKHR) -> i64 {
+    let at = w.alloc(size_of::<VkPhysicalDeviceVideoFormatInfoKHR>());
+    w.copy(at, src.cast(), size_of::<VkPhysicalDeviceVideoFormatInfoKHR>());
+    fix_VkPhysicalDeviceVideoFormatInfoKHR(w, at, src);
+    at
+}
+
+pub unsafe fn enc_n_VkPhysicalDeviceVideoFormatInfoKHR<W: Sink>(w: &mut W, src: *const VkPhysicalDeviceVideoFormatInfoKHR, n: usize) -> i64 {
+    let at = w.alloc(size_of::<VkPhysicalDeviceVideoFormatInfoKHR>() * n);
+    w.copy(at, src.cast(), size_of::<VkPhysicalDeviceVideoFormatInfoKHR>() * n);
+    for i in 0..n {
+        fix_VkPhysicalDeviceVideoFormatInfoKHR(w, at + (i * size_of::<VkPhysicalDeviceVideoFormatInfoKHR>()) as i64, src.add(i));
+    }
+    at
+}
+
+pub unsafe fn fix_VkPhysicalDeviceVideoFormatInfoKHR<W: Sink>(w: &mut W, at: i64, src: *const VkPhysicalDeviceVideoFormatInfoKHR) {
+    let next = enc_chain(w, (*src).pNext);
+    w.put(at + offset_of!(VkPhysicalDeviceVideoFormatInfoKHR, pNext) as i64, next);
+}
+
+#[inline]
+pub unsafe fn enc_VkVideoFormatPropertiesKHR<W: Sink>(w: &mut W, src: *const VkVideoFormatPropertiesKHR) -> i64 {
+    let at = w.alloc(size_of::<VkVideoFormatPropertiesKHR>());
+    w.copy(at, src.cast(), size_of::<VkVideoFormatPropertiesKHR>());
+    fix_VkVideoFormatPropertiesKHR(w, at, src);
+    at
+}
+
+pub unsafe fn enc_n_VkVideoFormatPropertiesKHR<W: Sink>(w: &mut W, src: *const VkVideoFormatPropertiesKHR, n: usize) -> i64 {
+    let at = w.alloc(size_of::<VkVideoFormatPropertiesKHR>() * n);
+    w.copy(at, src.cast(), size_of::<VkVideoFormatPropertiesKHR>() * n);
+    for i in 0..n {
+        fix_VkVideoFormatPropertiesKHR(w, at + (i * size_of::<VkVideoFormatPropertiesKHR>()) as i64, src.add(i));
+    }
+    at
+}
+
+pub unsafe fn fix_VkVideoFormatPropertiesKHR<W: Sink>(w: &mut W, at: i64, src: *const VkVideoFormatPropertiesKHR) {
+    let next = enc_chain(w, (*src).pNext);
+    w.put(at + offset_of!(VkVideoFormatPropertiesKHR, pNext) as i64, next);
+}
+
+#[inline]
+pub unsafe fn enc_VkVideoSessionCreateInfoKHR<W: Sink>(w: &mut W, src: *const VkVideoSessionCreateInfoKHR) -> i64 {
+    let at = w.alloc(size_of::<VkVideoSessionCreateInfoKHR>());
+    w.copy(at, src.cast(), size_of::<VkVideoSessionCreateInfoKHR>());
+    fix_VkVideoSessionCreateInfoKHR(w, at, src);
+    at
+}
+
+pub unsafe fn enc_n_VkVideoSessionCreateInfoKHR<W: Sink>(w: &mut W, src: *const VkVideoSessionCreateInfoKHR, n: usize) -> i64 {
+    let at = w.alloc(size_of::<VkVideoSessionCreateInfoKHR>() * n);
+    w.copy(at, src.cast(), size_of::<VkVideoSessionCreateInfoKHR>() * n);
+    for i in 0..n {
+        fix_VkVideoSessionCreateInfoKHR(w, at + (i * size_of::<VkVideoSessionCreateInfoKHR>()) as i64, src.add(i));
+    }
+    at
+}
+
+pub unsafe fn fix_VkVideoSessionCreateInfoKHR<W: Sink>(w: &mut W, at: i64, src: *const VkVideoSessionCreateInfoKHR) {
+    let next = enc_chain(w, (*src).pNext);
+    w.put(at + offset_of!(VkVideoSessionCreateInfoKHR, pNext) as i64, next);
+    let data = if (*src).pVideoProfile.is_null() { 0 } else { enc_VkVideoProfileInfoKHR(w, (*src).pVideoProfile) };
+    w.put(at + offset_of!(VkVideoSessionCreateInfoKHR, pVideoProfile) as i64, data);
+    let data = if (*src).pStdHeaderVersion.is_null() { 0 } else { rt::enc_pod::<VkExtensionProperties, W>(w, (*src).pStdHeaderVersion, 1) };
+    w.put(at + offset_of!(VkVideoSessionCreateInfoKHR, pStdHeaderVersion) as i64, data);
+}
+
+#[inline]
+pub unsafe fn enc_VkVideoSessionMemoryRequirementsKHR<W: Sink>(w: &mut W, src: *const VkVideoSessionMemoryRequirementsKHR) -> i64 {
+    let at = w.alloc(size_of::<VkVideoSessionMemoryRequirementsKHR>());
+    w.copy(at, src.cast(), size_of::<VkVideoSessionMemoryRequirementsKHR>());
+    fix_VkVideoSessionMemoryRequirementsKHR(w, at, src);
+    at
+}
+
+pub unsafe fn enc_n_VkVideoSessionMemoryRequirementsKHR<W: Sink>(w: &mut W, src: *const VkVideoSessionMemoryRequirementsKHR, n: usize) -> i64 {
+    let at = w.alloc(size_of::<VkVideoSessionMemoryRequirementsKHR>() * n);
+    w.copy(at, src.cast(), size_of::<VkVideoSessionMemoryRequirementsKHR>() * n);
+    for i in 0..n {
+        fix_VkVideoSessionMemoryRequirementsKHR(w, at + (i * size_of::<VkVideoSessionMemoryRequirementsKHR>()) as i64, src.add(i));
+    }
+    at
+}
+
+pub unsafe fn fix_VkVideoSessionMemoryRequirementsKHR<W: Sink>(w: &mut W, at: i64, src: *const VkVideoSessionMemoryRequirementsKHR) {
+    let next = enc_chain(w, (*src).pNext);
+    w.put(at + offset_of!(VkVideoSessionMemoryRequirementsKHR, pNext) as i64, next);
+}
+
+#[inline]
+pub unsafe fn enc_VkBindVideoSessionMemoryInfoKHR<W: Sink>(w: &mut W, src: *const VkBindVideoSessionMemoryInfoKHR) -> i64 {
+    let at = w.alloc(size_of::<VkBindVideoSessionMemoryInfoKHR>());
+    w.copy(at, src.cast(), size_of::<VkBindVideoSessionMemoryInfoKHR>());
+    fix_VkBindVideoSessionMemoryInfoKHR(w, at, src);
+    at
+}
+
+pub unsafe fn enc_n_VkBindVideoSessionMemoryInfoKHR<W: Sink>(w: &mut W, src: *const VkBindVideoSessionMemoryInfoKHR, n: usize) -> i64 {
+    let at = w.alloc(size_of::<VkBindVideoSessionMemoryInfoKHR>() * n);
+    w.copy(at, src.cast(), size_of::<VkBindVideoSessionMemoryInfoKHR>() * n);
+    for i in 0..n {
+        fix_VkBindVideoSessionMemoryInfoKHR(w, at + (i * size_of::<VkBindVideoSessionMemoryInfoKHR>()) as i64, src.add(i));
+    }
+    at
+}
+
+pub unsafe fn fix_VkBindVideoSessionMemoryInfoKHR<W: Sink>(w: &mut W, at: i64, src: *const VkBindVideoSessionMemoryInfoKHR) {
+    let next = enc_chain(w, (*src).pNext);
+    w.put(at + offset_of!(VkBindVideoSessionMemoryInfoKHR, pNext) as i64, next);
+}
+
+#[inline]
+pub unsafe fn enc_VkVideoSessionParametersCreateInfoKHR<W: Sink>(w: &mut W, src: *const VkVideoSessionParametersCreateInfoKHR) -> i64 {
+    let at = w.alloc(size_of::<VkVideoSessionParametersCreateInfoKHR>());
+    w.copy(at, src.cast(), size_of::<VkVideoSessionParametersCreateInfoKHR>());
+    fix_VkVideoSessionParametersCreateInfoKHR(w, at, src);
+    at
+}
+
+pub unsafe fn enc_n_VkVideoSessionParametersCreateInfoKHR<W: Sink>(w: &mut W, src: *const VkVideoSessionParametersCreateInfoKHR, n: usize) -> i64 {
+    let at = w.alloc(size_of::<VkVideoSessionParametersCreateInfoKHR>() * n);
+    w.copy(at, src.cast(), size_of::<VkVideoSessionParametersCreateInfoKHR>() * n);
+    for i in 0..n {
+        fix_VkVideoSessionParametersCreateInfoKHR(w, at + (i * size_of::<VkVideoSessionParametersCreateInfoKHR>()) as i64, src.add(i));
+    }
+    at
+}
+
+pub unsafe fn fix_VkVideoSessionParametersCreateInfoKHR<W: Sink>(w: &mut W, at: i64, src: *const VkVideoSessionParametersCreateInfoKHR) {
+    let next = enc_chain(w, (*src).pNext);
+    w.put(at + offset_of!(VkVideoSessionParametersCreateInfoKHR, pNext) as i64, next);
+}
+
+#[inline]
+pub unsafe fn enc_VkVideoSessionParametersUpdateInfoKHR<W: Sink>(w: &mut W, src: *const VkVideoSessionParametersUpdateInfoKHR) -> i64 {
+    let at = w.alloc(size_of::<VkVideoSessionParametersUpdateInfoKHR>());
+    w.copy(at, src.cast(), size_of::<VkVideoSessionParametersUpdateInfoKHR>());
+    fix_VkVideoSessionParametersUpdateInfoKHR(w, at, src);
+    at
+}
+
+pub unsafe fn enc_n_VkVideoSessionParametersUpdateInfoKHR<W: Sink>(w: &mut W, src: *const VkVideoSessionParametersUpdateInfoKHR, n: usize) -> i64 {
+    let at = w.alloc(size_of::<VkVideoSessionParametersUpdateInfoKHR>() * n);
+    w.copy(at, src.cast(), size_of::<VkVideoSessionParametersUpdateInfoKHR>() * n);
+    for i in 0..n {
+        fix_VkVideoSessionParametersUpdateInfoKHR(w, at + (i * size_of::<VkVideoSessionParametersUpdateInfoKHR>()) as i64, src.add(i));
+    }
+    at
+}
+
+pub unsafe fn fix_VkVideoSessionParametersUpdateInfoKHR<W: Sink>(w: &mut W, at: i64, src: *const VkVideoSessionParametersUpdateInfoKHR) {
+    let next = enc_chain(w, (*src).pNext);
+    w.put(at + offset_of!(VkVideoSessionParametersUpdateInfoKHR, pNext) as i64, next);
+}
+
+#[inline]
+pub unsafe fn enc_VkVideoPictureResourceInfoKHR<W: Sink>(w: &mut W, src: *const VkVideoPictureResourceInfoKHR) -> i64 {
+    let at = w.alloc(size_of::<VkVideoPictureResourceInfoKHR>());
+    w.copy(at, src.cast(), size_of::<VkVideoPictureResourceInfoKHR>());
+    fix_VkVideoPictureResourceInfoKHR(w, at, src);
+    at
+}
+
+pub unsafe fn enc_n_VkVideoPictureResourceInfoKHR<W: Sink>(w: &mut W, src: *const VkVideoPictureResourceInfoKHR, n: usize) -> i64 {
+    let at = w.alloc(size_of::<VkVideoPictureResourceInfoKHR>() * n);
+    w.copy(at, src.cast(), size_of::<VkVideoPictureResourceInfoKHR>() * n);
+    for i in 0..n {
+        fix_VkVideoPictureResourceInfoKHR(w, at + (i * size_of::<VkVideoPictureResourceInfoKHR>()) as i64, src.add(i));
+    }
+    at
+}
+
+pub unsafe fn fix_VkVideoPictureResourceInfoKHR<W: Sink>(w: &mut W, at: i64, src: *const VkVideoPictureResourceInfoKHR) {
+    let next = enc_chain(w, (*src).pNext);
+    w.put(at + offset_of!(VkVideoPictureResourceInfoKHR, pNext) as i64, next);
+}
+
+#[inline]
+pub unsafe fn enc_VkVideoReferenceSlotInfoKHR<W: Sink>(w: &mut W, src: *const VkVideoReferenceSlotInfoKHR) -> i64 {
+    let at = w.alloc(size_of::<VkVideoReferenceSlotInfoKHR>());
+    w.copy(at, src.cast(), size_of::<VkVideoReferenceSlotInfoKHR>());
+    fix_VkVideoReferenceSlotInfoKHR(w, at, src);
+    at
+}
+
+pub unsafe fn enc_n_VkVideoReferenceSlotInfoKHR<W: Sink>(w: &mut W, src: *const VkVideoReferenceSlotInfoKHR, n: usize) -> i64 {
+    let at = w.alloc(size_of::<VkVideoReferenceSlotInfoKHR>() * n);
+    w.copy(at, src.cast(), size_of::<VkVideoReferenceSlotInfoKHR>() * n);
+    for i in 0..n {
+        fix_VkVideoReferenceSlotInfoKHR(w, at + (i * size_of::<VkVideoReferenceSlotInfoKHR>()) as i64, src.add(i));
+    }
+    at
+}
+
+pub unsafe fn fix_VkVideoReferenceSlotInfoKHR<W: Sink>(w: &mut W, at: i64, src: *const VkVideoReferenceSlotInfoKHR) {
+    let next = enc_chain(w, (*src).pNext);
+    w.put(at + offset_of!(VkVideoReferenceSlotInfoKHR, pNext) as i64, next);
+    let data = if (*src).pPictureResource.is_null() { 0 } else { enc_VkVideoPictureResourceInfoKHR(w, (*src).pPictureResource) };
+    w.put(at + offset_of!(VkVideoReferenceSlotInfoKHR, pPictureResource) as i64, data);
+}
+
+#[inline]
+pub unsafe fn enc_VkVideoBeginCodingInfoKHR<W: Sink>(w: &mut W, src: *const VkVideoBeginCodingInfoKHR) -> i64 {
+    let at = w.alloc(size_of::<VkVideoBeginCodingInfoKHR>());
+    w.copy(at, src.cast(), size_of::<VkVideoBeginCodingInfoKHR>());
+    fix_VkVideoBeginCodingInfoKHR(w, at, src);
+    at
+}
+
+pub unsafe fn enc_n_VkVideoBeginCodingInfoKHR<W: Sink>(w: &mut W, src: *const VkVideoBeginCodingInfoKHR, n: usize) -> i64 {
+    let at = w.alloc(size_of::<VkVideoBeginCodingInfoKHR>() * n);
+    w.copy(at, src.cast(), size_of::<VkVideoBeginCodingInfoKHR>() * n);
+    for i in 0..n {
+        fix_VkVideoBeginCodingInfoKHR(w, at + (i * size_of::<VkVideoBeginCodingInfoKHR>()) as i64, src.add(i));
+    }
+    at
+}
+
+pub unsafe fn fix_VkVideoBeginCodingInfoKHR<W: Sink>(w: &mut W, at: i64, src: *const VkVideoBeginCodingInfoKHR) {
+    let next = enc_chain(w, (*src).pNext);
+    w.put(at + offset_of!(VkVideoBeginCodingInfoKHR, pNext) as i64, next);
+    let data = if (*src).pReferenceSlots.is_null() { 0 } else { enc_n_VkVideoReferenceSlotInfoKHR(w, (*src).pReferenceSlots, (*src).referenceSlotCount as usize) };
+    w.put(at + offset_of!(VkVideoBeginCodingInfoKHR, pReferenceSlots) as i64, data);
+}
+
+#[inline]
+pub unsafe fn enc_VkVideoEndCodingInfoKHR<W: Sink>(w: &mut W, src: *const VkVideoEndCodingInfoKHR) -> i64 {
+    let at = w.alloc(size_of::<VkVideoEndCodingInfoKHR>());
+    w.copy(at, src.cast(), size_of::<VkVideoEndCodingInfoKHR>());
+    fix_VkVideoEndCodingInfoKHR(w, at, src);
+    at
+}
+
+pub unsafe fn enc_n_VkVideoEndCodingInfoKHR<W: Sink>(w: &mut W, src: *const VkVideoEndCodingInfoKHR, n: usize) -> i64 {
+    let at = w.alloc(size_of::<VkVideoEndCodingInfoKHR>() * n);
+    w.copy(at, src.cast(), size_of::<VkVideoEndCodingInfoKHR>() * n);
+    for i in 0..n {
+        fix_VkVideoEndCodingInfoKHR(w, at + (i * size_of::<VkVideoEndCodingInfoKHR>()) as i64, src.add(i));
+    }
+    at
+}
+
+pub unsafe fn fix_VkVideoEndCodingInfoKHR<W: Sink>(w: &mut W, at: i64, src: *const VkVideoEndCodingInfoKHR) {
+    let next = enc_chain(w, (*src).pNext);
+    w.put(at + offset_of!(VkVideoEndCodingInfoKHR, pNext) as i64, next);
+}
+
+#[inline]
+pub unsafe fn enc_VkVideoCodingControlInfoKHR<W: Sink>(w: &mut W, src: *const VkVideoCodingControlInfoKHR) -> i64 {
+    let at = w.alloc(size_of::<VkVideoCodingControlInfoKHR>());
+    w.copy(at, src.cast(), size_of::<VkVideoCodingControlInfoKHR>());
+    fix_VkVideoCodingControlInfoKHR(w, at, src);
+    at
+}
+
+pub unsafe fn enc_n_VkVideoCodingControlInfoKHR<W: Sink>(w: &mut W, src: *const VkVideoCodingControlInfoKHR, n: usize) -> i64 {
+    let at = w.alloc(size_of::<VkVideoCodingControlInfoKHR>() * n);
+    w.copy(at, src.cast(), size_of::<VkVideoCodingControlInfoKHR>() * n);
+    for i in 0..n {
+        fix_VkVideoCodingControlInfoKHR(w, at + (i * size_of::<VkVideoCodingControlInfoKHR>()) as i64, src.add(i));
+    }
+    at
+}
+
+pub unsafe fn fix_VkVideoCodingControlInfoKHR<W: Sink>(w: &mut W, at: i64, src: *const VkVideoCodingControlInfoKHR) {
+    let next = enc_chain(w, (*src).pNext);
+    w.put(at + offset_of!(VkVideoCodingControlInfoKHR, pNext) as i64, next);
+}
+
+#[inline]
+pub unsafe fn enc_VkVideoDecodeInfoKHR<W: Sink>(w: &mut W, src: *const VkVideoDecodeInfoKHR) -> i64 {
+    let at = w.alloc(size_of::<VkVideoDecodeInfoKHR>());
+    w.copy(at, src.cast(), size_of::<VkVideoDecodeInfoKHR>());
+    fix_VkVideoDecodeInfoKHR(w, at, src);
+    at
+}
+
+pub unsafe fn enc_n_VkVideoDecodeInfoKHR<W: Sink>(w: &mut W, src: *const VkVideoDecodeInfoKHR, n: usize) -> i64 {
+    let at = w.alloc(size_of::<VkVideoDecodeInfoKHR>() * n);
+    w.copy(at, src.cast(), size_of::<VkVideoDecodeInfoKHR>() * n);
+    for i in 0..n {
+        fix_VkVideoDecodeInfoKHR(w, at + (i * size_of::<VkVideoDecodeInfoKHR>()) as i64, src.add(i));
+    }
+    at
+}
+
+pub unsafe fn fix_VkVideoDecodeInfoKHR<W: Sink>(w: &mut W, at: i64, src: *const VkVideoDecodeInfoKHR) {
+    let next = enc_chain(w, (*src).pNext);
+    w.put(at + offset_of!(VkVideoDecodeInfoKHR, pNext) as i64, next);
+    fix_VkVideoPictureResourceInfoKHR(w, at + offset_of!(VkVideoDecodeInfoKHR, dstPictureResource) as i64, &raw const (*src).dstPictureResource);
+    let data = if (*src).pSetupReferenceSlot.is_null() { 0 } else { enc_VkVideoReferenceSlotInfoKHR(w, (*src).pSetupReferenceSlot) };
+    w.put(at + offset_of!(VkVideoDecodeInfoKHR, pSetupReferenceSlot) as i64, data);
+    let data = if (*src).pReferenceSlots.is_null() { 0 } else { enc_n_VkVideoReferenceSlotInfoKHR(w, (*src).pReferenceSlots, (*src).referenceSlotCount as usize) };
+    w.put(at + offset_of!(VkVideoDecodeInfoKHR, pReferenceSlots) as i64, data);
 }
 
 #[inline]
@@ -7892,6 +8233,72 @@ pub unsafe fn fix_VkPhysicalDeviceVertexInputDynamicStateFeaturesEXT<W: Sink>(w:
 }
 
 #[inline]
+pub unsafe fn enc_VkPhysicalDeviceVideoDecodeVP9FeaturesKHR<W: Sink>(w: &mut W, src: *const VkPhysicalDeviceVideoDecodeVP9FeaturesKHR) -> i64 {
+    let at = w.alloc(size_of::<VkPhysicalDeviceVideoDecodeVP9FeaturesKHR>());
+    w.copy(at, src.cast(), size_of::<VkPhysicalDeviceVideoDecodeVP9FeaturesKHR>());
+    fix_VkPhysicalDeviceVideoDecodeVP9FeaturesKHR(w, at, src);
+    at
+}
+
+pub unsafe fn enc_n_VkPhysicalDeviceVideoDecodeVP9FeaturesKHR<W: Sink>(w: &mut W, src: *const VkPhysicalDeviceVideoDecodeVP9FeaturesKHR, n: usize) -> i64 {
+    let at = w.alloc(size_of::<VkPhysicalDeviceVideoDecodeVP9FeaturesKHR>() * n);
+    w.copy(at, src.cast(), size_of::<VkPhysicalDeviceVideoDecodeVP9FeaturesKHR>() * n);
+    for i in 0..n {
+        fix_VkPhysicalDeviceVideoDecodeVP9FeaturesKHR(w, at + (i * size_of::<VkPhysicalDeviceVideoDecodeVP9FeaturesKHR>()) as i64, src.add(i));
+    }
+    at
+}
+
+pub unsafe fn fix_VkPhysicalDeviceVideoDecodeVP9FeaturesKHR<W: Sink>(w: &mut W, at: i64, src: *const VkPhysicalDeviceVideoDecodeVP9FeaturesKHR) {
+    let next = enc_chain(w, (*src).pNext);
+    w.put(at + offset_of!(VkPhysicalDeviceVideoDecodeVP9FeaturesKHR, pNext) as i64, next);
+}
+
+#[inline]
+pub unsafe fn enc_VkPhysicalDeviceVideoMaintenance1FeaturesKHR<W: Sink>(w: &mut W, src: *const VkPhysicalDeviceVideoMaintenance1FeaturesKHR) -> i64 {
+    let at = w.alloc(size_of::<VkPhysicalDeviceVideoMaintenance1FeaturesKHR>());
+    w.copy(at, src.cast(), size_of::<VkPhysicalDeviceVideoMaintenance1FeaturesKHR>());
+    fix_VkPhysicalDeviceVideoMaintenance1FeaturesKHR(w, at, src);
+    at
+}
+
+pub unsafe fn enc_n_VkPhysicalDeviceVideoMaintenance1FeaturesKHR<W: Sink>(w: &mut W, src: *const VkPhysicalDeviceVideoMaintenance1FeaturesKHR, n: usize) -> i64 {
+    let at = w.alloc(size_of::<VkPhysicalDeviceVideoMaintenance1FeaturesKHR>() * n);
+    w.copy(at, src.cast(), size_of::<VkPhysicalDeviceVideoMaintenance1FeaturesKHR>() * n);
+    for i in 0..n {
+        fix_VkPhysicalDeviceVideoMaintenance1FeaturesKHR(w, at + (i * size_of::<VkPhysicalDeviceVideoMaintenance1FeaturesKHR>()) as i64, src.add(i));
+    }
+    at
+}
+
+pub unsafe fn fix_VkPhysicalDeviceVideoMaintenance1FeaturesKHR<W: Sink>(w: &mut W, at: i64, src: *const VkPhysicalDeviceVideoMaintenance1FeaturesKHR) {
+    let next = enc_chain(w, (*src).pNext);
+    w.put(at + offset_of!(VkPhysicalDeviceVideoMaintenance1FeaturesKHR, pNext) as i64, next);
+}
+
+#[inline]
+pub unsafe fn enc_VkPhysicalDeviceVideoMaintenance2FeaturesKHR<W: Sink>(w: &mut W, src: *const VkPhysicalDeviceVideoMaintenance2FeaturesKHR) -> i64 {
+    let at = w.alloc(size_of::<VkPhysicalDeviceVideoMaintenance2FeaturesKHR>());
+    w.copy(at, src.cast(), size_of::<VkPhysicalDeviceVideoMaintenance2FeaturesKHR>());
+    fix_VkPhysicalDeviceVideoMaintenance2FeaturesKHR(w, at, src);
+    at
+}
+
+pub unsafe fn enc_n_VkPhysicalDeviceVideoMaintenance2FeaturesKHR<W: Sink>(w: &mut W, src: *const VkPhysicalDeviceVideoMaintenance2FeaturesKHR, n: usize) -> i64 {
+    let at = w.alloc(size_of::<VkPhysicalDeviceVideoMaintenance2FeaturesKHR>() * n);
+    w.copy(at, src.cast(), size_of::<VkPhysicalDeviceVideoMaintenance2FeaturesKHR>() * n);
+    for i in 0..n {
+        fix_VkPhysicalDeviceVideoMaintenance2FeaturesKHR(w, at + (i * size_of::<VkPhysicalDeviceVideoMaintenance2FeaturesKHR>()) as i64, src.add(i));
+    }
+    at
+}
+
+pub unsafe fn fix_VkPhysicalDeviceVideoMaintenance2FeaturesKHR<W: Sink>(w: &mut W, at: i64, src: *const VkPhysicalDeviceVideoMaintenance2FeaturesKHR) {
+    let next = enc_chain(w, (*src).pNext);
+    w.put(at + offset_of!(VkPhysicalDeviceVideoMaintenance2FeaturesKHR, pNext) as i64, next);
+}
+
+#[inline]
 pub unsafe fn enc_VkPhysicalDeviceVulkanMemoryModelFeatures<W: Sink>(w: &mut W, src: *const VkPhysicalDeviceVulkanMemoryModelFeatures) -> i64 {
     let at = w.alloc(size_of::<VkPhysicalDeviceVulkanMemoryModelFeatures>());
     w.copy(at, src.cast(), size_of::<VkPhysicalDeviceVulkanMemoryModelFeatures>());
@@ -8226,6 +8633,30 @@ pub unsafe fn fix_VkPhysicalDeviceImageViewImageFormatInfoEXT<W: Sink>(w: &mut W
 }
 
 #[inline]
+pub unsafe fn enc_VkVideoProfileListInfoKHR<W: Sink>(w: &mut W, src: *const VkVideoProfileListInfoKHR) -> i64 {
+    let at = w.alloc(size_of::<VkVideoProfileListInfoKHR>());
+    w.copy(at, src.cast(), size_of::<VkVideoProfileListInfoKHR>());
+    fix_VkVideoProfileListInfoKHR(w, at, src);
+    at
+}
+
+pub unsafe fn enc_n_VkVideoProfileListInfoKHR<W: Sink>(w: &mut W, src: *const VkVideoProfileListInfoKHR, n: usize) -> i64 {
+    let at = w.alloc(size_of::<VkVideoProfileListInfoKHR>() * n);
+    w.copy(at, src.cast(), size_of::<VkVideoProfileListInfoKHR>() * n);
+    for i in 0..n {
+        fix_VkVideoProfileListInfoKHR(w, at + (i * size_of::<VkVideoProfileListInfoKHR>()) as i64, src.add(i));
+    }
+    at
+}
+
+pub unsafe fn fix_VkVideoProfileListInfoKHR<W: Sink>(w: &mut W, at: i64, src: *const VkVideoProfileListInfoKHR) {
+    let next = enc_chain(w, (*src).pNext);
+    w.put(at + offset_of!(VkVideoProfileListInfoKHR, pNext) as i64, next);
+    let data = if (*src).pProfiles.is_null() { 0 } else { enc_n_VkVideoProfileInfoKHR(w, (*src).pProfiles, (*src).profileCount as usize) };
+    w.put(at + offset_of!(VkVideoProfileListInfoKHR, pProfiles) as i64, data);
+}
+
+#[inline]
 pub unsafe fn enc_VkExternalImageFormatProperties<W: Sink>(w: &mut W, src: *const VkExternalImageFormatProperties) -> i64 {
     let at = w.alloc(size_of::<VkExternalImageFormatProperties>());
     w.copy(at, src.cast(), size_of::<VkExternalImageFormatProperties>());
@@ -8333,6 +8764,50 @@ pub unsafe fn enc_n_VkQueueFamilyOwnershipTransferPropertiesKHR<W: Sink>(w: &mut
 pub unsafe fn fix_VkQueueFamilyOwnershipTransferPropertiesKHR<W: Sink>(w: &mut W, at: i64, src: *const VkQueueFamilyOwnershipTransferPropertiesKHR) {
     let next = enc_chain(w, (*src).pNext);
     w.put(at + offset_of!(VkQueueFamilyOwnershipTransferPropertiesKHR, pNext) as i64, next);
+}
+
+#[inline]
+pub unsafe fn enc_VkQueueFamilyQueryResultStatusPropertiesKHR<W: Sink>(w: &mut W, src: *const VkQueueFamilyQueryResultStatusPropertiesKHR) -> i64 {
+    let at = w.alloc(size_of::<VkQueueFamilyQueryResultStatusPropertiesKHR>());
+    w.copy(at, src.cast(), size_of::<VkQueueFamilyQueryResultStatusPropertiesKHR>());
+    fix_VkQueueFamilyQueryResultStatusPropertiesKHR(w, at, src);
+    at
+}
+
+pub unsafe fn enc_n_VkQueueFamilyQueryResultStatusPropertiesKHR<W: Sink>(w: &mut W, src: *const VkQueueFamilyQueryResultStatusPropertiesKHR, n: usize) -> i64 {
+    let at = w.alloc(size_of::<VkQueueFamilyQueryResultStatusPropertiesKHR>() * n);
+    w.copy(at, src.cast(), size_of::<VkQueueFamilyQueryResultStatusPropertiesKHR>() * n);
+    for i in 0..n {
+        fix_VkQueueFamilyQueryResultStatusPropertiesKHR(w, at + (i * size_of::<VkQueueFamilyQueryResultStatusPropertiesKHR>()) as i64, src.add(i));
+    }
+    at
+}
+
+pub unsafe fn fix_VkQueueFamilyQueryResultStatusPropertiesKHR<W: Sink>(w: &mut W, at: i64, src: *const VkQueueFamilyQueryResultStatusPropertiesKHR) {
+    let next = enc_chain(w, (*src).pNext);
+    w.put(at + offset_of!(VkQueueFamilyQueryResultStatusPropertiesKHR, pNext) as i64, next);
+}
+
+#[inline]
+pub unsafe fn enc_VkQueueFamilyVideoPropertiesKHR<W: Sink>(w: &mut W, src: *const VkQueueFamilyVideoPropertiesKHR) -> i64 {
+    let at = w.alloc(size_of::<VkQueueFamilyVideoPropertiesKHR>());
+    w.copy(at, src.cast(), size_of::<VkQueueFamilyVideoPropertiesKHR>());
+    fix_VkQueueFamilyVideoPropertiesKHR(w, at, src);
+    at
+}
+
+pub unsafe fn enc_n_VkQueueFamilyVideoPropertiesKHR<W: Sink>(w: &mut W, src: *const VkQueueFamilyVideoPropertiesKHR, n: usize) -> i64 {
+    let at = w.alloc(size_of::<VkQueueFamilyVideoPropertiesKHR>() * n);
+    w.copy(at, src.cast(), size_of::<VkQueueFamilyVideoPropertiesKHR>() * n);
+    for i in 0..n {
+        fix_VkQueueFamilyVideoPropertiesKHR(w, at + (i * size_of::<VkQueueFamilyVideoPropertiesKHR>()) as i64, src.add(i));
+    }
+    at
+}
+
+pub unsafe fn fix_VkQueueFamilyVideoPropertiesKHR<W: Sink>(w: &mut W, at: i64, src: *const VkQueueFamilyVideoPropertiesKHR) {
+    let next = enc_chain(w, (*src).pNext);
+    w.put(at + offset_of!(VkQueueFamilyVideoPropertiesKHR, pNext) as i64, next);
 }
 
 #[inline]
@@ -10193,6 +10668,116 @@ pub unsafe fn fix_VkDescriptorSetVariableDescriptorCountLayoutSupport<W: Sink>(w
 }
 
 #[inline]
+pub unsafe fn enc_VkVideoDecodeAV1ProfileInfoKHR<W: Sink>(w: &mut W, src: *const VkVideoDecodeAV1ProfileInfoKHR) -> i64 {
+    let at = w.alloc(size_of::<VkVideoDecodeAV1ProfileInfoKHR>());
+    w.copy(at, src.cast(), size_of::<VkVideoDecodeAV1ProfileInfoKHR>());
+    fix_VkVideoDecodeAV1ProfileInfoKHR(w, at, src);
+    at
+}
+
+pub unsafe fn enc_n_VkVideoDecodeAV1ProfileInfoKHR<W: Sink>(w: &mut W, src: *const VkVideoDecodeAV1ProfileInfoKHR, n: usize) -> i64 {
+    let at = w.alloc(size_of::<VkVideoDecodeAV1ProfileInfoKHR>() * n);
+    w.copy(at, src.cast(), size_of::<VkVideoDecodeAV1ProfileInfoKHR>() * n);
+    for i in 0..n {
+        fix_VkVideoDecodeAV1ProfileInfoKHR(w, at + (i * size_of::<VkVideoDecodeAV1ProfileInfoKHR>()) as i64, src.add(i));
+    }
+    at
+}
+
+pub unsafe fn fix_VkVideoDecodeAV1ProfileInfoKHR<W: Sink>(w: &mut W, at: i64, src: *const VkVideoDecodeAV1ProfileInfoKHR) {
+    let next = enc_chain(w, (*src).pNext);
+    w.put(at + offset_of!(VkVideoDecodeAV1ProfileInfoKHR, pNext) as i64, next);
+}
+
+#[inline]
+pub unsafe fn enc_VkVideoDecodeH264ProfileInfoKHR<W: Sink>(w: &mut W, src: *const VkVideoDecodeH264ProfileInfoKHR) -> i64 {
+    let at = w.alloc(size_of::<VkVideoDecodeH264ProfileInfoKHR>());
+    w.copy(at, src.cast(), size_of::<VkVideoDecodeH264ProfileInfoKHR>());
+    fix_VkVideoDecodeH264ProfileInfoKHR(w, at, src);
+    at
+}
+
+pub unsafe fn enc_n_VkVideoDecodeH264ProfileInfoKHR<W: Sink>(w: &mut W, src: *const VkVideoDecodeH264ProfileInfoKHR, n: usize) -> i64 {
+    let at = w.alloc(size_of::<VkVideoDecodeH264ProfileInfoKHR>() * n);
+    w.copy(at, src.cast(), size_of::<VkVideoDecodeH264ProfileInfoKHR>() * n);
+    for i in 0..n {
+        fix_VkVideoDecodeH264ProfileInfoKHR(w, at + (i * size_of::<VkVideoDecodeH264ProfileInfoKHR>()) as i64, src.add(i));
+    }
+    at
+}
+
+pub unsafe fn fix_VkVideoDecodeH264ProfileInfoKHR<W: Sink>(w: &mut W, at: i64, src: *const VkVideoDecodeH264ProfileInfoKHR) {
+    let next = enc_chain(w, (*src).pNext);
+    w.put(at + offset_of!(VkVideoDecodeH264ProfileInfoKHR, pNext) as i64, next);
+}
+
+#[inline]
+pub unsafe fn enc_VkVideoDecodeH265ProfileInfoKHR<W: Sink>(w: &mut W, src: *const VkVideoDecodeH265ProfileInfoKHR) -> i64 {
+    let at = w.alloc(size_of::<VkVideoDecodeH265ProfileInfoKHR>());
+    w.copy(at, src.cast(), size_of::<VkVideoDecodeH265ProfileInfoKHR>());
+    fix_VkVideoDecodeH265ProfileInfoKHR(w, at, src);
+    at
+}
+
+pub unsafe fn enc_n_VkVideoDecodeH265ProfileInfoKHR<W: Sink>(w: &mut W, src: *const VkVideoDecodeH265ProfileInfoKHR, n: usize) -> i64 {
+    let at = w.alloc(size_of::<VkVideoDecodeH265ProfileInfoKHR>() * n);
+    w.copy(at, src.cast(), size_of::<VkVideoDecodeH265ProfileInfoKHR>() * n);
+    for i in 0..n {
+        fix_VkVideoDecodeH265ProfileInfoKHR(w, at + (i * size_of::<VkVideoDecodeH265ProfileInfoKHR>()) as i64, src.add(i));
+    }
+    at
+}
+
+pub unsafe fn fix_VkVideoDecodeH265ProfileInfoKHR<W: Sink>(w: &mut W, at: i64, src: *const VkVideoDecodeH265ProfileInfoKHR) {
+    let next = enc_chain(w, (*src).pNext);
+    w.put(at + offset_of!(VkVideoDecodeH265ProfileInfoKHR, pNext) as i64, next);
+}
+
+#[inline]
+pub unsafe fn enc_VkVideoDecodeUsageInfoKHR<W: Sink>(w: &mut W, src: *const VkVideoDecodeUsageInfoKHR) -> i64 {
+    let at = w.alloc(size_of::<VkVideoDecodeUsageInfoKHR>());
+    w.copy(at, src.cast(), size_of::<VkVideoDecodeUsageInfoKHR>());
+    fix_VkVideoDecodeUsageInfoKHR(w, at, src);
+    at
+}
+
+pub unsafe fn enc_n_VkVideoDecodeUsageInfoKHR<W: Sink>(w: &mut W, src: *const VkVideoDecodeUsageInfoKHR, n: usize) -> i64 {
+    let at = w.alloc(size_of::<VkVideoDecodeUsageInfoKHR>() * n);
+    w.copy(at, src.cast(), size_of::<VkVideoDecodeUsageInfoKHR>() * n);
+    for i in 0..n {
+        fix_VkVideoDecodeUsageInfoKHR(w, at + (i * size_of::<VkVideoDecodeUsageInfoKHR>()) as i64, src.add(i));
+    }
+    at
+}
+
+pub unsafe fn fix_VkVideoDecodeUsageInfoKHR<W: Sink>(w: &mut W, at: i64, src: *const VkVideoDecodeUsageInfoKHR) {
+    let next = enc_chain(w, (*src).pNext);
+    w.put(at + offset_of!(VkVideoDecodeUsageInfoKHR, pNext) as i64, next);
+}
+
+#[inline]
+pub unsafe fn enc_VkVideoDecodeVP9ProfileInfoKHR<W: Sink>(w: &mut W, src: *const VkVideoDecodeVP9ProfileInfoKHR) -> i64 {
+    let at = w.alloc(size_of::<VkVideoDecodeVP9ProfileInfoKHR>());
+    w.copy(at, src.cast(), size_of::<VkVideoDecodeVP9ProfileInfoKHR>());
+    fix_VkVideoDecodeVP9ProfileInfoKHR(w, at, src);
+    at
+}
+
+pub unsafe fn enc_n_VkVideoDecodeVP9ProfileInfoKHR<W: Sink>(w: &mut W, src: *const VkVideoDecodeVP9ProfileInfoKHR, n: usize) -> i64 {
+    let at = w.alloc(size_of::<VkVideoDecodeVP9ProfileInfoKHR>() * n);
+    w.copy(at, src.cast(), size_of::<VkVideoDecodeVP9ProfileInfoKHR>() * n);
+    for i in 0..n {
+        fix_VkVideoDecodeVP9ProfileInfoKHR(w, at + (i * size_of::<VkVideoDecodeVP9ProfileInfoKHR>()) as i64, src.add(i));
+    }
+    at
+}
+
+pub unsafe fn fix_VkVideoDecodeVP9ProfileInfoKHR<W: Sink>(w: &mut W, at: i64, src: *const VkVideoDecodeVP9ProfileInfoKHR) {
+    let next = enc_chain(w, (*src).pNext);
+    w.put(at + offset_of!(VkVideoDecodeVP9ProfileInfoKHR, pNext) as i64, next);
+}
+
+#[inline]
 pub unsafe fn enc_VkCommandBufferInheritanceRenderPassTransformInfoQCOM<W: Sink>(w: &mut W, src: *const VkCommandBufferInheritanceRenderPassTransformInfoQCOM) -> i64 {
     let at = w.alloc(size_of::<VkCommandBufferInheritanceRenderPassTransformInfoQCOM>());
     w.copy(at, src.cast(), size_of::<VkCommandBufferInheritanceRenderPassTransformInfoQCOM>());
@@ -10535,6 +11120,808 @@ pub unsafe fn fix_VkBlitImageCubicWeightsInfoQCOM<W: Sink>(w: &mut W, at: i64, s
 }
 
 #[inline]
+pub unsafe fn enc_VkVideoDecodeAV1CapabilitiesKHR<W: Sink>(w: &mut W, src: *const VkVideoDecodeAV1CapabilitiesKHR) -> i64 {
+    let at = w.alloc(size_of::<VkVideoDecodeAV1CapabilitiesKHR>());
+    w.copy(at, src.cast(), size_of::<VkVideoDecodeAV1CapabilitiesKHR>());
+    fix_VkVideoDecodeAV1CapabilitiesKHR(w, at, src);
+    at
+}
+
+pub unsafe fn enc_n_VkVideoDecodeAV1CapabilitiesKHR<W: Sink>(w: &mut W, src: *const VkVideoDecodeAV1CapabilitiesKHR, n: usize) -> i64 {
+    let at = w.alloc(size_of::<VkVideoDecodeAV1CapabilitiesKHR>() * n);
+    w.copy(at, src.cast(), size_of::<VkVideoDecodeAV1CapabilitiesKHR>() * n);
+    for i in 0..n {
+        fix_VkVideoDecodeAV1CapabilitiesKHR(w, at + (i * size_of::<VkVideoDecodeAV1CapabilitiesKHR>()) as i64, src.add(i));
+    }
+    at
+}
+
+pub unsafe fn fix_VkVideoDecodeAV1CapabilitiesKHR<W: Sink>(w: &mut W, at: i64, src: *const VkVideoDecodeAV1CapabilitiesKHR) {
+    let next = enc_chain(w, (*src).pNext);
+    w.put(at + offset_of!(VkVideoDecodeAV1CapabilitiesKHR, pNext) as i64, next);
+}
+
+#[inline]
+pub unsafe fn enc_VkVideoDecodeCapabilitiesKHR<W: Sink>(w: &mut W, src: *const VkVideoDecodeCapabilitiesKHR) -> i64 {
+    let at = w.alloc(size_of::<VkVideoDecodeCapabilitiesKHR>());
+    w.copy(at, src.cast(), size_of::<VkVideoDecodeCapabilitiesKHR>());
+    fix_VkVideoDecodeCapabilitiesKHR(w, at, src);
+    at
+}
+
+pub unsafe fn enc_n_VkVideoDecodeCapabilitiesKHR<W: Sink>(w: &mut W, src: *const VkVideoDecodeCapabilitiesKHR, n: usize) -> i64 {
+    let at = w.alloc(size_of::<VkVideoDecodeCapabilitiesKHR>() * n);
+    w.copy(at, src.cast(), size_of::<VkVideoDecodeCapabilitiesKHR>() * n);
+    for i in 0..n {
+        fix_VkVideoDecodeCapabilitiesKHR(w, at + (i * size_of::<VkVideoDecodeCapabilitiesKHR>()) as i64, src.add(i));
+    }
+    at
+}
+
+pub unsafe fn fix_VkVideoDecodeCapabilitiesKHR<W: Sink>(w: &mut W, at: i64, src: *const VkVideoDecodeCapabilitiesKHR) {
+    let next = enc_chain(w, (*src).pNext);
+    w.put(at + offset_of!(VkVideoDecodeCapabilitiesKHR, pNext) as i64, next);
+}
+
+#[inline]
+pub unsafe fn enc_VkVideoDecodeH264CapabilitiesKHR<W: Sink>(w: &mut W, src: *const VkVideoDecodeH264CapabilitiesKHR) -> i64 {
+    let at = w.alloc(size_of::<VkVideoDecodeH264CapabilitiesKHR>());
+    w.copy(at, src.cast(), size_of::<VkVideoDecodeH264CapabilitiesKHR>());
+    fix_VkVideoDecodeH264CapabilitiesKHR(w, at, src);
+    at
+}
+
+pub unsafe fn enc_n_VkVideoDecodeH264CapabilitiesKHR<W: Sink>(w: &mut W, src: *const VkVideoDecodeH264CapabilitiesKHR, n: usize) -> i64 {
+    let at = w.alloc(size_of::<VkVideoDecodeH264CapabilitiesKHR>() * n);
+    w.copy(at, src.cast(), size_of::<VkVideoDecodeH264CapabilitiesKHR>() * n);
+    for i in 0..n {
+        fix_VkVideoDecodeH264CapabilitiesKHR(w, at + (i * size_of::<VkVideoDecodeH264CapabilitiesKHR>()) as i64, src.add(i));
+    }
+    at
+}
+
+pub unsafe fn fix_VkVideoDecodeH264CapabilitiesKHR<W: Sink>(w: &mut W, at: i64, src: *const VkVideoDecodeH264CapabilitiesKHR) {
+    let next = enc_chain(w, (*src).pNext);
+    w.put(at + offset_of!(VkVideoDecodeH264CapabilitiesKHR, pNext) as i64, next);
+}
+
+#[inline]
+pub unsafe fn enc_VkVideoDecodeH265CapabilitiesKHR<W: Sink>(w: &mut W, src: *const VkVideoDecodeH265CapabilitiesKHR) -> i64 {
+    let at = w.alloc(size_of::<VkVideoDecodeH265CapabilitiesKHR>());
+    w.copy(at, src.cast(), size_of::<VkVideoDecodeH265CapabilitiesKHR>());
+    fix_VkVideoDecodeH265CapabilitiesKHR(w, at, src);
+    at
+}
+
+pub unsafe fn enc_n_VkVideoDecodeH265CapabilitiesKHR<W: Sink>(w: &mut W, src: *const VkVideoDecodeH265CapabilitiesKHR, n: usize) -> i64 {
+    let at = w.alloc(size_of::<VkVideoDecodeH265CapabilitiesKHR>() * n);
+    w.copy(at, src.cast(), size_of::<VkVideoDecodeH265CapabilitiesKHR>() * n);
+    for i in 0..n {
+        fix_VkVideoDecodeH265CapabilitiesKHR(w, at + (i * size_of::<VkVideoDecodeH265CapabilitiesKHR>()) as i64, src.add(i));
+    }
+    at
+}
+
+pub unsafe fn fix_VkVideoDecodeH265CapabilitiesKHR<W: Sink>(w: &mut W, at: i64, src: *const VkVideoDecodeH265CapabilitiesKHR) {
+    let next = enc_chain(w, (*src).pNext);
+    w.put(at + offset_of!(VkVideoDecodeH265CapabilitiesKHR, pNext) as i64, next);
+}
+
+#[inline]
+pub unsafe fn enc_VkVideoDecodeVP9CapabilitiesKHR<W: Sink>(w: &mut W, src: *const VkVideoDecodeVP9CapabilitiesKHR) -> i64 {
+    let at = w.alloc(size_of::<VkVideoDecodeVP9CapabilitiesKHR>());
+    w.copy(at, src.cast(), size_of::<VkVideoDecodeVP9CapabilitiesKHR>());
+    fix_VkVideoDecodeVP9CapabilitiesKHR(w, at, src);
+    at
+}
+
+pub unsafe fn enc_n_VkVideoDecodeVP9CapabilitiesKHR<W: Sink>(w: &mut W, src: *const VkVideoDecodeVP9CapabilitiesKHR, n: usize) -> i64 {
+    let at = w.alloc(size_of::<VkVideoDecodeVP9CapabilitiesKHR>() * n);
+    w.copy(at, src.cast(), size_of::<VkVideoDecodeVP9CapabilitiesKHR>() * n);
+    for i in 0..n {
+        fix_VkVideoDecodeVP9CapabilitiesKHR(w, at + (i * size_of::<VkVideoDecodeVP9CapabilitiesKHR>()) as i64, src.add(i));
+    }
+    at
+}
+
+pub unsafe fn fix_VkVideoDecodeVP9CapabilitiesKHR<W: Sink>(w: &mut W, at: i64, src: *const VkVideoDecodeVP9CapabilitiesKHR) {
+    let next = enc_chain(w, (*src).pNext);
+    w.put(at + offset_of!(VkVideoDecodeVP9CapabilitiesKHR, pNext) as i64, next);
+}
+
+#[inline]
+pub unsafe fn enc_StdVideoAV1SequenceHeader<W: Sink>(w: &mut W, src: *const StdVideoAV1SequenceHeader) -> i64 {
+    let at = w.alloc(size_of::<StdVideoAV1SequenceHeader>());
+    w.copy(at, src.cast(), size_of::<StdVideoAV1SequenceHeader>());
+    fix_StdVideoAV1SequenceHeader(w, at, src);
+    at
+}
+
+pub unsafe fn enc_n_StdVideoAV1SequenceHeader<W: Sink>(w: &mut W, src: *const StdVideoAV1SequenceHeader, n: usize) -> i64 {
+    let at = w.alloc(size_of::<StdVideoAV1SequenceHeader>() * n);
+    w.copy(at, src.cast(), size_of::<StdVideoAV1SequenceHeader>() * n);
+    for i in 0..n {
+        fix_StdVideoAV1SequenceHeader(w, at + (i * size_of::<StdVideoAV1SequenceHeader>()) as i64, src.add(i));
+    }
+    at
+}
+
+pub unsafe fn fix_StdVideoAV1SequenceHeader<W: Sink>(w: &mut W, at: i64, src: *const StdVideoAV1SequenceHeader) {
+    let data = if (*src).pColorConfig.is_null() { 0 } else { rt::enc_pod::<StdVideoAV1ColorConfig, W>(w, (*src).pColorConfig, 1) };
+    w.put(at + offset_of!(StdVideoAV1SequenceHeader, pColorConfig) as i64, data);
+    let data = if (*src).pTimingInfo.is_null() { 0 } else { rt::enc_pod::<StdVideoAV1TimingInfo, W>(w, (*src).pTimingInfo, 1) };
+    w.put(at + offset_of!(StdVideoAV1SequenceHeader, pTimingInfo) as i64, data);
+}
+
+#[inline]
+pub unsafe fn enc_VkVideoDecodeAV1SessionParametersCreateInfoKHR<W: Sink>(w: &mut W, src: *const VkVideoDecodeAV1SessionParametersCreateInfoKHR) -> i64 {
+    let at = w.alloc(size_of::<VkVideoDecodeAV1SessionParametersCreateInfoKHR>());
+    w.copy(at, src.cast(), size_of::<VkVideoDecodeAV1SessionParametersCreateInfoKHR>());
+    fix_VkVideoDecodeAV1SessionParametersCreateInfoKHR(w, at, src);
+    at
+}
+
+pub unsafe fn enc_n_VkVideoDecodeAV1SessionParametersCreateInfoKHR<W: Sink>(w: &mut W, src: *const VkVideoDecodeAV1SessionParametersCreateInfoKHR, n: usize) -> i64 {
+    let at = w.alloc(size_of::<VkVideoDecodeAV1SessionParametersCreateInfoKHR>() * n);
+    w.copy(at, src.cast(), size_of::<VkVideoDecodeAV1SessionParametersCreateInfoKHR>() * n);
+    for i in 0..n {
+        fix_VkVideoDecodeAV1SessionParametersCreateInfoKHR(w, at + (i * size_of::<VkVideoDecodeAV1SessionParametersCreateInfoKHR>()) as i64, src.add(i));
+    }
+    at
+}
+
+pub unsafe fn fix_VkVideoDecodeAV1SessionParametersCreateInfoKHR<W: Sink>(w: &mut W, at: i64, src: *const VkVideoDecodeAV1SessionParametersCreateInfoKHR) {
+    let next = enc_chain(w, (*src).pNext);
+    w.put(at + offset_of!(VkVideoDecodeAV1SessionParametersCreateInfoKHR, pNext) as i64, next);
+    let data = if (*src).pStdSequenceHeader.is_null() { 0 } else { enc_StdVideoAV1SequenceHeader(w, (*src).pStdSequenceHeader) };
+    w.put(at + offset_of!(VkVideoDecodeAV1SessionParametersCreateInfoKHR, pStdSequenceHeader) as i64, data);
+}
+
+#[inline]
+pub unsafe fn enc_StdVideoH264SequenceParameterSetVui<W: Sink>(w: &mut W, src: *const StdVideoH264SequenceParameterSetVui) -> i64 {
+    let at = w.alloc(size_of::<StdVideoH264SequenceParameterSetVui>());
+    w.copy(at, src.cast(), size_of::<StdVideoH264SequenceParameterSetVui>());
+    fix_StdVideoH264SequenceParameterSetVui(w, at, src);
+    at
+}
+
+pub unsafe fn enc_n_StdVideoH264SequenceParameterSetVui<W: Sink>(w: &mut W, src: *const StdVideoH264SequenceParameterSetVui, n: usize) -> i64 {
+    let at = w.alloc(size_of::<StdVideoH264SequenceParameterSetVui>() * n);
+    w.copy(at, src.cast(), size_of::<StdVideoH264SequenceParameterSetVui>() * n);
+    for i in 0..n {
+        fix_StdVideoH264SequenceParameterSetVui(w, at + (i * size_of::<StdVideoH264SequenceParameterSetVui>()) as i64, src.add(i));
+    }
+    at
+}
+
+pub unsafe fn fix_StdVideoH264SequenceParameterSetVui<W: Sink>(w: &mut W, at: i64, src: *const StdVideoH264SequenceParameterSetVui) {
+    let data = if (*src).pHrdParameters.is_null() { 0 } else { rt::enc_pod::<StdVideoH264HrdParameters, W>(w, (*src).pHrdParameters, 1) };
+    w.put(at + offset_of!(StdVideoH264SequenceParameterSetVui, pHrdParameters) as i64, data);
+}
+
+#[inline]
+pub unsafe fn enc_StdVideoH264SequenceParameterSet<W: Sink>(w: &mut W, src: *const StdVideoH264SequenceParameterSet) -> i64 {
+    let at = w.alloc(size_of::<StdVideoH264SequenceParameterSet>());
+    w.copy(at, src.cast(), size_of::<StdVideoH264SequenceParameterSet>());
+    fix_StdVideoH264SequenceParameterSet(w, at, src);
+    at
+}
+
+pub unsafe fn enc_n_StdVideoH264SequenceParameterSet<W: Sink>(w: &mut W, src: *const StdVideoH264SequenceParameterSet, n: usize) -> i64 {
+    let at = w.alloc(size_of::<StdVideoH264SequenceParameterSet>() * n);
+    w.copy(at, src.cast(), size_of::<StdVideoH264SequenceParameterSet>() * n);
+    for i in 0..n {
+        fix_StdVideoH264SequenceParameterSet(w, at + (i * size_of::<StdVideoH264SequenceParameterSet>()) as i64, src.add(i));
+    }
+    at
+}
+
+pub unsafe fn fix_StdVideoH264SequenceParameterSet<W: Sink>(w: &mut W, at: i64, src: *const StdVideoH264SequenceParameterSet) {
+    let data = if (*src).pOffsetForRefFrame.is_null() { 0 } else { rt::enc_pod::<i32, W>(w, (*src).pOffsetForRefFrame, (*src).num_ref_frames_in_pic_order_cnt_cycle as usize) };
+    w.put(at + offset_of!(StdVideoH264SequenceParameterSet, pOffsetForRefFrame) as i64, data);
+    let data = if (*src).pScalingLists.is_null() { 0 } else { rt::enc_pod::<StdVideoH264ScalingLists, W>(w, (*src).pScalingLists, 1) };
+    w.put(at + offset_of!(StdVideoH264SequenceParameterSet, pScalingLists) as i64, data);
+    let data = if (*src).pSequenceParameterSetVui.is_null() { 0 } else { enc_StdVideoH264SequenceParameterSetVui(w, (*src).pSequenceParameterSetVui) };
+    w.put(at + offset_of!(StdVideoH264SequenceParameterSet, pSequenceParameterSetVui) as i64, data);
+}
+
+#[inline]
+pub unsafe fn enc_StdVideoH264PictureParameterSet<W: Sink>(w: &mut W, src: *const StdVideoH264PictureParameterSet) -> i64 {
+    let at = w.alloc(size_of::<StdVideoH264PictureParameterSet>());
+    w.copy(at, src.cast(), size_of::<StdVideoH264PictureParameterSet>());
+    fix_StdVideoH264PictureParameterSet(w, at, src);
+    at
+}
+
+pub unsafe fn enc_n_StdVideoH264PictureParameterSet<W: Sink>(w: &mut W, src: *const StdVideoH264PictureParameterSet, n: usize) -> i64 {
+    let at = w.alloc(size_of::<StdVideoH264PictureParameterSet>() * n);
+    w.copy(at, src.cast(), size_of::<StdVideoH264PictureParameterSet>() * n);
+    for i in 0..n {
+        fix_StdVideoH264PictureParameterSet(w, at + (i * size_of::<StdVideoH264PictureParameterSet>()) as i64, src.add(i));
+    }
+    at
+}
+
+pub unsafe fn fix_StdVideoH264PictureParameterSet<W: Sink>(w: &mut W, at: i64, src: *const StdVideoH264PictureParameterSet) {
+    let data = if (*src).pScalingLists.is_null() { 0 } else { rt::enc_pod::<StdVideoH264ScalingLists, W>(w, (*src).pScalingLists, 1) };
+    w.put(at + offset_of!(StdVideoH264PictureParameterSet, pScalingLists) as i64, data);
+}
+
+#[inline]
+pub unsafe fn enc_VkVideoDecodeH264SessionParametersAddInfoKHR<W: Sink>(w: &mut W, src: *const VkVideoDecodeH264SessionParametersAddInfoKHR) -> i64 {
+    let at = w.alloc(size_of::<VkVideoDecodeH264SessionParametersAddInfoKHR>());
+    w.copy(at, src.cast(), size_of::<VkVideoDecodeH264SessionParametersAddInfoKHR>());
+    fix_VkVideoDecodeH264SessionParametersAddInfoKHR(w, at, src);
+    at
+}
+
+pub unsafe fn enc_n_VkVideoDecodeH264SessionParametersAddInfoKHR<W: Sink>(w: &mut W, src: *const VkVideoDecodeH264SessionParametersAddInfoKHR, n: usize) -> i64 {
+    let at = w.alloc(size_of::<VkVideoDecodeH264SessionParametersAddInfoKHR>() * n);
+    w.copy(at, src.cast(), size_of::<VkVideoDecodeH264SessionParametersAddInfoKHR>() * n);
+    for i in 0..n {
+        fix_VkVideoDecodeH264SessionParametersAddInfoKHR(w, at + (i * size_of::<VkVideoDecodeH264SessionParametersAddInfoKHR>()) as i64, src.add(i));
+    }
+    at
+}
+
+pub unsafe fn fix_VkVideoDecodeH264SessionParametersAddInfoKHR<W: Sink>(w: &mut W, at: i64, src: *const VkVideoDecodeH264SessionParametersAddInfoKHR) {
+    let next = enc_chain(w, (*src).pNext);
+    w.put(at + offset_of!(VkVideoDecodeH264SessionParametersAddInfoKHR, pNext) as i64, next);
+    let data = if (*src).pStdSPSs.is_null() { 0 } else { enc_n_StdVideoH264SequenceParameterSet(w, (*src).pStdSPSs, (*src).stdSPSCount as usize) };
+    w.put(at + offset_of!(VkVideoDecodeH264SessionParametersAddInfoKHR, pStdSPSs) as i64, data);
+    let data = if (*src).pStdPPSs.is_null() { 0 } else { enc_n_StdVideoH264PictureParameterSet(w, (*src).pStdPPSs, (*src).stdPPSCount as usize) };
+    w.put(at + offset_of!(VkVideoDecodeH264SessionParametersAddInfoKHR, pStdPPSs) as i64, data);
+}
+
+#[inline]
+pub unsafe fn enc_VkVideoDecodeH264SessionParametersCreateInfoKHR<W: Sink>(w: &mut W, src: *const VkVideoDecodeH264SessionParametersCreateInfoKHR) -> i64 {
+    let at = w.alloc(size_of::<VkVideoDecodeH264SessionParametersCreateInfoKHR>());
+    w.copy(at, src.cast(), size_of::<VkVideoDecodeH264SessionParametersCreateInfoKHR>());
+    fix_VkVideoDecodeH264SessionParametersCreateInfoKHR(w, at, src);
+    at
+}
+
+pub unsafe fn enc_n_VkVideoDecodeH264SessionParametersCreateInfoKHR<W: Sink>(w: &mut W, src: *const VkVideoDecodeH264SessionParametersCreateInfoKHR, n: usize) -> i64 {
+    let at = w.alloc(size_of::<VkVideoDecodeH264SessionParametersCreateInfoKHR>() * n);
+    w.copy(at, src.cast(), size_of::<VkVideoDecodeH264SessionParametersCreateInfoKHR>() * n);
+    for i in 0..n {
+        fix_VkVideoDecodeH264SessionParametersCreateInfoKHR(w, at + (i * size_of::<VkVideoDecodeH264SessionParametersCreateInfoKHR>()) as i64, src.add(i));
+    }
+    at
+}
+
+pub unsafe fn fix_VkVideoDecodeH264SessionParametersCreateInfoKHR<W: Sink>(w: &mut W, at: i64, src: *const VkVideoDecodeH264SessionParametersCreateInfoKHR) {
+    let next = enc_chain(w, (*src).pNext);
+    w.put(at + offset_of!(VkVideoDecodeH264SessionParametersCreateInfoKHR, pNext) as i64, next);
+    let data = if (*src).pParametersAddInfo.is_null() { 0 } else { enc_VkVideoDecodeH264SessionParametersAddInfoKHR(w, (*src).pParametersAddInfo) };
+    w.put(at + offset_of!(VkVideoDecodeH264SessionParametersCreateInfoKHR, pParametersAddInfo) as i64, data);
+}
+
+#[inline]
+pub unsafe fn enc_StdVideoH265VideoParameterSet<W: Sink>(w: &mut W, src: *const StdVideoH265VideoParameterSet) -> i64 {
+    let at = w.alloc(size_of::<StdVideoH265VideoParameterSet>());
+    w.copy(at, src.cast(), size_of::<StdVideoH265VideoParameterSet>());
+    fix_StdVideoH265VideoParameterSet(w, at, src);
+    at
+}
+
+pub unsafe fn enc_n_StdVideoH265VideoParameterSet<W: Sink>(w: &mut W, src: *const StdVideoH265VideoParameterSet, n: usize) -> i64 {
+    let at = w.alloc(size_of::<StdVideoH265VideoParameterSet>() * n);
+    w.copy(at, src.cast(), size_of::<StdVideoH265VideoParameterSet>() * n);
+    for i in 0..n {
+        fix_StdVideoH265VideoParameterSet(w, at + (i * size_of::<StdVideoH265VideoParameterSet>()) as i64, src.add(i));
+    }
+    at
+}
+
+pub unsafe fn fix_StdVideoH265VideoParameterSet<W: Sink>(w: &mut W, at: i64, src: *const StdVideoH265VideoParameterSet) {
+    let data = if (*src).pDecPicBufMgr.is_null() { 0 } else { rt::enc_pod::<StdVideoH265DecPicBufMgr, W>(w, (*src).pDecPicBufMgr, 1) };
+    w.put(at + offset_of!(StdVideoH265VideoParameterSet, pDecPicBufMgr) as i64, data);
+    let data = if (*src).pHrdParameters.is_null() { 0 } else { rt::enc_pod::<StdVideoH265HrdParameters, W>(w, (*src).pHrdParameters, 1) };
+    w.put(at + offset_of!(StdVideoH265VideoParameterSet, pHrdParameters) as i64, data);
+    let data = if (*src).pProfileTierLevel.is_null() { 0 } else { rt::enc_pod::<StdVideoH265ProfileTierLevel, W>(w, (*src).pProfileTierLevel, 1) };
+    w.put(at + offset_of!(StdVideoH265VideoParameterSet, pProfileTierLevel) as i64, data);
+}
+
+#[inline]
+pub unsafe fn enc_StdVideoH265SequenceParameterSetVui<W: Sink>(w: &mut W, src: *const StdVideoH265SequenceParameterSetVui) -> i64 {
+    let at = w.alloc(size_of::<StdVideoH265SequenceParameterSetVui>());
+    w.copy(at, src.cast(), size_of::<StdVideoH265SequenceParameterSetVui>());
+    fix_StdVideoH265SequenceParameterSetVui(w, at, src);
+    at
+}
+
+pub unsafe fn enc_n_StdVideoH265SequenceParameterSetVui<W: Sink>(w: &mut W, src: *const StdVideoH265SequenceParameterSetVui, n: usize) -> i64 {
+    let at = w.alloc(size_of::<StdVideoH265SequenceParameterSetVui>() * n);
+    w.copy(at, src.cast(), size_of::<StdVideoH265SequenceParameterSetVui>() * n);
+    for i in 0..n {
+        fix_StdVideoH265SequenceParameterSetVui(w, at + (i * size_of::<StdVideoH265SequenceParameterSetVui>()) as i64, src.add(i));
+    }
+    at
+}
+
+pub unsafe fn fix_StdVideoH265SequenceParameterSetVui<W: Sink>(w: &mut W, at: i64, src: *const StdVideoH265SequenceParameterSetVui) {
+    let data = if (*src).pHrdParameters.is_null() { 0 } else { rt::enc_pod::<StdVideoH265HrdParameters, W>(w, (*src).pHrdParameters, 1) };
+    w.put(at + offset_of!(StdVideoH265SequenceParameterSetVui, pHrdParameters) as i64, data);
+}
+
+#[inline]
+pub unsafe fn enc_StdVideoH265SequenceParameterSet<W: Sink>(w: &mut W, src: *const StdVideoH265SequenceParameterSet) -> i64 {
+    let at = w.alloc(size_of::<StdVideoH265SequenceParameterSet>());
+    w.copy(at, src.cast(), size_of::<StdVideoH265SequenceParameterSet>());
+    fix_StdVideoH265SequenceParameterSet(w, at, src);
+    at
+}
+
+pub unsafe fn enc_n_StdVideoH265SequenceParameterSet<W: Sink>(w: &mut W, src: *const StdVideoH265SequenceParameterSet, n: usize) -> i64 {
+    let at = w.alloc(size_of::<StdVideoH265SequenceParameterSet>() * n);
+    w.copy(at, src.cast(), size_of::<StdVideoH265SequenceParameterSet>() * n);
+    for i in 0..n {
+        fix_StdVideoH265SequenceParameterSet(w, at + (i * size_of::<StdVideoH265SequenceParameterSet>()) as i64, src.add(i));
+    }
+    at
+}
+
+pub unsafe fn fix_StdVideoH265SequenceParameterSet<W: Sink>(w: &mut W, at: i64, src: *const StdVideoH265SequenceParameterSet) {
+    let data = if (*src).pProfileTierLevel.is_null() { 0 } else { rt::enc_pod::<StdVideoH265ProfileTierLevel, W>(w, (*src).pProfileTierLevel, 1) };
+    w.put(at + offset_of!(StdVideoH265SequenceParameterSet, pProfileTierLevel) as i64, data);
+    let data = if (*src).pDecPicBufMgr.is_null() { 0 } else { rt::enc_pod::<StdVideoH265DecPicBufMgr, W>(w, (*src).pDecPicBufMgr, 1) };
+    w.put(at + offset_of!(StdVideoH265SequenceParameterSet, pDecPicBufMgr) as i64, data);
+    let data = if (*src).pScalingLists.is_null() { 0 } else { rt::enc_pod::<StdVideoH265ScalingLists, W>(w, (*src).pScalingLists, 1) };
+    w.put(at + offset_of!(StdVideoH265SequenceParameterSet, pScalingLists) as i64, data);
+    let data = if (*src).pShortTermRefPicSet.is_null() { 0 } else { rt::enc_pod::<StdVideoH265ShortTermRefPicSet, W>(w, (*src).pShortTermRefPicSet, (*src).num_short_term_ref_pic_sets as usize) };
+    w.put(at + offset_of!(StdVideoH265SequenceParameterSet, pShortTermRefPicSet) as i64, data);
+    let data = if (*src).pLongTermRefPicsSps.is_null() { 0 } else { rt::enc_pod::<StdVideoH265LongTermRefPicsSps, W>(w, (*src).pLongTermRefPicsSps, 1) };
+    w.put(at + offset_of!(StdVideoH265SequenceParameterSet, pLongTermRefPicsSps) as i64, data);
+    let data = if (*src).pSequenceParameterSetVui.is_null() { 0 } else { enc_StdVideoH265SequenceParameterSetVui(w, (*src).pSequenceParameterSetVui) };
+    w.put(at + offset_of!(StdVideoH265SequenceParameterSet, pSequenceParameterSetVui) as i64, data);
+    let data = if (*src).pPredictorPaletteEntries.is_null() { 0 } else { rt::enc_pod::<StdVideoH265PredictorPaletteEntries, W>(w, (*src).pPredictorPaletteEntries, 1) };
+    w.put(at + offset_of!(StdVideoH265SequenceParameterSet, pPredictorPaletteEntries) as i64, data);
+}
+
+#[inline]
+pub unsafe fn enc_StdVideoH265PictureParameterSet<W: Sink>(w: &mut W, src: *const StdVideoH265PictureParameterSet) -> i64 {
+    let at = w.alloc(size_of::<StdVideoH265PictureParameterSet>());
+    w.copy(at, src.cast(), size_of::<StdVideoH265PictureParameterSet>());
+    fix_StdVideoH265PictureParameterSet(w, at, src);
+    at
+}
+
+pub unsafe fn enc_n_StdVideoH265PictureParameterSet<W: Sink>(w: &mut W, src: *const StdVideoH265PictureParameterSet, n: usize) -> i64 {
+    let at = w.alloc(size_of::<StdVideoH265PictureParameterSet>() * n);
+    w.copy(at, src.cast(), size_of::<StdVideoH265PictureParameterSet>() * n);
+    for i in 0..n {
+        fix_StdVideoH265PictureParameterSet(w, at + (i * size_of::<StdVideoH265PictureParameterSet>()) as i64, src.add(i));
+    }
+    at
+}
+
+pub unsafe fn fix_StdVideoH265PictureParameterSet<W: Sink>(w: &mut W, at: i64, src: *const StdVideoH265PictureParameterSet) {
+    let data = if (*src).pScalingLists.is_null() { 0 } else { rt::enc_pod::<StdVideoH265ScalingLists, W>(w, (*src).pScalingLists, 1) };
+    w.put(at + offset_of!(StdVideoH265PictureParameterSet, pScalingLists) as i64, data);
+    let data = if (*src).pPredictorPaletteEntries.is_null() { 0 } else { rt::enc_pod::<StdVideoH265PredictorPaletteEntries, W>(w, (*src).pPredictorPaletteEntries, 1) };
+    w.put(at + offset_of!(StdVideoH265PictureParameterSet, pPredictorPaletteEntries) as i64, data);
+}
+
+#[inline]
+pub unsafe fn enc_VkVideoDecodeH265SessionParametersAddInfoKHR<W: Sink>(w: &mut W, src: *const VkVideoDecodeH265SessionParametersAddInfoKHR) -> i64 {
+    let at = w.alloc(size_of::<VkVideoDecodeH265SessionParametersAddInfoKHR>());
+    w.copy(at, src.cast(), size_of::<VkVideoDecodeH265SessionParametersAddInfoKHR>());
+    fix_VkVideoDecodeH265SessionParametersAddInfoKHR(w, at, src);
+    at
+}
+
+pub unsafe fn enc_n_VkVideoDecodeH265SessionParametersAddInfoKHR<W: Sink>(w: &mut W, src: *const VkVideoDecodeH265SessionParametersAddInfoKHR, n: usize) -> i64 {
+    let at = w.alloc(size_of::<VkVideoDecodeH265SessionParametersAddInfoKHR>() * n);
+    w.copy(at, src.cast(), size_of::<VkVideoDecodeH265SessionParametersAddInfoKHR>() * n);
+    for i in 0..n {
+        fix_VkVideoDecodeH265SessionParametersAddInfoKHR(w, at + (i * size_of::<VkVideoDecodeH265SessionParametersAddInfoKHR>()) as i64, src.add(i));
+    }
+    at
+}
+
+pub unsafe fn fix_VkVideoDecodeH265SessionParametersAddInfoKHR<W: Sink>(w: &mut W, at: i64, src: *const VkVideoDecodeH265SessionParametersAddInfoKHR) {
+    let next = enc_chain(w, (*src).pNext);
+    w.put(at + offset_of!(VkVideoDecodeH265SessionParametersAddInfoKHR, pNext) as i64, next);
+    let data = if (*src).pStdVPSs.is_null() { 0 } else { enc_n_StdVideoH265VideoParameterSet(w, (*src).pStdVPSs, (*src).stdVPSCount as usize) };
+    w.put(at + offset_of!(VkVideoDecodeH265SessionParametersAddInfoKHR, pStdVPSs) as i64, data);
+    let data = if (*src).pStdSPSs.is_null() { 0 } else { enc_n_StdVideoH265SequenceParameterSet(w, (*src).pStdSPSs, (*src).stdSPSCount as usize) };
+    w.put(at + offset_of!(VkVideoDecodeH265SessionParametersAddInfoKHR, pStdSPSs) as i64, data);
+    let data = if (*src).pStdPPSs.is_null() { 0 } else { enc_n_StdVideoH265PictureParameterSet(w, (*src).pStdPPSs, (*src).stdPPSCount as usize) };
+    w.put(at + offset_of!(VkVideoDecodeH265SessionParametersAddInfoKHR, pStdPPSs) as i64, data);
+}
+
+#[inline]
+pub unsafe fn enc_VkVideoDecodeH265SessionParametersCreateInfoKHR<W: Sink>(w: &mut W, src: *const VkVideoDecodeH265SessionParametersCreateInfoKHR) -> i64 {
+    let at = w.alloc(size_of::<VkVideoDecodeH265SessionParametersCreateInfoKHR>());
+    w.copy(at, src.cast(), size_of::<VkVideoDecodeH265SessionParametersCreateInfoKHR>());
+    fix_VkVideoDecodeH265SessionParametersCreateInfoKHR(w, at, src);
+    at
+}
+
+pub unsafe fn enc_n_VkVideoDecodeH265SessionParametersCreateInfoKHR<W: Sink>(w: &mut W, src: *const VkVideoDecodeH265SessionParametersCreateInfoKHR, n: usize) -> i64 {
+    let at = w.alloc(size_of::<VkVideoDecodeH265SessionParametersCreateInfoKHR>() * n);
+    w.copy(at, src.cast(), size_of::<VkVideoDecodeH265SessionParametersCreateInfoKHR>() * n);
+    for i in 0..n {
+        fix_VkVideoDecodeH265SessionParametersCreateInfoKHR(w, at + (i * size_of::<VkVideoDecodeH265SessionParametersCreateInfoKHR>()) as i64, src.add(i));
+    }
+    at
+}
+
+pub unsafe fn fix_VkVideoDecodeH265SessionParametersCreateInfoKHR<W: Sink>(w: &mut W, at: i64, src: *const VkVideoDecodeH265SessionParametersCreateInfoKHR) {
+    let next = enc_chain(w, (*src).pNext);
+    w.put(at + offset_of!(VkVideoDecodeH265SessionParametersCreateInfoKHR, pNext) as i64, next);
+    let data = if (*src).pParametersAddInfo.is_null() { 0 } else { enc_VkVideoDecodeH265SessionParametersAddInfoKHR(w, (*src).pParametersAddInfo) };
+    w.put(at + offset_of!(VkVideoDecodeH265SessionParametersCreateInfoKHR, pParametersAddInfo) as i64, data);
+}
+
+#[inline]
+pub unsafe fn enc_VkVideoDecodeAV1DpbSlotInfoKHR<W: Sink>(w: &mut W, src: *const VkVideoDecodeAV1DpbSlotInfoKHR) -> i64 {
+    let at = w.alloc(size_of::<VkVideoDecodeAV1DpbSlotInfoKHR>());
+    w.copy(at, src.cast(), size_of::<VkVideoDecodeAV1DpbSlotInfoKHR>());
+    fix_VkVideoDecodeAV1DpbSlotInfoKHR(w, at, src);
+    at
+}
+
+pub unsafe fn enc_n_VkVideoDecodeAV1DpbSlotInfoKHR<W: Sink>(w: &mut W, src: *const VkVideoDecodeAV1DpbSlotInfoKHR, n: usize) -> i64 {
+    let at = w.alloc(size_of::<VkVideoDecodeAV1DpbSlotInfoKHR>() * n);
+    w.copy(at, src.cast(), size_of::<VkVideoDecodeAV1DpbSlotInfoKHR>() * n);
+    for i in 0..n {
+        fix_VkVideoDecodeAV1DpbSlotInfoKHR(w, at + (i * size_of::<VkVideoDecodeAV1DpbSlotInfoKHR>()) as i64, src.add(i));
+    }
+    at
+}
+
+pub unsafe fn fix_VkVideoDecodeAV1DpbSlotInfoKHR<W: Sink>(w: &mut W, at: i64, src: *const VkVideoDecodeAV1DpbSlotInfoKHR) {
+    let next = enc_chain(w, (*src).pNext);
+    w.put(at + offset_of!(VkVideoDecodeAV1DpbSlotInfoKHR, pNext) as i64, next);
+    let data = if (*src).pStdReferenceInfo.is_null() { 0 } else { rt::enc_pod::<StdVideoDecodeAV1ReferenceInfo, W>(w, (*src).pStdReferenceInfo, 1) };
+    w.put(at + offset_of!(VkVideoDecodeAV1DpbSlotInfoKHR, pStdReferenceInfo) as i64, data);
+}
+
+#[inline]
+pub unsafe fn enc_VkVideoDecodeH264DpbSlotInfoKHR<W: Sink>(w: &mut W, src: *const VkVideoDecodeH264DpbSlotInfoKHR) -> i64 {
+    let at = w.alloc(size_of::<VkVideoDecodeH264DpbSlotInfoKHR>());
+    w.copy(at, src.cast(), size_of::<VkVideoDecodeH264DpbSlotInfoKHR>());
+    fix_VkVideoDecodeH264DpbSlotInfoKHR(w, at, src);
+    at
+}
+
+pub unsafe fn enc_n_VkVideoDecodeH264DpbSlotInfoKHR<W: Sink>(w: &mut W, src: *const VkVideoDecodeH264DpbSlotInfoKHR, n: usize) -> i64 {
+    let at = w.alloc(size_of::<VkVideoDecodeH264DpbSlotInfoKHR>() * n);
+    w.copy(at, src.cast(), size_of::<VkVideoDecodeH264DpbSlotInfoKHR>() * n);
+    for i in 0..n {
+        fix_VkVideoDecodeH264DpbSlotInfoKHR(w, at + (i * size_of::<VkVideoDecodeH264DpbSlotInfoKHR>()) as i64, src.add(i));
+    }
+    at
+}
+
+pub unsafe fn fix_VkVideoDecodeH264DpbSlotInfoKHR<W: Sink>(w: &mut W, at: i64, src: *const VkVideoDecodeH264DpbSlotInfoKHR) {
+    let next = enc_chain(w, (*src).pNext);
+    w.put(at + offset_of!(VkVideoDecodeH264DpbSlotInfoKHR, pNext) as i64, next);
+    let data = if (*src).pStdReferenceInfo.is_null() { 0 } else { rt::enc_pod::<StdVideoDecodeH264ReferenceInfo, W>(w, (*src).pStdReferenceInfo, 1) };
+    w.put(at + offset_of!(VkVideoDecodeH264DpbSlotInfoKHR, pStdReferenceInfo) as i64, data);
+}
+
+#[inline]
+pub unsafe fn enc_VkVideoDecodeH265DpbSlotInfoKHR<W: Sink>(w: &mut W, src: *const VkVideoDecodeH265DpbSlotInfoKHR) -> i64 {
+    let at = w.alloc(size_of::<VkVideoDecodeH265DpbSlotInfoKHR>());
+    w.copy(at, src.cast(), size_of::<VkVideoDecodeH265DpbSlotInfoKHR>());
+    fix_VkVideoDecodeH265DpbSlotInfoKHR(w, at, src);
+    at
+}
+
+pub unsafe fn enc_n_VkVideoDecodeH265DpbSlotInfoKHR<W: Sink>(w: &mut W, src: *const VkVideoDecodeH265DpbSlotInfoKHR, n: usize) -> i64 {
+    let at = w.alloc(size_of::<VkVideoDecodeH265DpbSlotInfoKHR>() * n);
+    w.copy(at, src.cast(), size_of::<VkVideoDecodeH265DpbSlotInfoKHR>() * n);
+    for i in 0..n {
+        fix_VkVideoDecodeH265DpbSlotInfoKHR(w, at + (i * size_of::<VkVideoDecodeH265DpbSlotInfoKHR>()) as i64, src.add(i));
+    }
+    at
+}
+
+pub unsafe fn fix_VkVideoDecodeH265DpbSlotInfoKHR<W: Sink>(w: &mut W, at: i64, src: *const VkVideoDecodeH265DpbSlotInfoKHR) {
+    let next = enc_chain(w, (*src).pNext);
+    w.put(at + offset_of!(VkVideoDecodeH265DpbSlotInfoKHR, pNext) as i64, next);
+    let data = if (*src).pStdReferenceInfo.is_null() { 0 } else { rt::enc_pod::<StdVideoDecodeH265ReferenceInfo, W>(w, (*src).pStdReferenceInfo, 1) };
+    w.put(at + offset_of!(VkVideoDecodeH265DpbSlotInfoKHR, pStdReferenceInfo) as i64, data);
+}
+
+#[inline]
+pub unsafe fn enc_VkVideoDecodeAV1InlineSessionParametersInfoKHR<W: Sink>(w: &mut W, src: *const VkVideoDecodeAV1InlineSessionParametersInfoKHR) -> i64 {
+    let at = w.alloc(size_of::<VkVideoDecodeAV1InlineSessionParametersInfoKHR>());
+    w.copy(at, src.cast(), size_of::<VkVideoDecodeAV1InlineSessionParametersInfoKHR>());
+    fix_VkVideoDecodeAV1InlineSessionParametersInfoKHR(w, at, src);
+    at
+}
+
+pub unsafe fn enc_n_VkVideoDecodeAV1InlineSessionParametersInfoKHR<W: Sink>(w: &mut W, src: *const VkVideoDecodeAV1InlineSessionParametersInfoKHR, n: usize) -> i64 {
+    let at = w.alloc(size_of::<VkVideoDecodeAV1InlineSessionParametersInfoKHR>() * n);
+    w.copy(at, src.cast(), size_of::<VkVideoDecodeAV1InlineSessionParametersInfoKHR>() * n);
+    for i in 0..n {
+        fix_VkVideoDecodeAV1InlineSessionParametersInfoKHR(w, at + (i * size_of::<VkVideoDecodeAV1InlineSessionParametersInfoKHR>()) as i64, src.add(i));
+    }
+    at
+}
+
+pub unsafe fn fix_VkVideoDecodeAV1InlineSessionParametersInfoKHR<W: Sink>(w: &mut W, at: i64, src: *const VkVideoDecodeAV1InlineSessionParametersInfoKHR) {
+    let next = enc_chain(w, (*src).pNext);
+    w.put(at + offset_of!(VkVideoDecodeAV1InlineSessionParametersInfoKHR, pNext) as i64, next);
+    let data = if (*src).pStdSequenceHeader.is_null() { 0 } else { enc_StdVideoAV1SequenceHeader(w, (*src).pStdSequenceHeader) };
+    w.put(at + offset_of!(VkVideoDecodeAV1InlineSessionParametersInfoKHR, pStdSequenceHeader) as i64, data);
+}
+
+#[inline]
+pub unsafe fn enc_StdVideoAV1TileInfo<W: Sink>(w: &mut W, src: *const StdVideoAV1TileInfo) -> i64 {
+    let at = w.alloc(size_of::<StdVideoAV1TileInfo>());
+    w.copy(at, src.cast(), size_of::<StdVideoAV1TileInfo>());
+    fix_StdVideoAV1TileInfo(w, at, src);
+    at
+}
+
+pub unsafe fn enc_n_StdVideoAV1TileInfo<W: Sink>(w: &mut W, src: *const StdVideoAV1TileInfo, n: usize) -> i64 {
+    let at = w.alloc(size_of::<StdVideoAV1TileInfo>() * n);
+    w.copy(at, src.cast(), size_of::<StdVideoAV1TileInfo>() * n);
+    for i in 0..n {
+        fix_StdVideoAV1TileInfo(w, at + (i * size_of::<StdVideoAV1TileInfo>()) as i64, src.add(i));
+    }
+    at
+}
+
+pub unsafe fn fix_StdVideoAV1TileInfo<W: Sink>(w: &mut W, at: i64, src: *const StdVideoAV1TileInfo) {
+    let data = if (*src).pMiColStarts.is_null() { 0 } else { rt::enc_pod::<u16, W>(w, (*src).pMiColStarts, (*src).TileCols as usize) };
+    w.put(at + offset_of!(StdVideoAV1TileInfo, pMiColStarts) as i64, data);
+    let data = if (*src).pMiRowStarts.is_null() { 0 } else { rt::enc_pod::<u16, W>(w, (*src).pMiRowStarts, (*src).TileRows as usize) };
+    w.put(at + offset_of!(StdVideoAV1TileInfo, pMiRowStarts) as i64, data);
+    let data = if (*src).pWidthInSbsMinus1.is_null() { 0 } else { rt::enc_pod::<u16, W>(w, (*src).pWidthInSbsMinus1, (*src).TileCols as usize) };
+    w.put(at + offset_of!(StdVideoAV1TileInfo, pWidthInSbsMinus1) as i64, data);
+    let data = if (*src).pHeightInSbsMinus1.is_null() { 0 } else { rt::enc_pod::<u16, W>(w, (*src).pHeightInSbsMinus1, (*src).TileRows as usize) };
+    w.put(at + offset_of!(StdVideoAV1TileInfo, pHeightInSbsMinus1) as i64, data);
+}
+
+#[inline]
+pub unsafe fn enc_StdVideoDecodeAV1PictureInfo<W: Sink>(w: &mut W, src: *const StdVideoDecodeAV1PictureInfo) -> i64 {
+    let at = w.alloc(size_of::<StdVideoDecodeAV1PictureInfo>());
+    w.copy(at, src.cast(), size_of::<StdVideoDecodeAV1PictureInfo>());
+    fix_StdVideoDecodeAV1PictureInfo(w, at, src);
+    at
+}
+
+pub unsafe fn enc_n_StdVideoDecodeAV1PictureInfo<W: Sink>(w: &mut W, src: *const StdVideoDecodeAV1PictureInfo, n: usize) -> i64 {
+    let at = w.alloc(size_of::<StdVideoDecodeAV1PictureInfo>() * n);
+    w.copy(at, src.cast(), size_of::<StdVideoDecodeAV1PictureInfo>() * n);
+    for i in 0..n {
+        fix_StdVideoDecodeAV1PictureInfo(w, at + (i * size_of::<StdVideoDecodeAV1PictureInfo>()) as i64, src.add(i));
+    }
+    at
+}
+
+pub unsafe fn fix_StdVideoDecodeAV1PictureInfo<W: Sink>(w: &mut W, at: i64, src: *const StdVideoDecodeAV1PictureInfo) {
+    let data = if (*src).pTileInfo.is_null() { 0 } else { enc_StdVideoAV1TileInfo(w, (*src).pTileInfo) };
+    w.put(at + offset_of!(StdVideoDecodeAV1PictureInfo, pTileInfo) as i64, data);
+    let data = if (*src).pQuantization.is_null() { 0 } else { rt::enc_pod::<StdVideoAV1Quantization, W>(w, (*src).pQuantization, 1) };
+    w.put(at + offset_of!(StdVideoDecodeAV1PictureInfo, pQuantization) as i64, data);
+    let data = if (*src).pSegmentation.is_null() { 0 } else { rt::enc_pod::<StdVideoAV1Segmentation, W>(w, (*src).pSegmentation, 1) };
+    w.put(at + offset_of!(StdVideoDecodeAV1PictureInfo, pSegmentation) as i64, data);
+    let data = if (*src).pLoopFilter.is_null() { 0 } else { rt::enc_pod::<StdVideoAV1LoopFilter, W>(w, (*src).pLoopFilter, 1) };
+    w.put(at + offset_of!(StdVideoDecodeAV1PictureInfo, pLoopFilter) as i64, data);
+    let data = if (*src).pCDEF.is_null() { 0 } else { rt::enc_pod::<StdVideoAV1CDEF, W>(w, (*src).pCDEF, 1) };
+    w.put(at + offset_of!(StdVideoDecodeAV1PictureInfo, pCDEF) as i64, data);
+    let data = if (*src).pLoopRestoration.is_null() { 0 } else { rt::enc_pod::<StdVideoAV1LoopRestoration, W>(w, (*src).pLoopRestoration, 1) };
+    w.put(at + offset_of!(StdVideoDecodeAV1PictureInfo, pLoopRestoration) as i64, data);
+    let data = if (*src).pGlobalMotion.is_null() { 0 } else { rt::enc_pod::<StdVideoAV1GlobalMotion, W>(w, (*src).pGlobalMotion, 1) };
+    w.put(at + offset_of!(StdVideoDecodeAV1PictureInfo, pGlobalMotion) as i64, data);
+    let data = if (*src).pFilmGrain.is_null() { 0 } else { rt::enc_pod::<StdVideoAV1FilmGrain, W>(w, (*src).pFilmGrain, 1) };
+    w.put(at + offset_of!(StdVideoDecodeAV1PictureInfo, pFilmGrain) as i64, data);
+}
+
+#[inline]
+pub unsafe fn enc_VkVideoDecodeAV1PictureInfoKHR<W: Sink>(w: &mut W, src: *const VkVideoDecodeAV1PictureInfoKHR) -> i64 {
+    let at = w.alloc(size_of::<VkVideoDecodeAV1PictureInfoKHR>());
+    w.copy(at, src.cast(), size_of::<VkVideoDecodeAV1PictureInfoKHR>());
+    fix_VkVideoDecodeAV1PictureInfoKHR(w, at, src);
+    at
+}
+
+pub unsafe fn enc_n_VkVideoDecodeAV1PictureInfoKHR<W: Sink>(w: &mut W, src: *const VkVideoDecodeAV1PictureInfoKHR, n: usize) -> i64 {
+    let at = w.alloc(size_of::<VkVideoDecodeAV1PictureInfoKHR>() * n);
+    w.copy(at, src.cast(), size_of::<VkVideoDecodeAV1PictureInfoKHR>() * n);
+    for i in 0..n {
+        fix_VkVideoDecodeAV1PictureInfoKHR(w, at + (i * size_of::<VkVideoDecodeAV1PictureInfoKHR>()) as i64, src.add(i));
+    }
+    at
+}
+
+pub unsafe fn fix_VkVideoDecodeAV1PictureInfoKHR<W: Sink>(w: &mut W, at: i64, src: *const VkVideoDecodeAV1PictureInfoKHR) {
+    let next = enc_chain(w, (*src).pNext);
+    w.put(at + offset_of!(VkVideoDecodeAV1PictureInfoKHR, pNext) as i64, next);
+    let data = if (*src).pStdPictureInfo.is_null() { 0 } else { enc_StdVideoDecodeAV1PictureInfo(w, (*src).pStdPictureInfo) };
+    w.put(at + offset_of!(VkVideoDecodeAV1PictureInfoKHR, pStdPictureInfo) as i64, data);
+    let data = if (*src).pTileOffsets.is_null() { 0 } else { rt::enc_pod::<u32, W>(w, (*src).pTileOffsets, (*src).tileCount as usize) };
+    w.put(at + offset_of!(VkVideoDecodeAV1PictureInfoKHR, pTileOffsets) as i64, data);
+    let data = if (*src).pTileSizes.is_null() { 0 } else { rt::enc_pod::<u32, W>(w, (*src).pTileSizes, (*src).tileCount as usize) };
+    w.put(at + offset_of!(VkVideoDecodeAV1PictureInfoKHR, pTileSizes) as i64, data);
+}
+
+#[inline]
+pub unsafe fn enc_VkVideoDecodeH264InlineSessionParametersInfoKHR<W: Sink>(w: &mut W, src: *const VkVideoDecodeH264InlineSessionParametersInfoKHR) -> i64 {
+    let at = w.alloc(size_of::<VkVideoDecodeH264InlineSessionParametersInfoKHR>());
+    w.copy(at, src.cast(), size_of::<VkVideoDecodeH264InlineSessionParametersInfoKHR>());
+    fix_VkVideoDecodeH264InlineSessionParametersInfoKHR(w, at, src);
+    at
+}
+
+pub unsafe fn enc_n_VkVideoDecodeH264InlineSessionParametersInfoKHR<W: Sink>(w: &mut W, src: *const VkVideoDecodeH264InlineSessionParametersInfoKHR, n: usize) -> i64 {
+    let at = w.alloc(size_of::<VkVideoDecodeH264InlineSessionParametersInfoKHR>() * n);
+    w.copy(at, src.cast(), size_of::<VkVideoDecodeH264InlineSessionParametersInfoKHR>() * n);
+    for i in 0..n {
+        fix_VkVideoDecodeH264InlineSessionParametersInfoKHR(w, at + (i * size_of::<VkVideoDecodeH264InlineSessionParametersInfoKHR>()) as i64, src.add(i));
+    }
+    at
+}
+
+pub unsafe fn fix_VkVideoDecodeH264InlineSessionParametersInfoKHR<W: Sink>(w: &mut W, at: i64, src: *const VkVideoDecodeH264InlineSessionParametersInfoKHR) {
+    let next = enc_chain(w, (*src).pNext);
+    w.put(at + offset_of!(VkVideoDecodeH264InlineSessionParametersInfoKHR, pNext) as i64, next);
+    let data = if (*src).pStdSPS.is_null() { 0 } else { enc_StdVideoH264SequenceParameterSet(w, (*src).pStdSPS) };
+    w.put(at + offset_of!(VkVideoDecodeH264InlineSessionParametersInfoKHR, pStdSPS) as i64, data);
+    let data = if (*src).pStdPPS.is_null() { 0 } else { enc_StdVideoH264PictureParameterSet(w, (*src).pStdPPS) };
+    w.put(at + offset_of!(VkVideoDecodeH264InlineSessionParametersInfoKHR, pStdPPS) as i64, data);
+}
+
+#[inline]
+pub unsafe fn enc_VkVideoDecodeH264PictureInfoKHR<W: Sink>(w: &mut W, src: *const VkVideoDecodeH264PictureInfoKHR) -> i64 {
+    let at = w.alloc(size_of::<VkVideoDecodeH264PictureInfoKHR>());
+    w.copy(at, src.cast(), size_of::<VkVideoDecodeH264PictureInfoKHR>());
+    fix_VkVideoDecodeH264PictureInfoKHR(w, at, src);
+    at
+}
+
+pub unsafe fn enc_n_VkVideoDecodeH264PictureInfoKHR<W: Sink>(w: &mut W, src: *const VkVideoDecodeH264PictureInfoKHR, n: usize) -> i64 {
+    let at = w.alloc(size_of::<VkVideoDecodeH264PictureInfoKHR>() * n);
+    w.copy(at, src.cast(), size_of::<VkVideoDecodeH264PictureInfoKHR>() * n);
+    for i in 0..n {
+        fix_VkVideoDecodeH264PictureInfoKHR(w, at + (i * size_of::<VkVideoDecodeH264PictureInfoKHR>()) as i64, src.add(i));
+    }
+    at
+}
+
+pub unsafe fn fix_VkVideoDecodeH264PictureInfoKHR<W: Sink>(w: &mut W, at: i64, src: *const VkVideoDecodeH264PictureInfoKHR) {
+    let next = enc_chain(w, (*src).pNext);
+    w.put(at + offset_of!(VkVideoDecodeH264PictureInfoKHR, pNext) as i64, next);
+    let data = if (*src).pStdPictureInfo.is_null() { 0 } else { rt::enc_pod::<StdVideoDecodeH264PictureInfo, W>(w, (*src).pStdPictureInfo, 1) };
+    w.put(at + offset_of!(VkVideoDecodeH264PictureInfoKHR, pStdPictureInfo) as i64, data);
+    let data = if (*src).pSliceOffsets.is_null() { 0 } else { rt::enc_pod::<u32, W>(w, (*src).pSliceOffsets, (*src).sliceCount as usize) };
+    w.put(at + offset_of!(VkVideoDecodeH264PictureInfoKHR, pSliceOffsets) as i64, data);
+}
+
+#[inline]
+pub unsafe fn enc_VkVideoDecodeH265InlineSessionParametersInfoKHR<W: Sink>(w: &mut W, src: *const VkVideoDecodeH265InlineSessionParametersInfoKHR) -> i64 {
+    let at = w.alloc(size_of::<VkVideoDecodeH265InlineSessionParametersInfoKHR>());
+    w.copy(at, src.cast(), size_of::<VkVideoDecodeH265InlineSessionParametersInfoKHR>());
+    fix_VkVideoDecodeH265InlineSessionParametersInfoKHR(w, at, src);
+    at
+}
+
+pub unsafe fn enc_n_VkVideoDecodeH265InlineSessionParametersInfoKHR<W: Sink>(w: &mut W, src: *const VkVideoDecodeH265InlineSessionParametersInfoKHR, n: usize) -> i64 {
+    let at = w.alloc(size_of::<VkVideoDecodeH265InlineSessionParametersInfoKHR>() * n);
+    w.copy(at, src.cast(), size_of::<VkVideoDecodeH265InlineSessionParametersInfoKHR>() * n);
+    for i in 0..n {
+        fix_VkVideoDecodeH265InlineSessionParametersInfoKHR(w, at + (i * size_of::<VkVideoDecodeH265InlineSessionParametersInfoKHR>()) as i64, src.add(i));
+    }
+    at
+}
+
+pub unsafe fn fix_VkVideoDecodeH265InlineSessionParametersInfoKHR<W: Sink>(w: &mut W, at: i64, src: *const VkVideoDecodeH265InlineSessionParametersInfoKHR) {
+    let next = enc_chain(w, (*src).pNext);
+    w.put(at + offset_of!(VkVideoDecodeH265InlineSessionParametersInfoKHR, pNext) as i64, next);
+    let data = if (*src).pStdVPS.is_null() { 0 } else { enc_StdVideoH265VideoParameterSet(w, (*src).pStdVPS) };
+    w.put(at + offset_of!(VkVideoDecodeH265InlineSessionParametersInfoKHR, pStdVPS) as i64, data);
+    let data = if (*src).pStdSPS.is_null() { 0 } else { enc_StdVideoH265SequenceParameterSet(w, (*src).pStdSPS) };
+    w.put(at + offset_of!(VkVideoDecodeH265InlineSessionParametersInfoKHR, pStdSPS) as i64, data);
+    let data = if (*src).pStdPPS.is_null() { 0 } else { enc_StdVideoH265PictureParameterSet(w, (*src).pStdPPS) };
+    w.put(at + offset_of!(VkVideoDecodeH265InlineSessionParametersInfoKHR, pStdPPS) as i64, data);
+}
+
+#[inline]
+pub unsafe fn enc_VkVideoDecodeH265PictureInfoKHR<W: Sink>(w: &mut W, src: *const VkVideoDecodeH265PictureInfoKHR) -> i64 {
+    let at = w.alloc(size_of::<VkVideoDecodeH265PictureInfoKHR>());
+    w.copy(at, src.cast(), size_of::<VkVideoDecodeH265PictureInfoKHR>());
+    fix_VkVideoDecodeH265PictureInfoKHR(w, at, src);
+    at
+}
+
+pub unsafe fn enc_n_VkVideoDecodeH265PictureInfoKHR<W: Sink>(w: &mut W, src: *const VkVideoDecodeH265PictureInfoKHR, n: usize) -> i64 {
+    let at = w.alloc(size_of::<VkVideoDecodeH265PictureInfoKHR>() * n);
+    w.copy(at, src.cast(), size_of::<VkVideoDecodeH265PictureInfoKHR>() * n);
+    for i in 0..n {
+        fix_VkVideoDecodeH265PictureInfoKHR(w, at + (i * size_of::<VkVideoDecodeH265PictureInfoKHR>()) as i64, src.add(i));
+    }
+    at
+}
+
+pub unsafe fn fix_VkVideoDecodeH265PictureInfoKHR<W: Sink>(w: &mut W, at: i64, src: *const VkVideoDecodeH265PictureInfoKHR) {
+    let next = enc_chain(w, (*src).pNext);
+    w.put(at + offset_of!(VkVideoDecodeH265PictureInfoKHR, pNext) as i64, next);
+    let data = if (*src).pStdPictureInfo.is_null() { 0 } else { rt::enc_pod::<StdVideoDecodeH265PictureInfo, W>(w, (*src).pStdPictureInfo, 1) };
+    w.put(at + offset_of!(VkVideoDecodeH265PictureInfoKHR, pStdPictureInfo) as i64, data);
+    let data = if (*src).pSliceSegmentOffsets.is_null() { 0 } else { rt::enc_pod::<u32, W>(w, (*src).pSliceSegmentOffsets, (*src).sliceSegmentCount as usize) };
+    w.put(at + offset_of!(VkVideoDecodeH265PictureInfoKHR, pSliceSegmentOffsets) as i64, data);
+}
+
+#[inline]
+pub unsafe fn enc_StdVideoDecodeVP9PictureInfo<W: Sink>(w: &mut W, src: *const StdVideoDecodeVP9PictureInfo) -> i64 {
+    let at = w.alloc(size_of::<StdVideoDecodeVP9PictureInfo>());
+    w.copy(at, src.cast(), size_of::<StdVideoDecodeVP9PictureInfo>());
+    fix_StdVideoDecodeVP9PictureInfo(w, at, src);
+    at
+}
+
+pub unsafe fn enc_n_StdVideoDecodeVP9PictureInfo<W: Sink>(w: &mut W, src: *const StdVideoDecodeVP9PictureInfo, n: usize) -> i64 {
+    let at = w.alloc(size_of::<StdVideoDecodeVP9PictureInfo>() * n);
+    w.copy(at, src.cast(), size_of::<StdVideoDecodeVP9PictureInfo>() * n);
+    for i in 0..n {
+        fix_StdVideoDecodeVP9PictureInfo(w, at + (i * size_of::<StdVideoDecodeVP9PictureInfo>()) as i64, src.add(i));
+    }
+    at
+}
+
+pub unsafe fn fix_StdVideoDecodeVP9PictureInfo<W: Sink>(w: &mut W, at: i64, src: *const StdVideoDecodeVP9PictureInfo) {
+    let data = if (*src).pColorConfig.is_null() { 0 } else { rt::enc_pod::<StdVideoVP9ColorConfig, W>(w, (*src).pColorConfig, 1) };
+    w.put(at + offset_of!(StdVideoDecodeVP9PictureInfo, pColorConfig) as i64, data);
+    let data = if (*src).pLoopFilter.is_null() { 0 } else { rt::enc_pod::<StdVideoVP9LoopFilter, W>(w, (*src).pLoopFilter, 1) };
+    w.put(at + offset_of!(StdVideoDecodeVP9PictureInfo, pLoopFilter) as i64, data);
+    let data = if (*src).pSegmentation.is_null() { 0 } else { rt::enc_pod::<StdVideoVP9Segmentation, W>(w, (*src).pSegmentation, 1) };
+    w.put(at + offset_of!(StdVideoDecodeVP9PictureInfo, pSegmentation) as i64, data);
+}
+
+#[inline]
+pub unsafe fn enc_VkVideoDecodeVP9PictureInfoKHR<W: Sink>(w: &mut W, src: *const VkVideoDecodeVP9PictureInfoKHR) -> i64 {
+    let at = w.alloc(size_of::<VkVideoDecodeVP9PictureInfoKHR>());
+    w.copy(at, src.cast(), size_of::<VkVideoDecodeVP9PictureInfoKHR>());
+    fix_VkVideoDecodeVP9PictureInfoKHR(w, at, src);
+    at
+}
+
+pub unsafe fn enc_n_VkVideoDecodeVP9PictureInfoKHR<W: Sink>(w: &mut W, src: *const VkVideoDecodeVP9PictureInfoKHR, n: usize) -> i64 {
+    let at = w.alloc(size_of::<VkVideoDecodeVP9PictureInfoKHR>() * n);
+    w.copy(at, src.cast(), size_of::<VkVideoDecodeVP9PictureInfoKHR>() * n);
+    for i in 0..n {
+        fix_VkVideoDecodeVP9PictureInfoKHR(w, at + (i * size_of::<VkVideoDecodeVP9PictureInfoKHR>()) as i64, src.add(i));
+    }
+    at
+}
+
+pub unsafe fn fix_VkVideoDecodeVP9PictureInfoKHR<W: Sink>(w: &mut W, at: i64, src: *const VkVideoDecodeVP9PictureInfoKHR) {
+    let next = enc_chain(w, (*src).pNext);
+    w.put(at + offset_of!(VkVideoDecodeVP9PictureInfoKHR, pNext) as i64, next);
+    let data = if (*src).pStdPictureInfo.is_null() { 0 } else { enc_StdVideoDecodeVP9PictureInfo(w, (*src).pStdPictureInfo) };
+    w.put(at + offset_of!(VkVideoDecodeVP9PictureInfoKHR, pStdPictureInfo) as i64, data);
+}
+
+#[inline]
+pub unsafe fn enc_VkVideoInlineQueryInfoKHR<W: Sink>(w: &mut W, src: *const VkVideoInlineQueryInfoKHR) -> i64 {
+    let at = w.alloc(size_of::<VkVideoInlineQueryInfoKHR>());
+    w.copy(at, src.cast(), size_of::<VkVideoInlineQueryInfoKHR>());
+    fix_VkVideoInlineQueryInfoKHR(w, at, src);
+    at
+}
+
+pub unsafe fn enc_n_VkVideoInlineQueryInfoKHR<W: Sink>(w: &mut W, src: *const VkVideoInlineQueryInfoKHR, n: usize) -> i64 {
+    let at = w.alloc(size_of::<VkVideoInlineQueryInfoKHR>() * n);
+    w.copy(at, src.cast(), size_of::<VkVideoInlineQueryInfoKHR>() * n);
+    for i in 0..n {
+        fix_VkVideoInlineQueryInfoKHR(w, at + (i * size_of::<VkVideoInlineQueryInfoKHR>()) as i64, src.add(i));
+    }
+    at
+}
+
+pub unsafe fn fix_VkVideoInlineQueryInfoKHR<W: Sink>(w: &mut W, at: i64, src: *const VkVideoInlineQueryInfoKHR) {
+    let next = enc_chain(w, (*src).pNext);
+    w.put(at + offset_of!(VkVideoInlineQueryInfoKHR, pNext) as i64, next);
+}
+
+#[inline]
 pub unsafe fn enc_VkPhysicalDeviceLayeredApiVulkanPropertiesKHR<W: Sink>(w: &mut W, src: *const VkPhysicalDeviceLayeredApiVulkanPropertiesKHR) -> i64 {
     let at = w.alloc(size_of::<VkPhysicalDeviceLayeredApiVulkanPropertiesKHR>());
     w.copy(at, src.cast(), size_of::<VkPhysicalDeviceLayeredApiVulkanPropertiesKHR>());
@@ -10701,6 +12088,21 @@ pub unsafe fn enc_chain<W: Sink>(w: &mut W, mut p: *const c_void) -> i64 {
             VK_STRUCTURE_TYPE_VERTEX_INPUT_BINDING_DESCRIPTION_2_EXT => return enc_VkVertexInputBindingDescription2EXT(w, p.cast()),
             VK_STRUCTURE_TYPE_VERTEX_INPUT_ATTRIBUTE_DESCRIPTION_2_EXT => return enc_VkVertexInputAttributeDescription2EXT(w, p.cast()),
             VK_STRUCTURE_TYPE_DEPTH_BIAS_INFO_EXT => return enc_VkDepthBiasInfoEXT(w, p.cast()),
+            VK_STRUCTURE_TYPE_VIDEO_PROFILE_INFO_KHR => return enc_VkVideoProfileInfoKHR(w, p.cast()),
+            VK_STRUCTURE_TYPE_VIDEO_CAPABILITIES_KHR => return enc_VkVideoCapabilitiesKHR(w, p.cast()),
+            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VIDEO_FORMAT_INFO_KHR => return enc_VkPhysicalDeviceVideoFormatInfoKHR(w, p.cast()),
+            VK_STRUCTURE_TYPE_VIDEO_FORMAT_PROPERTIES_KHR => return enc_VkVideoFormatPropertiesKHR(w, p.cast()),
+            VK_STRUCTURE_TYPE_VIDEO_SESSION_CREATE_INFO_KHR => return enc_VkVideoSessionCreateInfoKHR(w, p.cast()),
+            VK_STRUCTURE_TYPE_VIDEO_SESSION_MEMORY_REQUIREMENTS_KHR => return enc_VkVideoSessionMemoryRequirementsKHR(w, p.cast()),
+            VK_STRUCTURE_TYPE_BIND_VIDEO_SESSION_MEMORY_INFO_KHR => return enc_VkBindVideoSessionMemoryInfoKHR(w, p.cast()),
+            VK_STRUCTURE_TYPE_VIDEO_SESSION_PARAMETERS_CREATE_INFO_KHR => return enc_VkVideoSessionParametersCreateInfoKHR(w, p.cast()),
+            VK_STRUCTURE_TYPE_VIDEO_SESSION_PARAMETERS_UPDATE_INFO_KHR => return enc_VkVideoSessionParametersUpdateInfoKHR(w, p.cast()),
+            VK_STRUCTURE_TYPE_VIDEO_PICTURE_RESOURCE_INFO_KHR => return enc_VkVideoPictureResourceInfoKHR(w, p.cast()),
+            VK_STRUCTURE_TYPE_VIDEO_REFERENCE_SLOT_INFO_KHR => return enc_VkVideoReferenceSlotInfoKHR(w, p.cast()),
+            VK_STRUCTURE_TYPE_VIDEO_BEGIN_CODING_INFO_KHR => return enc_VkVideoBeginCodingInfoKHR(w, p.cast()),
+            VK_STRUCTURE_TYPE_VIDEO_END_CODING_INFO_KHR => return enc_VkVideoEndCodingInfoKHR(w, p.cast()),
+            VK_STRUCTURE_TYPE_VIDEO_CODING_CONTROL_INFO_KHR => return enc_VkVideoCodingControlInfoKHR(w, p.cast()),
+            VK_STRUCTURE_TYPE_VIDEO_DECODE_INFO_KHR => return enc_VkVideoDecodeInfoKHR(w, p.cast()),
             VK_STRUCTURE_TYPE_AMIGO_PROFILING_SUBMIT_INFO_SEC => return enc_VkAmigoProfilingSubmitInfoSEC(w, p.cast()),
             VK_STRUCTURE_TYPE_DEVICE_GROUP_SUBMIT_INFO => return enc_VkDeviceGroupSubmitInfo(w, p.cast()),
             VK_STRUCTURE_TYPE_FRAME_BOUNDARY_EXT => return enc_VkFrameBoundaryEXT(w, p.cast()),
@@ -10906,6 +12308,9 @@ pub unsafe fn enc_chain<W: Sink>(w: &mut W, mut p: *const c_void) -> i64 {
             VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VARIABLE_POINTERS_FEATURES => return enc_VkPhysicalDeviceVariablePointersFeatures(w, p.cast()),
             VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VERTEX_ATTRIBUTE_ROBUSTNESS_FEATURES_EXT => return enc_VkPhysicalDeviceVertexAttributeRobustnessFeaturesEXT(w, p.cast()),
             VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VERTEX_INPUT_DYNAMIC_STATE_FEATURES_EXT => return enc_VkPhysicalDeviceVertexInputDynamicStateFeaturesEXT(w, p.cast()),
+            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VIDEO_DECODE_VP9_FEATURES_KHR => return enc_VkPhysicalDeviceVideoDecodeVP9FeaturesKHR(w, p.cast()),
+            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VIDEO_MAINTENANCE_1_FEATURES_KHR => return enc_VkPhysicalDeviceVideoMaintenance1FeaturesKHR(w, p.cast()),
+            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VIDEO_MAINTENANCE_2_FEATURES_KHR => return enc_VkPhysicalDeviceVideoMaintenance2FeaturesKHR(w, p.cast()),
             VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_MEMORY_MODEL_FEATURES => return enc_VkPhysicalDeviceVulkanMemoryModelFeatures(w, p.cast()),
             VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_WORKGROUP_MEMORY_EXPLICIT_LAYOUT_FEATURES_KHR => return enc_VkPhysicalDeviceWorkgroupMemoryExplicitLayoutFeaturesKHR(w, p.cast()),
             VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_YCBCR_2_PLANE_444_FORMATS_FEATURES_EXT => return enc_VkPhysicalDeviceYcbcr2Plane444FormatsFeaturesEXT(w, p.cast()),
@@ -10921,11 +12326,14 @@ pub unsafe fn enc_chain<W: Sink>(w: &mut W, mut p: *const c_void) -> i64 {
             VK_STRUCTURE_TYPE_IMAGE_STENCIL_USAGE_CREATE_INFO => return enc_VkImageStencilUsageCreateInfo(w, p.cast()),
             VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_EXTERNAL_IMAGE_FORMAT_INFO => return enc_VkPhysicalDeviceExternalImageFormatInfo(w, p.cast()),
             VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_IMAGE_VIEW_IMAGE_FORMAT_INFO_EXT => return enc_VkPhysicalDeviceImageViewImageFormatInfoEXT(w, p.cast()),
+            VK_STRUCTURE_TYPE_VIDEO_PROFILE_LIST_INFO_KHR => return enc_VkVideoProfileListInfoKHR(w, p.cast()),
             VK_STRUCTURE_TYPE_EXTERNAL_IMAGE_FORMAT_PROPERTIES => return enc_VkExternalImageFormatProperties(w, p.cast()),
             VK_STRUCTURE_TYPE_FILTER_CUBIC_IMAGE_VIEW_IMAGE_FORMAT_PROPERTIES_EXT => return enc_VkFilterCubicImageViewImageFormatPropertiesEXT(w, p.cast()),
             VK_STRUCTURE_TYPE_SAMPLER_YCBCR_CONVERSION_IMAGE_FORMAT_PROPERTIES => return enc_VkSamplerYcbcrConversionImageFormatProperties(w, p.cast()),
             VK_STRUCTURE_TYPE_TEXTURE_LOD_GATHER_FORMAT_PROPERTIES_AMD => return enc_VkTextureLODGatherFormatPropertiesAMD(w, p.cast()),
             VK_STRUCTURE_TYPE_QUEUE_FAMILY_OWNERSHIP_TRANSFER_PROPERTIES_KHR => return enc_VkQueueFamilyOwnershipTransferPropertiesKHR(w, p.cast()),
+            VK_STRUCTURE_TYPE_QUEUE_FAMILY_QUERY_RESULT_STATUS_PROPERTIES_KHR => return enc_VkQueueFamilyQueryResultStatusPropertiesKHR(w, p.cast()),
+            VK_STRUCTURE_TYPE_QUEUE_FAMILY_VIDEO_PROPERTIES_KHR => return enc_VkQueueFamilyVideoPropertiesKHR(w, p.cast()),
             VK_STRUCTURE_TYPE_SEMAPHORE_TYPE_CREATE_INFO => return enc_VkSemaphoreTypeCreateInfo(w, p.cast()),
             VK_STRUCTURE_TYPE_DEVICE_QUEUE_SHADER_CORE_CONTROL_CREATE_INFO_ARM => return enc_VkDeviceQueueShaderCoreControlCreateInfoARM(w, p.cast()),
             VK_STRUCTURE_TYPE_DEVICE_DEVICE_MEMORY_REPORT_CREATE_INFO_EXT => return enc_VkDeviceDeviceMemoryReportCreateInfoEXT(w, p.cast()),
@@ -11007,6 +12415,11 @@ pub unsafe fn enc_chain<W: Sink>(w: &mut W, mut p: *const c_void) -> i64 {
             VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_INLINE_UNIFORM_BLOCK_CREATE_INFO => return enc_VkDescriptorPoolInlineUniformBlockCreateInfo(w, p.cast()),
             VK_STRUCTURE_TYPE_DESCRIPTOR_SET_VARIABLE_DESCRIPTOR_COUNT_ALLOCATE_INFO => return enc_VkDescriptorSetVariableDescriptorCountAllocateInfo(w, p.cast()),
             VK_STRUCTURE_TYPE_DESCRIPTOR_SET_VARIABLE_DESCRIPTOR_COUNT_LAYOUT_SUPPORT => return enc_VkDescriptorSetVariableDescriptorCountLayoutSupport(w, p.cast()),
+            VK_STRUCTURE_TYPE_VIDEO_DECODE_AV1_PROFILE_INFO_KHR => return enc_VkVideoDecodeAV1ProfileInfoKHR(w, p.cast()),
+            VK_STRUCTURE_TYPE_VIDEO_DECODE_H264_PROFILE_INFO_KHR => return enc_VkVideoDecodeH264ProfileInfoKHR(w, p.cast()),
+            VK_STRUCTURE_TYPE_VIDEO_DECODE_H265_PROFILE_INFO_KHR => return enc_VkVideoDecodeH265ProfileInfoKHR(w, p.cast()),
+            VK_STRUCTURE_TYPE_VIDEO_DECODE_USAGE_INFO_KHR => return enc_VkVideoDecodeUsageInfoKHR(w, p.cast()),
+            VK_STRUCTURE_TYPE_VIDEO_DECODE_VP9_PROFILE_INFO_KHR => return enc_VkVideoDecodeVP9ProfileInfoKHR(w, p.cast()),
             VK_STRUCTURE_TYPE_COMMAND_BUFFER_INHERITANCE_RENDER_PASS_TRANSFORM_INFO_QCOM => return enc_VkCommandBufferInheritanceRenderPassTransformInfoQCOM(w, p.cast()),
             VK_STRUCTURE_TYPE_COMMAND_BUFFER_INHERITANCE_RENDERING_INFO => return enc_VkCommandBufferInheritanceRenderingInfo(w, p.cast()),
             VK_STRUCTURE_TYPE_COMMAND_BUFFER_INHERITANCE_VIEWPORT_SCISSOR_INFO_NV => return enc_VkCommandBufferInheritanceViewportScissorInfoNV(w, p.cast()),
@@ -11022,6 +12435,27 @@ pub unsafe fn enc_chain<W: Sink>(w: &mut W, mut p: *const c_void) -> i64 {
             VK_STRUCTURE_TYPE_RENDER_PASS_TRANSFORM_BEGIN_INFO_QCOM => return enc_VkRenderPassTransformBeginInfoQCOM(w, p.cast()),
             VK_STRUCTURE_TYPE_COPY_COMMAND_TRANSFORM_INFO_QCOM => return enc_VkCopyCommandTransformInfoQCOM(w, p.cast()),
             VK_STRUCTURE_TYPE_BLIT_IMAGE_CUBIC_WEIGHTS_INFO_QCOM => return enc_VkBlitImageCubicWeightsInfoQCOM(w, p.cast()),
+            VK_STRUCTURE_TYPE_VIDEO_DECODE_AV1_CAPABILITIES_KHR => return enc_VkVideoDecodeAV1CapabilitiesKHR(w, p.cast()),
+            VK_STRUCTURE_TYPE_VIDEO_DECODE_CAPABILITIES_KHR => return enc_VkVideoDecodeCapabilitiesKHR(w, p.cast()),
+            VK_STRUCTURE_TYPE_VIDEO_DECODE_H264_CAPABILITIES_KHR => return enc_VkVideoDecodeH264CapabilitiesKHR(w, p.cast()),
+            VK_STRUCTURE_TYPE_VIDEO_DECODE_H265_CAPABILITIES_KHR => return enc_VkVideoDecodeH265CapabilitiesKHR(w, p.cast()),
+            VK_STRUCTURE_TYPE_VIDEO_DECODE_VP9_CAPABILITIES_KHR => return enc_VkVideoDecodeVP9CapabilitiesKHR(w, p.cast()),
+            VK_STRUCTURE_TYPE_VIDEO_DECODE_AV1_SESSION_PARAMETERS_CREATE_INFO_KHR => return enc_VkVideoDecodeAV1SessionParametersCreateInfoKHR(w, p.cast()),
+            VK_STRUCTURE_TYPE_VIDEO_DECODE_H264_SESSION_PARAMETERS_ADD_INFO_KHR => return enc_VkVideoDecodeH264SessionParametersAddInfoKHR(w, p.cast()),
+            VK_STRUCTURE_TYPE_VIDEO_DECODE_H264_SESSION_PARAMETERS_CREATE_INFO_KHR => return enc_VkVideoDecodeH264SessionParametersCreateInfoKHR(w, p.cast()),
+            VK_STRUCTURE_TYPE_VIDEO_DECODE_H265_SESSION_PARAMETERS_ADD_INFO_KHR => return enc_VkVideoDecodeH265SessionParametersAddInfoKHR(w, p.cast()),
+            VK_STRUCTURE_TYPE_VIDEO_DECODE_H265_SESSION_PARAMETERS_CREATE_INFO_KHR => return enc_VkVideoDecodeH265SessionParametersCreateInfoKHR(w, p.cast()),
+            VK_STRUCTURE_TYPE_VIDEO_DECODE_AV1_DPB_SLOT_INFO_KHR => return enc_VkVideoDecodeAV1DpbSlotInfoKHR(w, p.cast()),
+            VK_STRUCTURE_TYPE_VIDEO_DECODE_H264_DPB_SLOT_INFO_KHR => return enc_VkVideoDecodeH264DpbSlotInfoKHR(w, p.cast()),
+            VK_STRUCTURE_TYPE_VIDEO_DECODE_H265_DPB_SLOT_INFO_KHR => return enc_VkVideoDecodeH265DpbSlotInfoKHR(w, p.cast()),
+            VK_STRUCTURE_TYPE_VIDEO_DECODE_AV1_INLINE_SESSION_PARAMETERS_INFO_KHR => return enc_VkVideoDecodeAV1InlineSessionParametersInfoKHR(w, p.cast()),
+            VK_STRUCTURE_TYPE_VIDEO_DECODE_AV1_PICTURE_INFO_KHR => return enc_VkVideoDecodeAV1PictureInfoKHR(w, p.cast()),
+            VK_STRUCTURE_TYPE_VIDEO_DECODE_H264_INLINE_SESSION_PARAMETERS_INFO_KHR => return enc_VkVideoDecodeH264InlineSessionParametersInfoKHR(w, p.cast()),
+            VK_STRUCTURE_TYPE_VIDEO_DECODE_H264_PICTURE_INFO_KHR => return enc_VkVideoDecodeH264PictureInfoKHR(w, p.cast()),
+            VK_STRUCTURE_TYPE_VIDEO_DECODE_H265_INLINE_SESSION_PARAMETERS_INFO_KHR => return enc_VkVideoDecodeH265InlineSessionParametersInfoKHR(w, p.cast()),
+            VK_STRUCTURE_TYPE_VIDEO_DECODE_H265_PICTURE_INFO_KHR => return enc_VkVideoDecodeH265PictureInfoKHR(w, p.cast()),
+            VK_STRUCTURE_TYPE_VIDEO_DECODE_VP9_PICTURE_INFO_KHR => return enc_VkVideoDecodeVP9PictureInfoKHR(w, p.cast()),
+            VK_STRUCTURE_TYPE_VIDEO_INLINE_QUERY_INFO_KHR => return enc_VkVideoInlineQueryInfoKHR(w, p.cast()),
             VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_LAYERED_API_VULKAN_PROPERTIES_KHR => return enc_VkPhysicalDeviceLayeredApiVulkanPropertiesKHR(w, p.cast()),
             other => rt::skipped(other),
         }
@@ -11174,6 +12608,21 @@ pub unsafe fn skel_chain<W: Sink>(w: &mut W, mut p: *const c_void) -> i64 {
             VK_STRUCTURE_TYPE_VERTEX_INPUT_BINDING_DESCRIPTION_2_EXT => size_of::<VkVertexInputBindingDescription2EXT>(),
             VK_STRUCTURE_TYPE_VERTEX_INPUT_ATTRIBUTE_DESCRIPTION_2_EXT => size_of::<VkVertexInputAttributeDescription2EXT>(),
             VK_STRUCTURE_TYPE_DEPTH_BIAS_INFO_EXT => size_of::<VkDepthBiasInfoEXT>(),
+            VK_STRUCTURE_TYPE_VIDEO_PROFILE_INFO_KHR => size_of::<VkVideoProfileInfoKHR>(),
+            VK_STRUCTURE_TYPE_VIDEO_CAPABILITIES_KHR => size_of::<VkVideoCapabilitiesKHR>(),
+            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VIDEO_FORMAT_INFO_KHR => size_of::<VkPhysicalDeviceVideoFormatInfoKHR>(),
+            VK_STRUCTURE_TYPE_VIDEO_FORMAT_PROPERTIES_KHR => size_of::<VkVideoFormatPropertiesKHR>(),
+            VK_STRUCTURE_TYPE_VIDEO_SESSION_CREATE_INFO_KHR => size_of::<VkVideoSessionCreateInfoKHR>(),
+            VK_STRUCTURE_TYPE_VIDEO_SESSION_MEMORY_REQUIREMENTS_KHR => size_of::<VkVideoSessionMemoryRequirementsKHR>(),
+            VK_STRUCTURE_TYPE_BIND_VIDEO_SESSION_MEMORY_INFO_KHR => size_of::<VkBindVideoSessionMemoryInfoKHR>(),
+            VK_STRUCTURE_TYPE_VIDEO_SESSION_PARAMETERS_CREATE_INFO_KHR => size_of::<VkVideoSessionParametersCreateInfoKHR>(),
+            VK_STRUCTURE_TYPE_VIDEO_SESSION_PARAMETERS_UPDATE_INFO_KHR => size_of::<VkVideoSessionParametersUpdateInfoKHR>(),
+            VK_STRUCTURE_TYPE_VIDEO_PICTURE_RESOURCE_INFO_KHR => size_of::<VkVideoPictureResourceInfoKHR>(),
+            VK_STRUCTURE_TYPE_VIDEO_REFERENCE_SLOT_INFO_KHR => size_of::<VkVideoReferenceSlotInfoKHR>(),
+            VK_STRUCTURE_TYPE_VIDEO_BEGIN_CODING_INFO_KHR => size_of::<VkVideoBeginCodingInfoKHR>(),
+            VK_STRUCTURE_TYPE_VIDEO_END_CODING_INFO_KHR => size_of::<VkVideoEndCodingInfoKHR>(),
+            VK_STRUCTURE_TYPE_VIDEO_CODING_CONTROL_INFO_KHR => size_of::<VkVideoCodingControlInfoKHR>(),
+            VK_STRUCTURE_TYPE_VIDEO_DECODE_INFO_KHR => size_of::<VkVideoDecodeInfoKHR>(),
             VK_STRUCTURE_TYPE_AMIGO_PROFILING_SUBMIT_INFO_SEC => size_of::<VkAmigoProfilingSubmitInfoSEC>(),
             VK_STRUCTURE_TYPE_DEVICE_GROUP_SUBMIT_INFO => size_of::<VkDeviceGroupSubmitInfo>(),
             VK_STRUCTURE_TYPE_FRAME_BOUNDARY_EXT => size_of::<VkFrameBoundaryEXT>(),
@@ -11379,6 +12828,9 @@ pub unsafe fn skel_chain<W: Sink>(w: &mut W, mut p: *const c_void) -> i64 {
             VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VARIABLE_POINTERS_FEATURES => size_of::<VkPhysicalDeviceVariablePointersFeatures>(),
             VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VERTEX_ATTRIBUTE_ROBUSTNESS_FEATURES_EXT => size_of::<VkPhysicalDeviceVertexAttributeRobustnessFeaturesEXT>(),
             VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VERTEX_INPUT_DYNAMIC_STATE_FEATURES_EXT => size_of::<VkPhysicalDeviceVertexInputDynamicStateFeaturesEXT>(),
+            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VIDEO_DECODE_VP9_FEATURES_KHR => size_of::<VkPhysicalDeviceVideoDecodeVP9FeaturesKHR>(),
+            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VIDEO_MAINTENANCE_1_FEATURES_KHR => size_of::<VkPhysicalDeviceVideoMaintenance1FeaturesKHR>(),
+            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VIDEO_MAINTENANCE_2_FEATURES_KHR => size_of::<VkPhysicalDeviceVideoMaintenance2FeaturesKHR>(),
             VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_MEMORY_MODEL_FEATURES => size_of::<VkPhysicalDeviceVulkanMemoryModelFeatures>(),
             VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_WORKGROUP_MEMORY_EXPLICIT_LAYOUT_FEATURES_KHR => size_of::<VkPhysicalDeviceWorkgroupMemoryExplicitLayoutFeaturesKHR>(),
             VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_YCBCR_2_PLANE_444_FORMATS_FEATURES_EXT => size_of::<VkPhysicalDeviceYcbcr2Plane444FormatsFeaturesEXT>(),
@@ -11394,11 +12846,14 @@ pub unsafe fn skel_chain<W: Sink>(w: &mut W, mut p: *const c_void) -> i64 {
             VK_STRUCTURE_TYPE_IMAGE_STENCIL_USAGE_CREATE_INFO => size_of::<VkImageStencilUsageCreateInfo>(),
             VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_EXTERNAL_IMAGE_FORMAT_INFO => size_of::<VkPhysicalDeviceExternalImageFormatInfo>(),
             VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_IMAGE_VIEW_IMAGE_FORMAT_INFO_EXT => size_of::<VkPhysicalDeviceImageViewImageFormatInfoEXT>(),
+            VK_STRUCTURE_TYPE_VIDEO_PROFILE_LIST_INFO_KHR => size_of::<VkVideoProfileListInfoKHR>(),
             VK_STRUCTURE_TYPE_EXTERNAL_IMAGE_FORMAT_PROPERTIES => size_of::<VkExternalImageFormatProperties>(),
             VK_STRUCTURE_TYPE_FILTER_CUBIC_IMAGE_VIEW_IMAGE_FORMAT_PROPERTIES_EXT => size_of::<VkFilterCubicImageViewImageFormatPropertiesEXT>(),
             VK_STRUCTURE_TYPE_SAMPLER_YCBCR_CONVERSION_IMAGE_FORMAT_PROPERTIES => size_of::<VkSamplerYcbcrConversionImageFormatProperties>(),
             VK_STRUCTURE_TYPE_TEXTURE_LOD_GATHER_FORMAT_PROPERTIES_AMD => size_of::<VkTextureLODGatherFormatPropertiesAMD>(),
             VK_STRUCTURE_TYPE_QUEUE_FAMILY_OWNERSHIP_TRANSFER_PROPERTIES_KHR => size_of::<VkQueueFamilyOwnershipTransferPropertiesKHR>(),
+            VK_STRUCTURE_TYPE_QUEUE_FAMILY_QUERY_RESULT_STATUS_PROPERTIES_KHR => size_of::<VkQueueFamilyQueryResultStatusPropertiesKHR>(),
+            VK_STRUCTURE_TYPE_QUEUE_FAMILY_VIDEO_PROPERTIES_KHR => size_of::<VkQueueFamilyVideoPropertiesKHR>(),
             VK_STRUCTURE_TYPE_SEMAPHORE_TYPE_CREATE_INFO => size_of::<VkSemaphoreTypeCreateInfo>(),
             VK_STRUCTURE_TYPE_DEVICE_QUEUE_SHADER_CORE_CONTROL_CREATE_INFO_ARM => size_of::<VkDeviceQueueShaderCoreControlCreateInfoARM>(),
             VK_STRUCTURE_TYPE_DEVICE_DEVICE_MEMORY_REPORT_CREATE_INFO_EXT => size_of::<VkDeviceDeviceMemoryReportCreateInfoEXT>(),
@@ -11480,6 +12935,11 @@ pub unsafe fn skel_chain<W: Sink>(w: &mut W, mut p: *const c_void) -> i64 {
             VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_INLINE_UNIFORM_BLOCK_CREATE_INFO => size_of::<VkDescriptorPoolInlineUniformBlockCreateInfo>(),
             VK_STRUCTURE_TYPE_DESCRIPTOR_SET_VARIABLE_DESCRIPTOR_COUNT_ALLOCATE_INFO => size_of::<VkDescriptorSetVariableDescriptorCountAllocateInfo>(),
             VK_STRUCTURE_TYPE_DESCRIPTOR_SET_VARIABLE_DESCRIPTOR_COUNT_LAYOUT_SUPPORT => size_of::<VkDescriptorSetVariableDescriptorCountLayoutSupport>(),
+            VK_STRUCTURE_TYPE_VIDEO_DECODE_AV1_PROFILE_INFO_KHR => size_of::<VkVideoDecodeAV1ProfileInfoKHR>(),
+            VK_STRUCTURE_TYPE_VIDEO_DECODE_H264_PROFILE_INFO_KHR => size_of::<VkVideoDecodeH264ProfileInfoKHR>(),
+            VK_STRUCTURE_TYPE_VIDEO_DECODE_H265_PROFILE_INFO_KHR => size_of::<VkVideoDecodeH265ProfileInfoKHR>(),
+            VK_STRUCTURE_TYPE_VIDEO_DECODE_USAGE_INFO_KHR => size_of::<VkVideoDecodeUsageInfoKHR>(),
+            VK_STRUCTURE_TYPE_VIDEO_DECODE_VP9_PROFILE_INFO_KHR => size_of::<VkVideoDecodeVP9ProfileInfoKHR>(),
             VK_STRUCTURE_TYPE_COMMAND_BUFFER_INHERITANCE_RENDER_PASS_TRANSFORM_INFO_QCOM => size_of::<VkCommandBufferInheritanceRenderPassTransformInfoQCOM>(),
             VK_STRUCTURE_TYPE_COMMAND_BUFFER_INHERITANCE_RENDERING_INFO => size_of::<VkCommandBufferInheritanceRenderingInfo>(),
             VK_STRUCTURE_TYPE_COMMAND_BUFFER_INHERITANCE_VIEWPORT_SCISSOR_INFO_NV => size_of::<VkCommandBufferInheritanceViewportScissorInfoNV>(),
@@ -11495,6 +12955,27 @@ pub unsafe fn skel_chain<W: Sink>(w: &mut W, mut p: *const c_void) -> i64 {
             VK_STRUCTURE_TYPE_RENDER_PASS_TRANSFORM_BEGIN_INFO_QCOM => size_of::<VkRenderPassTransformBeginInfoQCOM>(),
             VK_STRUCTURE_TYPE_COPY_COMMAND_TRANSFORM_INFO_QCOM => size_of::<VkCopyCommandTransformInfoQCOM>(),
             VK_STRUCTURE_TYPE_BLIT_IMAGE_CUBIC_WEIGHTS_INFO_QCOM => size_of::<VkBlitImageCubicWeightsInfoQCOM>(),
+            VK_STRUCTURE_TYPE_VIDEO_DECODE_AV1_CAPABILITIES_KHR => size_of::<VkVideoDecodeAV1CapabilitiesKHR>(),
+            VK_STRUCTURE_TYPE_VIDEO_DECODE_CAPABILITIES_KHR => size_of::<VkVideoDecodeCapabilitiesKHR>(),
+            VK_STRUCTURE_TYPE_VIDEO_DECODE_H264_CAPABILITIES_KHR => size_of::<VkVideoDecodeH264CapabilitiesKHR>(),
+            VK_STRUCTURE_TYPE_VIDEO_DECODE_H265_CAPABILITIES_KHR => size_of::<VkVideoDecodeH265CapabilitiesKHR>(),
+            VK_STRUCTURE_TYPE_VIDEO_DECODE_VP9_CAPABILITIES_KHR => size_of::<VkVideoDecodeVP9CapabilitiesKHR>(),
+            VK_STRUCTURE_TYPE_VIDEO_DECODE_AV1_SESSION_PARAMETERS_CREATE_INFO_KHR => size_of::<VkVideoDecodeAV1SessionParametersCreateInfoKHR>(),
+            VK_STRUCTURE_TYPE_VIDEO_DECODE_H264_SESSION_PARAMETERS_ADD_INFO_KHR => size_of::<VkVideoDecodeH264SessionParametersAddInfoKHR>(),
+            VK_STRUCTURE_TYPE_VIDEO_DECODE_H264_SESSION_PARAMETERS_CREATE_INFO_KHR => size_of::<VkVideoDecodeH264SessionParametersCreateInfoKHR>(),
+            VK_STRUCTURE_TYPE_VIDEO_DECODE_H265_SESSION_PARAMETERS_ADD_INFO_KHR => size_of::<VkVideoDecodeH265SessionParametersAddInfoKHR>(),
+            VK_STRUCTURE_TYPE_VIDEO_DECODE_H265_SESSION_PARAMETERS_CREATE_INFO_KHR => size_of::<VkVideoDecodeH265SessionParametersCreateInfoKHR>(),
+            VK_STRUCTURE_TYPE_VIDEO_DECODE_AV1_DPB_SLOT_INFO_KHR => size_of::<VkVideoDecodeAV1DpbSlotInfoKHR>(),
+            VK_STRUCTURE_TYPE_VIDEO_DECODE_H264_DPB_SLOT_INFO_KHR => size_of::<VkVideoDecodeH264DpbSlotInfoKHR>(),
+            VK_STRUCTURE_TYPE_VIDEO_DECODE_H265_DPB_SLOT_INFO_KHR => size_of::<VkVideoDecodeH265DpbSlotInfoKHR>(),
+            VK_STRUCTURE_TYPE_VIDEO_DECODE_AV1_INLINE_SESSION_PARAMETERS_INFO_KHR => size_of::<VkVideoDecodeAV1InlineSessionParametersInfoKHR>(),
+            VK_STRUCTURE_TYPE_VIDEO_DECODE_AV1_PICTURE_INFO_KHR => size_of::<VkVideoDecodeAV1PictureInfoKHR>(),
+            VK_STRUCTURE_TYPE_VIDEO_DECODE_H264_INLINE_SESSION_PARAMETERS_INFO_KHR => size_of::<VkVideoDecodeH264InlineSessionParametersInfoKHR>(),
+            VK_STRUCTURE_TYPE_VIDEO_DECODE_H264_PICTURE_INFO_KHR => size_of::<VkVideoDecodeH264PictureInfoKHR>(),
+            VK_STRUCTURE_TYPE_VIDEO_DECODE_H265_INLINE_SESSION_PARAMETERS_INFO_KHR => size_of::<VkVideoDecodeH265InlineSessionParametersInfoKHR>(),
+            VK_STRUCTURE_TYPE_VIDEO_DECODE_H265_PICTURE_INFO_KHR => size_of::<VkVideoDecodeH265PictureInfoKHR>(),
+            VK_STRUCTURE_TYPE_VIDEO_DECODE_VP9_PICTURE_INFO_KHR => size_of::<VkVideoDecodeVP9PictureInfoKHR>(),
+            VK_STRUCTURE_TYPE_VIDEO_INLINE_QUERY_INFO_KHR => size_of::<VkVideoInlineQueryInfoKHR>(),
             VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_LAYERED_API_VULKAN_PROPERTIES_KHR => size_of::<VkPhysicalDeviceLayeredApiVulkanPropertiesKHR>(),
             other => { rt::skipped(other); 0 }
         };
@@ -11678,6 +13159,21 @@ pub unsafe fn copy_back_chain(mut p: *mut c_void, mut reply: *const u8) -> *cons
             VK_STRUCTURE_TYPE_VERTEX_INPUT_BINDING_DESCRIPTION_2_EXT => size_of::<VkVertexInputBindingDescription2EXT>(),
             VK_STRUCTURE_TYPE_VERTEX_INPUT_ATTRIBUTE_DESCRIPTION_2_EXT => size_of::<VkVertexInputAttributeDescription2EXT>(),
             VK_STRUCTURE_TYPE_DEPTH_BIAS_INFO_EXT => size_of::<VkDepthBiasInfoEXT>(),
+            VK_STRUCTURE_TYPE_VIDEO_PROFILE_INFO_KHR => size_of::<VkVideoProfileInfoKHR>(),
+            VK_STRUCTURE_TYPE_VIDEO_CAPABILITIES_KHR => size_of::<VkVideoCapabilitiesKHR>(),
+            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VIDEO_FORMAT_INFO_KHR => size_of::<VkPhysicalDeviceVideoFormatInfoKHR>(),
+            VK_STRUCTURE_TYPE_VIDEO_FORMAT_PROPERTIES_KHR => size_of::<VkVideoFormatPropertiesKHR>(),
+            VK_STRUCTURE_TYPE_VIDEO_SESSION_CREATE_INFO_KHR => size_of::<VkVideoSessionCreateInfoKHR>(),
+            VK_STRUCTURE_TYPE_VIDEO_SESSION_MEMORY_REQUIREMENTS_KHR => size_of::<VkVideoSessionMemoryRequirementsKHR>(),
+            VK_STRUCTURE_TYPE_BIND_VIDEO_SESSION_MEMORY_INFO_KHR => size_of::<VkBindVideoSessionMemoryInfoKHR>(),
+            VK_STRUCTURE_TYPE_VIDEO_SESSION_PARAMETERS_CREATE_INFO_KHR => size_of::<VkVideoSessionParametersCreateInfoKHR>(),
+            VK_STRUCTURE_TYPE_VIDEO_SESSION_PARAMETERS_UPDATE_INFO_KHR => size_of::<VkVideoSessionParametersUpdateInfoKHR>(),
+            VK_STRUCTURE_TYPE_VIDEO_PICTURE_RESOURCE_INFO_KHR => size_of::<VkVideoPictureResourceInfoKHR>(),
+            VK_STRUCTURE_TYPE_VIDEO_REFERENCE_SLOT_INFO_KHR => size_of::<VkVideoReferenceSlotInfoKHR>(),
+            VK_STRUCTURE_TYPE_VIDEO_BEGIN_CODING_INFO_KHR => size_of::<VkVideoBeginCodingInfoKHR>(),
+            VK_STRUCTURE_TYPE_VIDEO_END_CODING_INFO_KHR => size_of::<VkVideoEndCodingInfoKHR>(),
+            VK_STRUCTURE_TYPE_VIDEO_CODING_CONTROL_INFO_KHR => size_of::<VkVideoCodingControlInfoKHR>(),
+            VK_STRUCTURE_TYPE_VIDEO_DECODE_INFO_KHR => size_of::<VkVideoDecodeInfoKHR>(),
             VK_STRUCTURE_TYPE_AMIGO_PROFILING_SUBMIT_INFO_SEC => size_of::<VkAmigoProfilingSubmitInfoSEC>(),
             VK_STRUCTURE_TYPE_DEVICE_GROUP_SUBMIT_INFO => size_of::<VkDeviceGroupSubmitInfo>(),
             VK_STRUCTURE_TYPE_FRAME_BOUNDARY_EXT => size_of::<VkFrameBoundaryEXT>(),
@@ -11883,6 +13379,9 @@ pub unsafe fn copy_back_chain(mut p: *mut c_void, mut reply: *const u8) -> *cons
             VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VARIABLE_POINTERS_FEATURES => size_of::<VkPhysicalDeviceVariablePointersFeatures>(),
             VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VERTEX_ATTRIBUTE_ROBUSTNESS_FEATURES_EXT => size_of::<VkPhysicalDeviceVertexAttributeRobustnessFeaturesEXT>(),
             VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VERTEX_INPUT_DYNAMIC_STATE_FEATURES_EXT => size_of::<VkPhysicalDeviceVertexInputDynamicStateFeaturesEXT>(),
+            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VIDEO_DECODE_VP9_FEATURES_KHR => size_of::<VkPhysicalDeviceVideoDecodeVP9FeaturesKHR>(),
+            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VIDEO_MAINTENANCE_1_FEATURES_KHR => size_of::<VkPhysicalDeviceVideoMaintenance1FeaturesKHR>(),
+            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VIDEO_MAINTENANCE_2_FEATURES_KHR => size_of::<VkPhysicalDeviceVideoMaintenance2FeaturesKHR>(),
             VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_MEMORY_MODEL_FEATURES => size_of::<VkPhysicalDeviceVulkanMemoryModelFeatures>(),
             VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_WORKGROUP_MEMORY_EXPLICIT_LAYOUT_FEATURES_KHR => size_of::<VkPhysicalDeviceWorkgroupMemoryExplicitLayoutFeaturesKHR>(),
             VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_YCBCR_2_PLANE_444_FORMATS_FEATURES_EXT => size_of::<VkPhysicalDeviceYcbcr2Plane444FormatsFeaturesEXT>(),
@@ -11898,11 +13397,14 @@ pub unsafe fn copy_back_chain(mut p: *mut c_void, mut reply: *const u8) -> *cons
             VK_STRUCTURE_TYPE_IMAGE_STENCIL_USAGE_CREATE_INFO => size_of::<VkImageStencilUsageCreateInfo>(),
             VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_EXTERNAL_IMAGE_FORMAT_INFO => size_of::<VkPhysicalDeviceExternalImageFormatInfo>(),
             VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_IMAGE_VIEW_IMAGE_FORMAT_INFO_EXT => size_of::<VkPhysicalDeviceImageViewImageFormatInfoEXT>(),
+            VK_STRUCTURE_TYPE_VIDEO_PROFILE_LIST_INFO_KHR => size_of::<VkVideoProfileListInfoKHR>(),
             VK_STRUCTURE_TYPE_EXTERNAL_IMAGE_FORMAT_PROPERTIES => size_of::<VkExternalImageFormatProperties>(),
             VK_STRUCTURE_TYPE_FILTER_CUBIC_IMAGE_VIEW_IMAGE_FORMAT_PROPERTIES_EXT => size_of::<VkFilterCubicImageViewImageFormatPropertiesEXT>(),
             VK_STRUCTURE_TYPE_SAMPLER_YCBCR_CONVERSION_IMAGE_FORMAT_PROPERTIES => size_of::<VkSamplerYcbcrConversionImageFormatProperties>(),
             VK_STRUCTURE_TYPE_TEXTURE_LOD_GATHER_FORMAT_PROPERTIES_AMD => size_of::<VkTextureLODGatherFormatPropertiesAMD>(),
             VK_STRUCTURE_TYPE_QUEUE_FAMILY_OWNERSHIP_TRANSFER_PROPERTIES_KHR => size_of::<VkQueueFamilyOwnershipTransferPropertiesKHR>(),
+            VK_STRUCTURE_TYPE_QUEUE_FAMILY_QUERY_RESULT_STATUS_PROPERTIES_KHR => size_of::<VkQueueFamilyQueryResultStatusPropertiesKHR>(),
+            VK_STRUCTURE_TYPE_QUEUE_FAMILY_VIDEO_PROPERTIES_KHR => size_of::<VkQueueFamilyVideoPropertiesKHR>(),
             VK_STRUCTURE_TYPE_SEMAPHORE_TYPE_CREATE_INFO => size_of::<VkSemaphoreTypeCreateInfo>(),
             VK_STRUCTURE_TYPE_DEVICE_QUEUE_SHADER_CORE_CONTROL_CREATE_INFO_ARM => size_of::<VkDeviceQueueShaderCoreControlCreateInfoARM>(),
             VK_STRUCTURE_TYPE_DEVICE_DEVICE_MEMORY_REPORT_CREATE_INFO_EXT => size_of::<VkDeviceDeviceMemoryReportCreateInfoEXT>(),
@@ -11984,6 +13486,11 @@ pub unsafe fn copy_back_chain(mut p: *mut c_void, mut reply: *const u8) -> *cons
             VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_INLINE_UNIFORM_BLOCK_CREATE_INFO => size_of::<VkDescriptorPoolInlineUniformBlockCreateInfo>(),
             VK_STRUCTURE_TYPE_DESCRIPTOR_SET_VARIABLE_DESCRIPTOR_COUNT_ALLOCATE_INFO => size_of::<VkDescriptorSetVariableDescriptorCountAllocateInfo>(),
             VK_STRUCTURE_TYPE_DESCRIPTOR_SET_VARIABLE_DESCRIPTOR_COUNT_LAYOUT_SUPPORT => size_of::<VkDescriptorSetVariableDescriptorCountLayoutSupport>(),
+            VK_STRUCTURE_TYPE_VIDEO_DECODE_AV1_PROFILE_INFO_KHR => size_of::<VkVideoDecodeAV1ProfileInfoKHR>(),
+            VK_STRUCTURE_TYPE_VIDEO_DECODE_H264_PROFILE_INFO_KHR => size_of::<VkVideoDecodeH264ProfileInfoKHR>(),
+            VK_STRUCTURE_TYPE_VIDEO_DECODE_H265_PROFILE_INFO_KHR => size_of::<VkVideoDecodeH265ProfileInfoKHR>(),
+            VK_STRUCTURE_TYPE_VIDEO_DECODE_USAGE_INFO_KHR => size_of::<VkVideoDecodeUsageInfoKHR>(),
+            VK_STRUCTURE_TYPE_VIDEO_DECODE_VP9_PROFILE_INFO_KHR => size_of::<VkVideoDecodeVP9ProfileInfoKHR>(),
             VK_STRUCTURE_TYPE_COMMAND_BUFFER_INHERITANCE_RENDER_PASS_TRANSFORM_INFO_QCOM => size_of::<VkCommandBufferInheritanceRenderPassTransformInfoQCOM>(),
             VK_STRUCTURE_TYPE_COMMAND_BUFFER_INHERITANCE_RENDERING_INFO => size_of::<VkCommandBufferInheritanceRenderingInfo>(),
             VK_STRUCTURE_TYPE_COMMAND_BUFFER_INHERITANCE_VIEWPORT_SCISSOR_INFO_NV => size_of::<VkCommandBufferInheritanceViewportScissorInfoNV>(),
@@ -11999,6 +13506,27 @@ pub unsafe fn copy_back_chain(mut p: *mut c_void, mut reply: *const u8) -> *cons
             VK_STRUCTURE_TYPE_RENDER_PASS_TRANSFORM_BEGIN_INFO_QCOM => size_of::<VkRenderPassTransformBeginInfoQCOM>(),
             VK_STRUCTURE_TYPE_COPY_COMMAND_TRANSFORM_INFO_QCOM => size_of::<VkCopyCommandTransformInfoQCOM>(),
             VK_STRUCTURE_TYPE_BLIT_IMAGE_CUBIC_WEIGHTS_INFO_QCOM => size_of::<VkBlitImageCubicWeightsInfoQCOM>(),
+            VK_STRUCTURE_TYPE_VIDEO_DECODE_AV1_CAPABILITIES_KHR => size_of::<VkVideoDecodeAV1CapabilitiesKHR>(),
+            VK_STRUCTURE_TYPE_VIDEO_DECODE_CAPABILITIES_KHR => size_of::<VkVideoDecodeCapabilitiesKHR>(),
+            VK_STRUCTURE_TYPE_VIDEO_DECODE_H264_CAPABILITIES_KHR => size_of::<VkVideoDecodeH264CapabilitiesKHR>(),
+            VK_STRUCTURE_TYPE_VIDEO_DECODE_H265_CAPABILITIES_KHR => size_of::<VkVideoDecodeH265CapabilitiesKHR>(),
+            VK_STRUCTURE_TYPE_VIDEO_DECODE_VP9_CAPABILITIES_KHR => size_of::<VkVideoDecodeVP9CapabilitiesKHR>(),
+            VK_STRUCTURE_TYPE_VIDEO_DECODE_AV1_SESSION_PARAMETERS_CREATE_INFO_KHR => size_of::<VkVideoDecodeAV1SessionParametersCreateInfoKHR>(),
+            VK_STRUCTURE_TYPE_VIDEO_DECODE_H264_SESSION_PARAMETERS_ADD_INFO_KHR => size_of::<VkVideoDecodeH264SessionParametersAddInfoKHR>(),
+            VK_STRUCTURE_TYPE_VIDEO_DECODE_H264_SESSION_PARAMETERS_CREATE_INFO_KHR => size_of::<VkVideoDecodeH264SessionParametersCreateInfoKHR>(),
+            VK_STRUCTURE_TYPE_VIDEO_DECODE_H265_SESSION_PARAMETERS_ADD_INFO_KHR => size_of::<VkVideoDecodeH265SessionParametersAddInfoKHR>(),
+            VK_STRUCTURE_TYPE_VIDEO_DECODE_H265_SESSION_PARAMETERS_CREATE_INFO_KHR => size_of::<VkVideoDecodeH265SessionParametersCreateInfoKHR>(),
+            VK_STRUCTURE_TYPE_VIDEO_DECODE_AV1_DPB_SLOT_INFO_KHR => size_of::<VkVideoDecodeAV1DpbSlotInfoKHR>(),
+            VK_STRUCTURE_TYPE_VIDEO_DECODE_H264_DPB_SLOT_INFO_KHR => size_of::<VkVideoDecodeH264DpbSlotInfoKHR>(),
+            VK_STRUCTURE_TYPE_VIDEO_DECODE_H265_DPB_SLOT_INFO_KHR => size_of::<VkVideoDecodeH265DpbSlotInfoKHR>(),
+            VK_STRUCTURE_TYPE_VIDEO_DECODE_AV1_INLINE_SESSION_PARAMETERS_INFO_KHR => size_of::<VkVideoDecodeAV1InlineSessionParametersInfoKHR>(),
+            VK_STRUCTURE_TYPE_VIDEO_DECODE_AV1_PICTURE_INFO_KHR => size_of::<VkVideoDecodeAV1PictureInfoKHR>(),
+            VK_STRUCTURE_TYPE_VIDEO_DECODE_H264_INLINE_SESSION_PARAMETERS_INFO_KHR => size_of::<VkVideoDecodeH264InlineSessionParametersInfoKHR>(),
+            VK_STRUCTURE_TYPE_VIDEO_DECODE_H264_PICTURE_INFO_KHR => size_of::<VkVideoDecodeH264PictureInfoKHR>(),
+            VK_STRUCTURE_TYPE_VIDEO_DECODE_H265_INLINE_SESSION_PARAMETERS_INFO_KHR => size_of::<VkVideoDecodeH265InlineSessionParametersInfoKHR>(),
+            VK_STRUCTURE_TYPE_VIDEO_DECODE_H265_PICTURE_INFO_KHR => size_of::<VkVideoDecodeH265PictureInfoKHR>(),
+            VK_STRUCTURE_TYPE_VIDEO_DECODE_VP9_PICTURE_INFO_KHR => size_of::<VkVideoDecodeVP9PictureInfoKHR>(),
+            VK_STRUCTURE_TYPE_VIDEO_INLINE_QUERY_INFO_KHR => size_of::<VkVideoInlineQueryInfoKHR>(),
             VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_LAYERED_API_VULKAN_PROPERTIES_KHR => size_of::<VkPhysicalDeviceLayeredApiVulkanPropertiesKHR>(),
             _ => 0,
         };
@@ -16769,6 +18297,379 @@ pub unsafe extern "system" fn vkCmdSetDepthBias2EXT(commandBuffer: VkCommandBuff
     body_vkCmdSetDepthBias2EXT(&mut w, &ids, &mut outs, commandBuffer, pDepthBiasInfo);
 }
 
+#[inline(always)]
+pub unsafe fn body_vkGetPhysicalDeviceVideoCapabilitiesKHR<W: Sink>(w: &mut W, ids: &[u64], outs: &mut [i64; 2], physicalDevice: VkPhysicalDevice, pVideoProfile: *const VkVideoProfileInfoKHR, pCapabilities: *mut VkVideoCapabilitiesKHR) {
+    let _ = (&ids, &outs);
+    outs[0] = w.reply_alloc(8);
+    w.put(8 + offset_of!(frame::vkGetPhysicalDeviceVideoCapabilitiesKHR, reply) as i64, outs[0]);
+    w.put(8 + offset_of!(frame::vkGetPhysicalDeviceVideoCapabilitiesKHR, physicalDevice) as i64, rt::id(physicalDevice));
+    let wire = if pVideoProfile.is_null() { 0 } else { enc_VkVideoProfileInfoKHR(w, pVideoProfile) };
+    w.put(8 + offset_of!(frame::vkGetPhysicalDeviceVideoCapabilitiesKHR, pVideoProfile) as i64, wire);
+    outs[1] = if pCapabilities.is_null() { 0 } else { w.reply_alloc(size_of::<VkVideoCapabilitiesKHR>() * 1) };
+    w.put(8 + offset_of!(frame::vkGetPhysicalDeviceVideoCapabilitiesKHR, pCapabilities) as i64, outs[1]);
+    if !pCapabilities.is_null() {
+        for i in 0..1 {
+            let at = outs[1] + (i * size_of::<VkVideoCapabilitiesKHR>()) as i64;
+            w.put(at, (*pCapabilities.add(i)).sType);
+            let next = skel_chain(w, (*pCapabilities.add(i)).pNext);
+            w.put(at + 8, next);
+        }
+    }
+}
+
+pub unsafe extern "system" fn vkGetPhysicalDeviceVideoCapabilitiesKHR(physicalDevice: VkPhysicalDevice, pVideoProfile: *const VkVideoProfileInfoKHR, pCapabilities: *mut VkVideoCapabilitiesKHR) -> VkResult {
+    let ids: [u64; 0] = [];
+    let mut outs = [0i64; 2];
+    let mut m = rt::Measure::new(8 + size_of::<frame::vkGetPhysicalDeviceVideoCapabilitiesKHR>());
+    body_vkGetPhysicalDeviceVideoCapabilitiesKHR(&mut m, &ids, &mut outs, physicalDevice, pVideoProfile, pCapabilities);
+    let record_size = m.size();
+    let mut ring = rt::ring();
+    let rec = ring.reserve(op::vkGetPhysicalDeviceVideoCapabilitiesKHR, record_size);
+    let mut w = rt::Write::new(rec, 8 + size_of::<frame::vkGetPhysicalDeviceVideoCapabilitiesKHR>());
+    body_vkGetPhysicalDeviceVideoCapabilitiesKHR(&mut w, &ids, &mut outs, physicalDevice, pVideoProfile, pCapabilities);
+    let end = ring.publish(true);
+    drop(ring);
+    rt::wait(end);
+    if !pCapabilities.is_null() {
+        let n = 1;
+        let mut chain = w.at::<u8>(outs[1]).add(rt::align(size_of::<VkVideoCapabilitiesKHR>() * n)).cast_const();
+        for i in 0..n {
+            let reply = w.at::<u8>(outs[1]).add(i * size_of::<VkVideoCapabilitiesKHR>());
+            core::ptr::copy_nonoverlapping(reply.add(16), pCapabilities.add(i).cast::<u8>().add(16), size_of::<VkVideoCapabilitiesKHR>() - 16);
+            chain = copy_back_chain((*pCapabilities.add(i)).pNext, chain);
+        }
+    }
+    *w.at::<VkResult>(outs[0])
+}
+
+#[inline(always)]
+pub unsafe fn body_vkGetPhysicalDeviceVideoFormatPropertiesKHR<W: Sink>(w: &mut W, ids: &[u64], outs: &mut [i64; 3], physicalDevice: VkPhysicalDevice, pVideoFormatInfo: *const VkPhysicalDeviceVideoFormatInfoKHR, pVideoFormatPropertyCount: *mut u32, pVideoFormatProperties: *mut VkVideoFormatPropertiesKHR) {
+    let _ = (&ids, &outs);
+    outs[0] = w.reply_alloc(8);
+    w.put(8 + offset_of!(frame::vkGetPhysicalDeviceVideoFormatPropertiesKHR, reply) as i64, outs[0]);
+    w.put(8 + offset_of!(frame::vkGetPhysicalDeviceVideoFormatPropertiesKHR, physicalDevice) as i64, rt::id(physicalDevice));
+    let wire = if pVideoFormatInfo.is_null() { 0 } else { enc_VkPhysicalDeviceVideoFormatInfoKHR(w, pVideoFormatInfo) };
+    w.put(8 + offset_of!(frame::vkGetPhysicalDeviceVideoFormatPropertiesKHR, pVideoFormatInfo) as i64, wire);
+    outs[1] = if pVideoFormatPropertyCount.is_null() { 0 } else { w.reply_alloc(size_of::<u32>() * 1) };
+    w.put(8 + offset_of!(frame::vkGetPhysicalDeviceVideoFormatPropertiesKHR, pVideoFormatPropertyCount) as i64, outs[1]);
+    if !pVideoFormatPropertyCount.is_null() { w.put(outs[1], *pVideoFormatPropertyCount); }
+    outs[2] = if pVideoFormatProperties.is_null() { 0 } else { w.reply_alloc(size_of::<VkVideoFormatPropertiesKHR>() * (*pVideoFormatPropertyCount) as usize) };
+    w.put(8 + offset_of!(frame::vkGetPhysicalDeviceVideoFormatPropertiesKHR, pVideoFormatProperties) as i64, outs[2]);
+    if !pVideoFormatProperties.is_null() {
+        for i in 0..(*pVideoFormatPropertyCount) as usize {
+            let at = outs[2] + (i * size_of::<VkVideoFormatPropertiesKHR>()) as i64;
+            w.put(at, (*pVideoFormatProperties.add(i)).sType);
+            let next = skel_chain(w, (*pVideoFormatProperties.add(i)).pNext);
+            w.put(at + 8, next);
+        }
+    }
+}
+
+pub unsafe extern "system" fn vkGetPhysicalDeviceVideoFormatPropertiesKHR(physicalDevice: VkPhysicalDevice, pVideoFormatInfo: *const VkPhysicalDeviceVideoFormatInfoKHR, pVideoFormatPropertyCount: *mut u32, pVideoFormatProperties: *mut VkVideoFormatPropertiesKHR) -> VkResult {
+    let ids: [u64; 0] = [];
+    let mut outs = [0i64; 3];
+    let mut m = rt::Measure::new(8 + size_of::<frame::vkGetPhysicalDeviceVideoFormatPropertiesKHR>());
+    body_vkGetPhysicalDeviceVideoFormatPropertiesKHR(&mut m, &ids, &mut outs, physicalDevice, pVideoFormatInfo, pVideoFormatPropertyCount, pVideoFormatProperties);
+    let record_size = m.size();
+    let mut ring = rt::ring();
+    let rec = ring.reserve(op::vkGetPhysicalDeviceVideoFormatPropertiesKHR, record_size);
+    let mut w = rt::Write::new(rec, 8 + size_of::<frame::vkGetPhysicalDeviceVideoFormatPropertiesKHR>());
+    body_vkGetPhysicalDeviceVideoFormatPropertiesKHR(&mut w, &ids, &mut outs, physicalDevice, pVideoFormatInfo, pVideoFormatPropertyCount, pVideoFormatProperties);
+    let end = ring.publish(true);
+    drop(ring);
+    rt::wait(end);
+    if !pVideoFormatPropertyCount.is_null() {
+        core::ptr::copy_nonoverlapping(w.at::<u32>(outs[1]), pVideoFormatPropertyCount.cast::<u32>(), 1);
+    }
+    if !pVideoFormatProperties.is_null() {
+        let n = (*w.at::<u32>(outs[1])) as usize;
+        let mut chain = w.at::<u8>(outs[2]).add(rt::align(size_of::<VkVideoFormatPropertiesKHR>() * n)).cast_const();
+        for i in 0..n {
+            let reply = w.at::<u8>(outs[2]).add(i * size_of::<VkVideoFormatPropertiesKHR>());
+            core::ptr::copy_nonoverlapping(reply.add(16), pVideoFormatProperties.add(i).cast::<u8>().add(16), size_of::<VkVideoFormatPropertiesKHR>() - 16);
+            chain = copy_back_chain((*pVideoFormatProperties.add(i)).pNext, chain);
+        }
+    }
+    *w.at::<VkResult>(outs[0])
+}
+
+#[inline(always)]
+pub unsafe fn body_vkCreateVideoSessionKHR<W: Sink>(w: &mut W, ids: &[u64], outs: &mut [i64; 1], device: VkDevice, pCreateInfo: *const VkVideoSessionCreateInfoKHR, pAllocator: *const VkAllocationCallbacks, pVideoSession: *mut VkVideoSessionKHR) {
+    let _ = (&ids, &outs);
+    outs[0] = w.reply_alloc(8);
+    w.put(8 + offset_of!(frame::vkCreateVideoSessionKHR, reply) as i64, outs[0]);
+    w.put(8 + offset_of!(frame::vkCreateVideoSessionKHR, device) as i64, rt::id(device));
+    let wire = if pCreateInfo.is_null() { 0 } else { enc_VkVideoSessionCreateInfoKHR(w, pCreateInfo) };
+    w.put(8 + offset_of!(frame::vkCreateVideoSessionKHR, pCreateInfo) as i64, wire);
+    w.put(8 + offset_of!(frame::vkCreateVideoSessionKHR, pVideoSession) as i64, ids[0]);
+}
+
+pub unsafe extern "system" fn vkCreateVideoSessionKHR(device: VkDevice, pCreateInfo: *const VkVideoSessionCreateInfoKHR, pAllocator: *const VkAllocationCallbacks, pVideoSession: *mut VkVideoSessionKHR) -> VkResult {
+    let ids = [rt::new_id()];
+    let mut outs = [0i64; 1];
+    let mut m = rt::Measure::new(8 + size_of::<frame::vkCreateVideoSessionKHR>());
+    body_vkCreateVideoSessionKHR(&mut m, &ids, &mut outs, device, pCreateInfo, pAllocator, pVideoSession);
+    let record_size = m.size();
+    let mut ring = rt::ring();
+    let rec = ring.reserve(op::vkCreateVideoSessionKHR, record_size);
+    let mut w = rt::Write::new(rec, 8 + size_of::<frame::vkCreateVideoSessionKHR>());
+    body_vkCreateVideoSessionKHR(&mut w, &ids, &mut outs, device, pCreateInfo, pAllocator, pVideoSession);
+    let end = ring.publish(true);
+    drop(ring);
+    rt::wait(end);
+    let id = ids[0];
+    *pVideoSession = id;
+    *w.at::<VkResult>(outs[0])
+}
+
+#[inline(always)]
+pub unsafe fn body_vkDestroyVideoSessionKHR<W: Sink>(w: &mut W, ids: &[u64], outs: &mut [i64; 1], device: VkDevice, videoSession: VkVideoSessionKHR, pAllocator: *const VkAllocationCallbacks) {
+    let _ = (&ids, &outs);
+    w.put(8 + offset_of!(frame::vkDestroyVideoSessionKHR, device) as i64, rt::id(device));
+    w.put(8 + offset_of!(frame::vkDestroyVideoSessionKHR, videoSession) as i64, videoSession);
+}
+
+pub unsafe extern "system" fn vkDestroyVideoSessionKHR(device: VkDevice, videoSession: VkVideoSessionKHR, pAllocator: *const VkAllocationCallbacks) {
+    if videoSession as u64 == 0 { return; }
+    let ids: [u64; 0] = [];
+    let mut outs = [0i64; 1];
+    let record_size = 8 + size_of::<frame::vkDestroyVideoSessionKHR>();
+    let mut ring = rt::ring();
+    let rec = ring.reserve(op::vkDestroyVideoSessionKHR, record_size);
+    let mut w = rt::Write::new(rec, 8 + size_of::<frame::vkDestroyVideoSessionKHR>());
+    body_vkDestroyVideoSessionKHR(&mut w, &ids, &mut outs, device, videoSession, pAllocator);
+    ring.publish(false);
+    drop(ring);
+    rt::free_id(videoSession);
+}
+
+#[inline(always)]
+pub unsafe fn body_vkGetVideoSessionMemoryRequirementsKHR<W: Sink>(w: &mut W, ids: &[u64], outs: &mut [i64; 3], device: VkDevice, videoSession: VkVideoSessionKHR, pMemoryRequirementsCount: *mut u32, pMemoryRequirements: *mut VkVideoSessionMemoryRequirementsKHR) {
+    let _ = (&ids, &outs);
+    outs[0] = w.reply_alloc(8);
+    w.put(8 + offset_of!(frame::vkGetVideoSessionMemoryRequirementsKHR, reply) as i64, outs[0]);
+    w.put(8 + offset_of!(frame::vkGetVideoSessionMemoryRequirementsKHR, device) as i64, rt::id(device));
+    w.put(8 + offset_of!(frame::vkGetVideoSessionMemoryRequirementsKHR, videoSession) as i64, videoSession);
+    outs[1] = if pMemoryRequirementsCount.is_null() { 0 } else { w.reply_alloc(size_of::<u32>() * 1) };
+    w.put(8 + offset_of!(frame::vkGetVideoSessionMemoryRequirementsKHR, pMemoryRequirementsCount) as i64, outs[1]);
+    if !pMemoryRequirementsCount.is_null() { w.put(outs[1], *pMemoryRequirementsCount); }
+    outs[2] = if pMemoryRequirements.is_null() { 0 } else { w.reply_alloc(size_of::<VkVideoSessionMemoryRequirementsKHR>() * (*pMemoryRequirementsCount) as usize) };
+    w.put(8 + offset_of!(frame::vkGetVideoSessionMemoryRequirementsKHR, pMemoryRequirements) as i64, outs[2]);
+    if !pMemoryRequirements.is_null() {
+        for i in 0..(*pMemoryRequirementsCount) as usize {
+            let at = outs[2] + (i * size_of::<VkVideoSessionMemoryRequirementsKHR>()) as i64;
+            w.put(at, (*pMemoryRequirements.add(i)).sType);
+            let next = skel_chain(w, (*pMemoryRequirements.add(i)).pNext);
+            w.put(at + 8, next);
+        }
+    }
+}
+
+pub unsafe extern "system" fn vkGetVideoSessionMemoryRequirementsKHR(device: VkDevice, videoSession: VkVideoSessionKHR, pMemoryRequirementsCount: *mut u32, pMemoryRequirements: *mut VkVideoSessionMemoryRequirementsKHR) -> VkResult {
+    let ids: [u64; 0] = [];
+    let mut outs = [0i64; 3];
+    let mut m = rt::Measure::new(8 + size_of::<frame::vkGetVideoSessionMemoryRequirementsKHR>());
+    body_vkGetVideoSessionMemoryRequirementsKHR(&mut m, &ids, &mut outs, device, videoSession, pMemoryRequirementsCount, pMemoryRequirements);
+    let record_size = m.size();
+    let mut ring = rt::ring();
+    let rec = ring.reserve(op::vkGetVideoSessionMemoryRequirementsKHR, record_size);
+    let mut w = rt::Write::new(rec, 8 + size_of::<frame::vkGetVideoSessionMemoryRequirementsKHR>());
+    body_vkGetVideoSessionMemoryRequirementsKHR(&mut w, &ids, &mut outs, device, videoSession, pMemoryRequirementsCount, pMemoryRequirements);
+    let end = ring.publish(true);
+    drop(ring);
+    rt::wait(end);
+    if !pMemoryRequirementsCount.is_null() {
+        core::ptr::copy_nonoverlapping(w.at::<u32>(outs[1]), pMemoryRequirementsCount.cast::<u32>(), 1);
+    }
+    if !pMemoryRequirements.is_null() {
+        let n = (*w.at::<u32>(outs[1])) as usize;
+        let mut chain = w.at::<u8>(outs[2]).add(rt::align(size_of::<VkVideoSessionMemoryRequirementsKHR>() * n)).cast_const();
+        for i in 0..n {
+            let reply = w.at::<u8>(outs[2]).add(i * size_of::<VkVideoSessionMemoryRequirementsKHR>());
+            core::ptr::copy_nonoverlapping(reply.add(16), pMemoryRequirements.add(i).cast::<u8>().add(16), size_of::<VkVideoSessionMemoryRequirementsKHR>() - 16);
+            chain = copy_back_chain((*pMemoryRequirements.add(i)).pNext, chain);
+        }
+    }
+    *w.at::<VkResult>(outs[0])
+}
+
+#[inline(always)]
+pub unsafe fn body_vkBindVideoSessionMemoryKHR<W: Sink>(w: &mut W, ids: &[u64], outs: &mut [i64; 1], device: VkDevice, videoSession: VkVideoSessionKHR, bindSessionMemoryInfoCount: u32, pBindSessionMemoryInfos: *const VkBindVideoSessionMemoryInfoKHR) {
+    let _ = (&ids, &outs);
+    outs[0] = w.reply_alloc(8);
+    w.put(8 + offset_of!(frame::vkBindVideoSessionMemoryKHR, reply) as i64, outs[0]);
+    w.put(8 + offset_of!(frame::vkBindVideoSessionMemoryKHR, device) as i64, rt::id(device));
+    w.put(8 + offset_of!(frame::vkBindVideoSessionMemoryKHR, videoSession) as i64, videoSession);
+    w.put(8 + offset_of!(frame::vkBindVideoSessionMemoryKHR, bindSessionMemoryInfoCount) as i64, bindSessionMemoryInfoCount);
+    let wire = if pBindSessionMemoryInfos.is_null() { 0 } else { enc_n_VkBindVideoSessionMemoryInfoKHR(w, pBindSessionMemoryInfos, bindSessionMemoryInfoCount as usize) };
+    w.put(8 + offset_of!(frame::vkBindVideoSessionMemoryKHR, pBindSessionMemoryInfos) as i64, wire);
+}
+
+pub unsafe extern "system" fn vkBindVideoSessionMemoryKHR(device: VkDevice, videoSession: VkVideoSessionKHR, bindSessionMemoryInfoCount: u32, pBindSessionMemoryInfos: *const VkBindVideoSessionMemoryInfoKHR) -> VkResult {
+    let ids: [u64; 0] = [];
+    let mut outs = [0i64; 1];
+    let mut m = rt::Measure::new(8 + size_of::<frame::vkBindVideoSessionMemoryKHR>());
+    body_vkBindVideoSessionMemoryKHR(&mut m, &ids, &mut outs, device, videoSession, bindSessionMemoryInfoCount, pBindSessionMemoryInfos);
+    let record_size = m.size();
+    let mut ring = rt::ring();
+    let rec = ring.reserve(op::vkBindVideoSessionMemoryKHR, record_size);
+    let mut w = rt::Write::new(rec, 8 + size_of::<frame::vkBindVideoSessionMemoryKHR>());
+    body_vkBindVideoSessionMemoryKHR(&mut w, &ids, &mut outs, device, videoSession, bindSessionMemoryInfoCount, pBindSessionMemoryInfos);
+    let end = ring.publish(true);
+    drop(ring);
+    rt::wait(end);
+    *w.at::<VkResult>(outs[0])
+}
+
+#[inline(always)]
+pub unsafe fn body_vkCreateVideoSessionParametersKHR<W: Sink>(w: &mut W, ids: &[u64], outs: &mut [i64; 1], device: VkDevice, pCreateInfo: *const VkVideoSessionParametersCreateInfoKHR, pAllocator: *const VkAllocationCallbacks, pVideoSessionParameters: *mut VkVideoSessionParametersKHR) {
+    let _ = (&ids, &outs);
+    outs[0] = w.reply_alloc(8);
+    w.put(8 + offset_of!(frame::vkCreateVideoSessionParametersKHR, reply) as i64, outs[0]);
+    w.put(8 + offset_of!(frame::vkCreateVideoSessionParametersKHR, device) as i64, rt::id(device));
+    let wire = if pCreateInfo.is_null() { 0 } else { enc_VkVideoSessionParametersCreateInfoKHR(w, pCreateInfo) };
+    w.put(8 + offset_of!(frame::vkCreateVideoSessionParametersKHR, pCreateInfo) as i64, wire);
+    w.put(8 + offset_of!(frame::vkCreateVideoSessionParametersKHR, pVideoSessionParameters) as i64, ids[0]);
+}
+
+pub unsafe extern "system" fn vkCreateVideoSessionParametersKHR(device: VkDevice, pCreateInfo: *const VkVideoSessionParametersCreateInfoKHR, pAllocator: *const VkAllocationCallbacks, pVideoSessionParameters: *mut VkVideoSessionParametersKHR) -> VkResult {
+    let ids = [rt::new_id()];
+    let mut outs = [0i64; 1];
+    let mut m = rt::Measure::new(8 + size_of::<frame::vkCreateVideoSessionParametersKHR>());
+    body_vkCreateVideoSessionParametersKHR(&mut m, &ids, &mut outs, device, pCreateInfo, pAllocator, pVideoSessionParameters);
+    let record_size = m.size();
+    let mut ring = rt::ring();
+    let rec = ring.reserve(op::vkCreateVideoSessionParametersKHR, record_size);
+    let mut w = rt::Write::new(rec, 8 + size_of::<frame::vkCreateVideoSessionParametersKHR>());
+    body_vkCreateVideoSessionParametersKHR(&mut w, &ids, &mut outs, device, pCreateInfo, pAllocator, pVideoSessionParameters);
+    let end = ring.publish(true);
+    drop(ring);
+    rt::wait(end);
+    let id = ids[0];
+    *pVideoSessionParameters = id;
+    *w.at::<VkResult>(outs[0])
+}
+
+#[inline(always)]
+pub unsafe fn body_vkUpdateVideoSessionParametersKHR<W: Sink>(w: &mut W, ids: &[u64], outs: &mut [i64; 1], device: VkDevice, videoSessionParameters: VkVideoSessionParametersKHR, pUpdateInfo: *const VkVideoSessionParametersUpdateInfoKHR) {
+    let _ = (&ids, &outs);
+    outs[0] = w.reply_alloc(8);
+    w.put(8 + offset_of!(frame::vkUpdateVideoSessionParametersKHR, reply) as i64, outs[0]);
+    w.put(8 + offset_of!(frame::vkUpdateVideoSessionParametersKHR, device) as i64, rt::id(device));
+    w.put(8 + offset_of!(frame::vkUpdateVideoSessionParametersKHR, videoSessionParameters) as i64, videoSessionParameters);
+    let wire = if pUpdateInfo.is_null() { 0 } else { enc_VkVideoSessionParametersUpdateInfoKHR(w, pUpdateInfo) };
+    w.put(8 + offset_of!(frame::vkUpdateVideoSessionParametersKHR, pUpdateInfo) as i64, wire);
+}
+
+pub unsafe extern "system" fn vkUpdateVideoSessionParametersKHR(device: VkDevice, videoSessionParameters: VkVideoSessionParametersKHR, pUpdateInfo: *const VkVideoSessionParametersUpdateInfoKHR) -> VkResult {
+    let ids: [u64; 0] = [];
+    let mut outs = [0i64; 1];
+    let mut m = rt::Measure::new(8 + size_of::<frame::vkUpdateVideoSessionParametersKHR>());
+    body_vkUpdateVideoSessionParametersKHR(&mut m, &ids, &mut outs, device, videoSessionParameters, pUpdateInfo);
+    let record_size = m.size();
+    let mut ring = rt::ring();
+    let rec = ring.reserve(op::vkUpdateVideoSessionParametersKHR, record_size);
+    let mut w = rt::Write::new(rec, 8 + size_of::<frame::vkUpdateVideoSessionParametersKHR>());
+    body_vkUpdateVideoSessionParametersKHR(&mut w, &ids, &mut outs, device, videoSessionParameters, pUpdateInfo);
+    let end = ring.publish(true);
+    drop(ring);
+    rt::wait(end);
+    *w.at::<VkResult>(outs[0])
+}
+
+#[inline(always)]
+pub unsafe fn body_vkDestroyVideoSessionParametersKHR<W: Sink>(w: &mut W, ids: &[u64], outs: &mut [i64; 1], device: VkDevice, videoSessionParameters: VkVideoSessionParametersKHR, pAllocator: *const VkAllocationCallbacks) {
+    let _ = (&ids, &outs);
+    w.put(8 + offset_of!(frame::vkDestroyVideoSessionParametersKHR, device) as i64, rt::id(device));
+    w.put(8 + offset_of!(frame::vkDestroyVideoSessionParametersKHR, videoSessionParameters) as i64, videoSessionParameters);
+}
+
+pub unsafe extern "system" fn vkDestroyVideoSessionParametersKHR(device: VkDevice, videoSessionParameters: VkVideoSessionParametersKHR, pAllocator: *const VkAllocationCallbacks) {
+    if videoSessionParameters as u64 == 0 { return; }
+    let ids: [u64; 0] = [];
+    let mut outs = [0i64; 1];
+    let record_size = 8 + size_of::<frame::vkDestroyVideoSessionParametersKHR>();
+    let mut ring = rt::ring();
+    let rec = ring.reserve(op::vkDestroyVideoSessionParametersKHR, record_size);
+    let mut w = rt::Write::new(rec, 8 + size_of::<frame::vkDestroyVideoSessionParametersKHR>());
+    body_vkDestroyVideoSessionParametersKHR(&mut w, &ids, &mut outs, device, videoSessionParameters, pAllocator);
+    ring.publish(false);
+    drop(ring);
+    rt::free_id(videoSessionParameters);
+}
+
+#[inline(always)]
+pub unsafe fn body_vkCmdBeginVideoCodingKHR<W: Sink>(w: &mut W, ids: &[u64], outs: &mut [i64; 1], commandBuffer: VkCommandBuffer, pBeginInfo: *const VkVideoBeginCodingInfoKHR) {
+    let _ = (&ids, &outs);
+    let wire = if pBeginInfo.is_null() { 0 } else { enc_VkVideoBeginCodingInfoKHR(w, pBeginInfo) };
+    w.put(8 + offset_of!(frame::vkCmdBeginVideoCodingKHR, pBeginInfo) as i64, wire);
+}
+
+pub unsafe extern "system" fn vkCmdBeginVideoCodingKHR(commandBuffer: VkCommandBuffer, pBeginInfo: *const VkVideoBeginCodingInfoKHR) {
+    let ids: [u64; 0] = [];
+    let mut outs = [0i64; 1];
+    let mut m = rt::Measure::new(8 + size_of::<frame::vkCmdBeginVideoCodingKHR>());
+    body_vkCmdBeginVideoCodingKHR(&mut m, &ids, &mut outs, commandBuffer, pBeginInfo);
+    let record_size = m.size();
+    let rec = rt::stream(commandBuffer).reserve(op::vkCmdBeginVideoCodingKHR, record_size);
+    let mut w = rt::Write::new(rec, 8 + size_of::<frame::vkCmdBeginVideoCodingKHR>());
+    body_vkCmdBeginVideoCodingKHR(&mut w, &ids, &mut outs, commandBuffer, pBeginInfo);
+}
+
+#[inline(always)]
+pub unsafe fn body_vkCmdEndVideoCodingKHR<W: Sink>(w: &mut W, ids: &[u64], outs: &mut [i64; 1], commandBuffer: VkCommandBuffer, pEndCodingInfo: *const VkVideoEndCodingInfoKHR) {
+    let _ = (&ids, &outs);
+    let wire = if pEndCodingInfo.is_null() { 0 } else { enc_VkVideoEndCodingInfoKHR(w, pEndCodingInfo) };
+    w.put(8 + offset_of!(frame::vkCmdEndVideoCodingKHR, pEndCodingInfo) as i64, wire);
+}
+
+pub unsafe extern "system" fn vkCmdEndVideoCodingKHR(commandBuffer: VkCommandBuffer, pEndCodingInfo: *const VkVideoEndCodingInfoKHR) {
+    let ids: [u64; 0] = [];
+    let mut outs = [0i64; 1];
+    let mut m = rt::Measure::new(8 + size_of::<frame::vkCmdEndVideoCodingKHR>());
+    body_vkCmdEndVideoCodingKHR(&mut m, &ids, &mut outs, commandBuffer, pEndCodingInfo);
+    let record_size = m.size();
+    let rec = rt::stream(commandBuffer).reserve(op::vkCmdEndVideoCodingKHR, record_size);
+    let mut w = rt::Write::new(rec, 8 + size_of::<frame::vkCmdEndVideoCodingKHR>());
+    body_vkCmdEndVideoCodingKHR(&mut w, &ids, &mut outs, commandBuffer, pEndCodingInfo);
+}
+
+#[inline(always)]
+pub unsafe fn body_vkCmdControlVideoCodingKHR<W: Sink>(w: &mut W, ids: &[u64], outs: &mut [i64; 1], commandBuffer: VkCommandBuffer, pCodingControlInfo: *const VkVideoCodingControlInfoKHR) {
+    let _ = (&ids, &outs);
+    let wire = if pCodingControlInfo.is_null() { 0 } else { enc_VkVideoCodingControlInfoKHR(w, pCodingControlInfo) };
+    w.put(8 + offset_of!(frame::vkCmdControlVideoCodingKHR, pCodingControlInfo) as i64, wire);
+}
+
+pub unsafe extern "system" fn vkCmdControlVideoCodingKHR(commandBuffer: VkCommandBuffer, pCodingControlInfo: *const VkVideoCodingControlInfoKHR) {
+    let ids: [u64; 0] = [];
+    let mut outs = [0i64; 1];
+    let mut m = rt::Measure::new(8 + size_of::<frame::vkCmdControlVideoCodingKHR>());
+    body_vkCmdControlVideoCodingKHR(&mut m, &ids, &mut outs, commandBuffer, pCodingControlInfo);
+    let record_size = m.size();
+    let rec = rt::stream(commandBuffer).reserve(op::vkCmdControlVideoCodingKHR, record_size);
+    let mut w = rt::Write::new(rec, 8 + size_of::<frame::vkCmdControlVideoCodingKHR>());
+    body_vkCmdControlVideoCodingKHR(&mut w, &ids, &mut outs, commandBuffer, pCodingControlInfo);
+}
+
+#[inline(always)]
+pub unsafe fn body_vkCmdDecodeVideoKHR<W: Sink>(w: &mut W, ids: &[u64], outs: &mut [i64; 1], commandBuffer: VkCommandBuffer, pDecodeInfo: *const VkVideoDecodeInfoKHR) {
+    let _ = (&ids, &outs);
+    let wire = if pDecodeInfo.is_null() { 0 } else { enc_VkVideoDecodeInfoKHR(w, pDecodeInfo) };
+    w.put(8 + offset_of!(frame::vkCmdDecodeVideoKHR, pDecodeInfo) as i64, wire);
+}
+
+pub unsafe extern "system" fn vkCmdDecodeVideoKHR(commandBuffer: VkCommandBuffer, pDecodeInfo: *const VkVideoDecodeInfoKHR) {
+    let ids: [u64; 0] = [];
+    let mut outs = [0i64; 1];
+    let mut m = rt::Measure::new(8 + size_of::<frame::vkCmdDecodeVideoKHR>());
+    body_vkCmdDecodeVideoKHR(&mut m, &ids, &mut outs, commandBuffer, pDecodeInfo);
+    let record_size = m.size();
+    let rec = rt::stream(commandBuffer).reserve(op::vkCmdDecodeVideoKHR, record_size);
+    let mut w = rt::Write::new(rec, 8 + size_of::<frame::vkCmdDecodeVideoKHR>());
+    body_vkCmdDecodeVideoKHR(&mut w, &ids, &mut outs, commandBuffer, pDecodeInfo);
+}
+
 /// Core commands not forwarded yet. Arguments are ignored: the call ends here.
 mod missing {
     use super::rt;
@@ -17064,6 +18965,19 @@ pub fn proc_addr(name: &[u8]) -> Option<(*const c_void, rt::Level)> {
         b"vkCmdSetLineStippleKHR" => (vkCmdSetLineStipple as *const c_void, rt::Level::Device),
         b"vkCmdSetLineStippleEXT" => (vkCmdSetLineStipple as *const c_void, rt::Level::Device),
         b"vkCmdSetDepthBias2EXT" => (vkCmdSetDepthBias2EXT as *const c_void, rt::Level::Device),
+        b"vkGetPhysicalDeviceVideoCapabilitiesKHR" => (vkGetPhysicalDeviceVideoCapabilitiesKHR as *const c_void, rt::Level::Physical),
+        b"vkGetPhysicalDeviceVideoFormatPropertiesKHR" => (vkGetPhysicalDeviceVideoFormatPropertiesKHR as *const c_void, rt::Level::Physical),
+        b"vkCreateVideoSessionKHR" => (vkCreateVideoSessionKHR as *const c_void, rt::Level::Device),
+        b"vkDestroyVideoSessionKHR" => (vkDestroyVideoSessionKHR as *const c_void, rt::Level::Device),
+        b"vkGetVideoSessionMemoryRequirementsKHR" => (vkGetVideoSessionMemoryRequirementsKHR as *const c_void, rt::Level::Device),
+        b"vkBindVideoSessionMemoryKHR" => (vkBindVideoSessionMemoryKHR as *const c_void, rt::Level::Device),
+        b"vkCreateVideoSessionParametersKHR" => (vkCreateVideoSessionParametersKHR as *const c_void, rt::Level::Device),
+        b"vkUpdateVideoSessionParametersKHR" => (vkUpdateVideoSessionParametersKHR as *const c_void, rt::Level::Device),
+        b"vkDestroyVideoSessionParametersKHR" => (vkDestroyVideoSessionParametersKHR as *const c_void, rt::Level::Device),
+        b"vkCmdBeginVideoCodingKHR" => (vkCmdBeginVideoCodingKHR as *const c_void, rt::Level::Device),
+        b"vkCmdEndVideoCodingKHR" => (vkCmdEndVideoCodingKHR as *const c_void, rt::Level::Device),
+        b"vkCmdControlVideoCodingKHR" => (vkCmdControlVideoCodingKHR as *const c_void, rt::Level::Device),
+        b"vkCmdDecodeVideoKHR" => (vkCmdDecodeVideoKHR as *const c_void, rt::Level::Device),
         b"vkQueueBindSparse" => (missing::vkQueueBindSparse as *const c_void, rt::Level::Device),
         b"vkGetDeviceGroupPeerMemoryFeatures" => (missing::vkGetDeviceGroupPeerMemoryFeatures as *const c_void, rt::Level::Device),
         b"vkGetDeviceGroupPeerMemoryFeaturesKHR" => (missing::vkGetDeviceGroupPeerMemoryFeaturesKHR as *const c_void, rt::Level::Device),

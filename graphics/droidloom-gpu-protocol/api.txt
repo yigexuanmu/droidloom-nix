@@ -317,3 +317,23 @@ command vkDestroySwapchainKHR local
 command vkGetSwapchainImagesKHR local
 command vkAcquireNextImageKHR local
 command vkQueuePresentKHR local
+
+# Video decode: VK_KHR_video_queue and the decode extensions, replayed onto
+# the host driver's own video queues. Creation, parameter updates and
+# session-memory binding carry their VkResult back; the coding-scope commands
+# ride the command-buffer stream like every other vkCmd*. The Mut-pointer
+# members of the reached structures carry driver-side state, so nothing
+# special is needed: the caller fills only const members.
+command vkGetPhysicalDeviceVideoCapabilitiesKHR
+command vkGetPhysicalDeviceVideoFormatPropertiesKHR
+command vkCreateVideoSessionKHR sync
+command vkDestroyVideoSessionKHR
+command vkGetVideoSessionMemoryRequirementsKHR
+command vkBindVideoSessionMemoryKHR sync
+command vkCreateVideoSessionParametersKHR sync
+command vkUpdateVideoSessionParametersKHR sync
+command vkDestroyVideoSessionParametersKHR
+command vkCmdBeginVideoCodingKHR
+command vkCmdEndVideoCodingKHR
+command vkCmdControlVideoCodingKHR
+command vkCmdDecodeVideoKHR

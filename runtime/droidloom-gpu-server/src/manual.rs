@@ -238,8 +238,9 @@ pub unsafe fn h_vkGetPhysicalDeviceProperties2(s: &mut Server, record: *mut u8) 
 }
 
 /// Queue capabilities whose commands are not forwarded: sparse binding,
-/// video coding and optical flow.
-const UNFORWARDED_QUEUE_FLAGS: u32 = 0x8 | 0x20 | 0x40 | 0x100;
+/// video encode and optical flow. Video decode rides the forwarded queues
+/// (`vkCmdDecodeVideoKHR` and friends), so its queue bit reaches the client.
+const UNFORWARDED_QUEUE_FLAGS: u32 = 0x8 | 0x40 | 0x100;
 
 /// Sparse resources are not forwarded (`vkQueueBindSparse`).
 fn hide_unforwarded_features(features: &mut VkPhysicalDeviceFeatures) {
