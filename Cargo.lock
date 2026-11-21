@@ -874,6 +874,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "droidloom-video-probe"
+version = "0.1.0"
+dependencies = [
+ "ash",
+ "droidloom-gpu-protocol",
+ "libloading",
+]
+
+[[package]]
 name = "droidloom-vulkan"
 version = "0.1.0"
 dependencies = [

@@ -44,6 +44,7 @@ members = [
     "tools/droidloom-frame-timing",
     "tools/droidloom-gpu-triangle",
     "tools/droidloom-gpu-gen",
+    "tools/droidloom-video-probe",
 ]
 resolver = "3"
 
