@@ -48,7 +48,10 @@ and `droidloomd` remain trusted computing base.
 3. Assemble mounts and devices in the supervisor. Android receives no general
    host mount authority and no broad `/dev` bind mount.
 4. Expose only the selected DRM render node and the explicitly configured
-   graphics backend's bounded auxiliary devices. `kgsl_dma_heap` adds only
+   graphics backend's bounded auxiliary devices. `nvk_rm` adds the NVIDIA
+   character devices (/dev/nvidiactl, /dev/nvidia0, /dev/nvidia-uvm), each
+   verified against its kernel device identity; with it, the NVIDIA kernel
+   module joins the cell's trusted computing base. `kgsl_dma_heap` adds only
    `/dev/kgsl-3d0` and `/dev/dma_heap/system`, while `drm_dma_heap` adds only
    `/dev/dma_heap/system`; their drivers become part of the
    trusted kernel interface. Other backends get `/dev/dma_heap/system` for
