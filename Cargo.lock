@@ -874,6 +874,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "droidloom-video"
+version = "0.1.0"
+dependencies = [
+ "droidloom-gpu-protocol",
+ "libc",
+]
+
+[[package]]
 name = "droidloom-video-probe"
 version = "0.1.0"
 dependencies = [

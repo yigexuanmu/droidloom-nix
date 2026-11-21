@@ -45,6 +45,7 @@ members = [
     "tools/droidloom-gpu-triangle",
     "tools/droidloom-gpu-gen",
     "tools/droidloom-video-probe",
+    "android/media/droidloom-video",
 ]
 resolver = "3"
 
