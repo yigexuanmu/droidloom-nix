@@ -1,8 +1,8 @@
 diff --git a/Android.bp b/Android.bp
-index fd428f0..6cd1832 100644
+index 71e6c62..a53faf3 100644
 --- a/Android.bp
 +++ b/Android.bp
-@@ -63,6 +63,7 @@ filegroup {
+@@ -62,6 +62,7 @@ filegroup {
          "cros_gralloc/cros_gralloc_buffer.cc",
          "cros_gralloc/cros_gralloc_driver.cc",
          "cros_gralloc/cros_gralloc_helpers.cc",
@@ -10,7 +10,7 @@ index fd428f0..6cd1832 100644
      ],
  }
  
-@@ -150,6 +151,7 @@ cc_defaults {
+@@ -134,6 +135,7 @@ cc_defaults {
          "libnativebase_headers",
          "libsystem_headers",
          "minigbm_headers",
@@ -43,7 +43,7 @@ index e4b86f5..36514aa 100644
  	}
  	/*
 diff --git a/dma_heap.c b/dma_heap.c
-index 3ea461f..08b01e1 100644
+index 3ea461f..55f46f7 100644
 --- a/dma_heap.c
 +++ b/dma_heap.c
 @@ -19,6 +19,7 @@
@@ -54,22 +54,31 @@ index 3ea461f..08b01e1 100644
  
  /* blob format only */
  static const uint32_t dma_heap_blob_format = DRM_FORMAT_R8;
-@@ -191,6 +192,14 @@ static const uint64_t dma_heap_image_use_flags =
+@@ -191,6 +192,23 @@ static const uint64_t dma_heap_image_use_flags =
  #define DMA_HEAP_MAX_IMAGE_DIMENSION 16384u
  #define DMA_HEAP_MAX_ALLOCATION (1u << 30)
  
 +/* A GPU draws or samples these, the enclosing compositor shows them, and
-+ * nobody maps them: they may lie in VRAM in a layout of the GPU's own.
++ * CPU consumers reach them through a staged linear copy: they may lie in
++ * VRAM in a layout of the GPU's own.
 + */
 +static const uint64_t dma_heap_vram_use_flags =
 +    BO_USE_RENDERING | BO_USE_TEXTURE | BO_USE_SCANOUT;
++
++/* Producers that write the bytes themselves, and anything the GPU must not
++ * relocate, still need LINEAR system memory.
++ */
++static const uint64_t dma_heap_vram_excluded =
++    BO_USE_LINEAR | BO_USE_CAMERA_READ | BO_USE_CAMERA_WRITE | BO_USE_HW_VIDEO_DECODER |
++    BO_USE_HW_VIDEO_ENCODER | BO_USE_GPU_DATA_BUFFER | BO_USE_SENSOR_DIRECT_DATA |
++    BO_USE_PROTECTED | BO_USE_CURSOR | BO_USE_RENDERSCRIPT;
 +
 +vram_image_allocator dma_heap_image_vram;
 +
  static bool image_is_supported(const struct bo *bo)
  {
  	bool format_found = false;
-@@ -231,11 +240,52 @@ static int dma_heap_image_compute_metadata(struct bo *bo, uint32_t width, uint32
+@@ -231,11 +249,80 @@ static int dma_heap_image_compute_metadata(struct bo *bo, uint32_t width, uint32
  	return 0;
  }
  
@@ -77,7 +86,7 @@ index 3ea461f..08b01e1 100644
 +{
 +	struct vram_image image;
 +
-+	if (dma_heap_image_vram && !(bo->meta.use_flags & ~dma_heap_vram_use_flags) &&
++	if (dma_heap_image_vram && !(bo->meta.use_flags & dma_heap_vram_excluded) &&
 +	    (bo->meta.use_flags & (BO_USE_RENDERING | BO_USE_TEXTURE)) &&
 +	    !dma_heap_image_vram(bo->meta.format, bo->meta.width, bo->meta.height,
 +				 DMA_HEAP_MAX_ALLOCATION, &image)) {
@@ -94,12 +103,40 @@ index 3ea461f..08b01e1 100644
 +
 +static void *dma_heap_image_map(struct bo *bo, struct vma *vma, uint32_t map_flags)
 +{
-+	/* A layout of the GPU's own is no rows of pixels. */
 +	if (bo->meta.format_modifier != DRM_FORMAT_MOD_LINEAR) {
-+		errno = EINVAL;
-+		return MAP_FAILED;
++		/* A layout of the GPU's own is no rows of pixels: the CPU gets a
++		 * staged linear copy, moved in and out of VRAM by the GPU.
++		 */
++		void *state = NULL;
++		void *map = vram_map(bo->handle.fd, bo->meta.format_modifier, bo->meta.format,
++					     bo->meta.width, bo->meta.height, bo->meta.strides[0],
++					     bo->meta.total_size, map_flags, &state);
++		vma->priv = state;
++		vma->length = bo->meta.total_size;
++		return map;
 +	}
++	vma->priv = NULL;
 +	return dma_heap_bo_map(bo, vma, map_flags);
++}
++
++static int dma_heap_image_flush(struct bo *bo, struct mapping *mapping)
++{
++	if (mapping->vma->priv && !vram_flush(mapping->vma->priv))
++		return -EINVAL;
++	return dma_heap_bo_flush(bo, mapping);
++}
++
++static int dma_heap_image_invalidate(struct bo *bo, struct mapping *mapping)
++{
++	if (mapping->vma->priv)
++		vram_refresh(bo->handle.fd);
++	return dma_heap_bo_invalidate(bo, mapping);
++}
++
++static int dma_heap_image_destroy(struct bo *bo)
++{
++	vram_release_key(bo->handle.fd);
++	return dma_heap_bo_destroy(bo);
 +}
 +
  static int dma_heap_image_import(struct bo *bo, struct drv_import_fd_data *data)
@@ -124,26 +161,31 @@ index 3ea461f..08b01e1 100644
  	struct stat first;
  	if (fstat(data->fds[0], &first))
  		return -errno;
-@@ -278,11 +328,11 @@ const struct backend backend_dma_heap_images = {
+@@ -278,13 +365,13 @@ const struct backend backend_dma_heap_images = {
  	.name = "dma_heap_images",
  	.init = dma_heap_images_init,
  	.bo_compute_metadata = dma_heap_image_compute_metadata,
 -	.bo_create_from_metadata = dma_heap_bo_create_from_metadata,
+-	.bo_destroy = dma_heap_bo_destroy,
 +	.bo_create_from_metadata = dma_heap_image_create_from_metadata,
- 	.bo_destroy = dma_heap_bo_destroy,
++	.bo_destroy = dma_heap_image_destroy,
  	.bo_import = dma_heap_image_import,
  	.bo_export = dma_heap_bo_export,
 -	.bo_map = dma_heap_bo_map,
 +	.bo_map = dma_heap_image_map,
  	.bo_unmap = drv_bo_munmap,
- 	.bo_invalidate = dma_heap_bo_invalidate,
- 	.bo_flush = dma_heap_bo_flush,
+-	.bo_invalidate = dma_heap_bo_invalidate,
+-	.bo_flush = dma_heap_bo_flush,
++	.bo_invalidate = dma_heap_image_invalidate,
++	.bo_flush = dma_heap_image_flush,
+ 	.resolve_format_and_use_flags = drv_resolve_format_and_use_flags_helper,
+ };
 diff --git a/vram_images.c b/vram_images.c
 new file mode 100644
-index 0000000..b03f09f
+index 0000000..b7a487a
 --- /dev/null
 +++ b/vram_images.c
-@@ -0,0 +1,440 @@
+@@ -0,0 +1,800 @@
 +/*
 + * Use of this source code is governed by a BSD-style license that can be
 + * found in the LICENSE file.
@@ -160,9 +202,12 @@ index 0000000..b03f09f
 +
 +#include <dlfcn.h>
 +#include <errno.h>
++#include <fcntl.h>
 +#include <pthread.h>
 +#include <stdbool.h>
++#include <stdlib.h>
 +#include <string.h>
++#include <sys/mman.h>
 +#include <unistd.h>
 +
 +#include <vulkan/vulkan.h>
@@ -226,9 +271,18 @@ index 0000000..b03f09f
 +	PFN_vkBeginCommandBuffer BeginCommandBuffer;
 +	PFN_vkCmdPipelineBarrier CmdPipelineBarrier;
 +	PFN_vkCmdClearColorImage CmdClearColorImage;
++	PFN_vkCmdCopyImageToBuffer CmdCopyImageToBuffer;
++	PFN_vkCmdCopyBufferToImage CmdCopyBufferToImage;
 +	PFN_vkEndCommandBuffer EndCommandBuffer;
 +	PFN_vkQueueSubmit QueueSubmit;
 +	PFN_vkQueueWaitIdle QueueWaitIdle;
++	PFN_vkBindBufferMemory BindBufferMemory;
++	PFN_vkCreateBuffer CreateBuffer;
++	PFN_vkDestroyBuffer DestroyBuffer;
++	PFN_vkGetBufferMemoryRequirements GetBufferMemoryRequirements;
++	PFN_vkMapMemory MapMemory;
++	PFN_vkUnmapMemory UnmapMemory;
++	PFN_vkFlushMappedMemoryRanges FlushMappedMemoryRanges;
 +} vk = { .lock = PTHREAD_MUTEX_INITIALIZER };
 +
 +/* An instance and a device of the first GPU, kept for the process. */
@@ -328,7 +382,10 @@ index 0000000..b03f09f
 +	KEEP(BeginCommandBuffer);
 +	KEEP(CmdPipelineBarrier);
 +	KEEP(CmdClearColorImage);
++	KEEP(CmdCopyImageToBuffer);
++	KEEP(CmdCopyBufferToImage);
 +	KEEP(EndCommandBuffer);
++	KEEP(BindBufferMemory);
 +	KEEP(QueueSubmit);
 +	KEEP(QueueWaitIdle);
 +#undef KEEP
@@ -584,12 +641,357 @@ index 0000000..b03f09f
 +	pthread_mutex_unlock(&vk.lock);
 +	return ret;
 +}
++/* CPU locks of a VRAM buffer stage a linear copy: the DMA-BUF imports as an
++ * image of its own layout on this device, a host-visible buffer of the
++ * buffer's own stride moves the rows by GPU copy, and the CPU mmaps the
++ * buffer. Read locks stage in once; write locks stage out on flush. The
++ * staging objects live on per-buffer entries until the handle closes.
++ */
++struct vram_staging {
++	int fd;
++	int key_fd;
++	uint32_t width;
++	uint32_t height;
++	uint32_t stride;
++	uint32_t bpp;
++	uint32_t map_flags;
++	void *map;
++	uint64_t buffer_size;
++	VkImage image;
++	VkDeviceMemory image_memory;
++	VkBuffer buffer;
++	VkDeviceMemory buffer_memory;
++	struct vram_staging *next;
++};
++
++static struct {
++	pthread_mutex_t lock;
++	struct vram_staging *head;
++} staged = { .lock = PTHREAD_MUTEX_INITIALIZER };
++
++static bool vram_ready;
++
++/* The driver is opened once for the whole process, allocator and mapper
++ * clients alike.
++ */
++static bool vram_ensure(void)
++{
++	static bool opened;
++
++	if (!vk.tried) {
++		vk.tried = true;
++		opened = vram_open();
++		vram_ready = opened;
++	}
++	return vram_ready;
++}
++
++/* The Vulkan format of `drm_format`, from the allocator's own table. */
++static VkFormat vram_format_of(uint32_t drm_format)
++{
++	for (size_t i = 0; i < ARRAY_SIZE(vram_formats); i++) {
++		if (vram_formats[i].drm_format == drm_format)
++			return vram_formats[i].format;
++	}
++	return VK_FORMAT_UNDEFINED;
++}
++
++/* Bytes per pixel of the formats the table carries. */
++static uint32_t vram_bpp(VkFormat format)
++{
++	switch (format) {
++	case VK_FORMAT_R5G6B5_UNORM_PACK16:
++		return 2;
++	case VK_FORMAT_R16G16B16A16_SFLOAT:
++		return 8;
++	default:
++		return 4;
++	}
++}
++
++static void vram_transition(VkImage image, VkImageLayout old_layout, VkImageLayout new_layout)
++{
++	const VkImageSubresourceRange all = {
++		.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT,
++		.levelCount = 1,
++		.layerCount = 1,
++	};
++	const VkImageMemoryBarrier barrier = {
++		.sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER,
++		.srcAccessMask = (old_layout == VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL)
++				      ? VK_ACCESS_TRANSFER_WRITE_BIT
++				      : 0,
++		.dstAccessMask = (new_layout == VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL)
++				      ? VK_ACCESS_TRANSFER_WRITE_BIT
++				      : VK_ACCESS_TRANSFER_READ_BIT,
++		.oldLayout = old_layout,
++		.newLayout = new_layout,
++		.srcQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED,
++		.dstQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED,
++		.image = image,
++		.subresourceRange = all,
++	};
++
++	vk.CmdPipelineBarrier(vk.commands, VK_PIPELINE_STAGE_ALL_COMMANDS_BIT,
++			      VK_PIPELINE_STAGE_ALL_COMMANDS_BIT, 0, 0, NULL, 0, NULL, 1,
++			      &barrier);
++}
++
++static bool vram_submit(void)
++{
++	const VkSubmitInfo submit = {
++		.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO,
++		.commandBufferCount = 1,
++		.pCommandBuffers = &vk.commands,
++	};
++
++	return vk.QueueSubmit(vk.queue, 1, &submit, VK_NULL_HANDLE) == VK_SUCCESS &&
++	       vk.QueueWaitIdle(vk.queue) == VK_SUCCESS;
++}
++
++static struct vram_staging *vram_staging_of(int key_fd)
++{
++	struct vram_staging *entry;
++
++	pthread_mutex_lock(&staged.lock);
++	for (entry = staged.head; entry; entry = entry->next) {
++		if (entry->key_fd == key_fd)
++			break;
++	}
++	pthread_mutex_unlock(&staged.lock);
++	return entry;
++}
++
++/* Move the rows between the VRAM image and the staged copy. The image
++ * transitions from UNDEFINED like every first access of an externally owned
++ * image does; the copy itself reads the memory the producer left there.
++ */
++static bool vram_stage_rows(struct vram_staging *entry, uint32_t width, uint32_t height,
++			    uint32_t stride, uint32_t bpp, bool to_buffer)
++{
++	const VkCommandBufferBeginInfo begin = {
++		.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO,
++		.flags = VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT,
++	};
++	const VkBufferImageCopy region = {
++		.bufferRowLength = stride / bpp,
++		.bufferImageHeight = height,
++		.imageSubresource.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT,
++		.imageSubresource.layerCount = 1,
++		.imageExtent = { width, height, 1 },
++	};
++
++	pthread_mutex_lock(&vk.lock);
++	if (to_buffer) {
++		vram_transition(entry->image, VK_IMAGE_LAYOUT_UNDEFINED,
++				VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL);
++	} else {
++		vram_transition(entry->image, VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL,
++				VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL);
++	}
++	bool done = vk.BeginCommandBuffer(vk.commands, &begin) == VK_SUCCESS;
++	if (done) {
++		if (to_buffer)
++			vk.CmdCopyImageToBuffer(vk.commands, entry->image,
++						VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL, entry->buffer,
++						1, &region);
++		else
++			vk.CmdCopyBufferToImage(vk.commands, entry->buffer, entry->image,
++						VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, 1, &region);
++		done = vk.EndCommandBuffer(vk.commands) == VK_SUCCESS && vram_submit();
++	}
++	pthread_mutex_unlock(&vk.lock);
++	return done;
++}
++
++void *vram_map(int fd, uint64_t modifier, uint32_t drm_format, uint32_t width, uint32_t height,
++	       uint32_t stride, uint64_t size, uint32_t map_flags, void **state)
++{
++	const VkImageDrmFormatModifierExplicitCreateInfoEXT explicit = {
++		.sType = VK_STRUCTURE_TYPE_IMAGE_DRM_FORMAT_MODIFIER_EXPLICIT_CREATE_INFO_EXT,
++		.drmFormatModifier = modifier,
++		.drmFormatModifierPlaneCount = 1,
++		.pPlaneLayouts =
++		    &(VkSubresourceLayout){ .offset = 0, .size = size, .rowPitch = stride },
++	};
++	const VkExternalMemoryImageCreateInfo external = {
++		.sType = VK_STRUCTURE_TYPE_EXTERNAL_MEMORY_IMAGE_CREATE_INFO,
++		.pNext = &explicit,
++		.handleTypes = VK_EXTERNAL_MEMORY_HANDLE_TYPE_DMA_BUF_BIT_EXT,
++	};
++	const VkImageCreateInfo image_info = {
++		.sType = VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO,
++		.pNext = &external,
++		.imageType = VK_IMAGE_TYPE_2D,
++		.format = vram_format_of(drm_format),
++		.extent = { width, height, 1 },
++		.mipLevels = 1,
++		.arrayLayers = 1,
++		.samples = VK_SAMPLE_COUNT_1_BIT,
++		.tiling = VK_IMAGE_TILING_DRM_FORMAT_MODIFIER_EXT,
++		.usage = VK_IMAGE_USAGE_TRANSFER_SRC_BIT | VK_IMAGE_USAGE_TRANSFER_DST_BIT,
++		.sharingMode = VK_SHARING_MODE_EXCLUSIVE,
++		.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED,
++	};
++	const VkMemoryDedicatedAllocateInfo dedicated = {
++		.sType = VK_STRUCTURE_TYPE_MEMORY_DEDICATED_ALLOCATE_INFO,
++	};
++	VkImportMemoryFdInfoKHR imported = {
++		.sType = VK_STRUCTURE_TYPE_IMPORT_MEMORY_FD_INFO_KHR,
++		.pNext = &dedicated,
++		.handleType = VK_EXTERNAL_MEMORY_HANDLE_TYPE_DMA_BUF_BIT_EXT,
++	};
++	const VkBufferCreateInfo buffer_info = {
++		.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO,
++		.size = (VkDeviceSize)stride * height,
++		.usage = VK_BUFFER_USAGE_TRANSFER_SRC_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT,
++		.sharingMode = VK_SHARING_MODE_EXCLUSIVE,
++	};
++	VkMemoryAllocateInfo memory_info = {
++		.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO,
++		.pNext = &imported,
++		.memoryTypeIndex = UINT32_MAX,
++	};
++	VkMemoryRequirements requirements;
++	struct vram_staging *entry = NULL;
++	void *map = MAP_FAILED;
++	int dup_fd = -1;
++	int image_fd = -1;
++
++	if (vram_format_of(drm_format) == VK_FORMAT_UNDEFINED || !stride || !width || !height)
++		goto err;
++	pthread_mutex_lock(&vk.lock);
++	if (!vram_ensure()) {
++		pthread_mutex_unlock(&vk.lock);
++		goto err;
++	}
++	entry = calloc(1, sizeof(*entry));
++	if (!entry) {
++		pthread_mutex_unlock(&vk.lock);
++		goto err;
++	}
++	if (vk.CreateImage(vk.device, &image_info, NULL, &entry->image) != VK_SUCCESS)
++		goto out;
++	vk.GetImageMemoryRequirements(vk.device, entry->image, &requirements);
++	image_fd = fcntl(fd, F_DUPFD_CLOEXEC, 0);
++	if (image_fd < 0)
++		goto out;
++	imported.fd = image_fd;
++	memory_info.allocationSize = requirements.size;
++	for (uint32_t i = 0; i < vk.memory.memoryTypeCount && memory_info.memoryTypeIndex == UINT32_MAX;
++	     i++) {
++		if ((requirements.memoryTypeBits & (1u << i)) &&
++		    (vk.memory.memoryTypes[i].propertyFlags & VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT))
++			memory_info.memoryTypeIndex = i;
++	}
++	if (memory_info.memoryTypeIndex == UINT32_MAX ||
++	    vk.AllocateMemory(vk.device, &memory_info, NULL, &entry->image_memory) != VK_SUCCESS ||
++	    vk.BindImageMemory(vk.device, entry->image, entry->image_memory, 0) != VK_SUCCESS)
++		goto out;
++	if (vk.CreateBuffer(vk.device, &buffer_info, NULL, &entry->buffer) != VK_SUCCESS)
++		goto out;
++	vk.GetBufferMemoryRequirements(vk.device, entry->buffer, &requirements);
++	memory_info.pNext = NULL;
++	memory_info.allocationSize = requirements.size;
++	memory_info.memoryTypeIndex = UINT32_MAX;
++	for (uint32_t i = 0; i < vk.memory.memoryTypeCount && memory_info.memoryTypeIndex == UINT32_MAX;
++	     i++) {
++		VkMemoryPropertyFlags flags = vk.memory.memoryTypes[i].propertyFlags;
++		if (!(requirements.memoryTypeBits & (1u << i)) ||
++		    !(flags & VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT))
++			continue;
++		/* Prefer cached memory: the CPU reads whole rows. */
++		if (memory_info.memoryTypeIndex == UINT32_MAX)
++			memory_info.memoryTypeIndex = i;
++		if (flags & VK_MEMORY_PROPERTY_HOST_CACHED_BIT)
++			memory_info.memoryTypeIndex = i;
++	}
++	if (memory_info.memoryTypeIndex == UINT32_MAX ||
++	    vk.AllocateMemory(vk.device, &memory_info, NULL, &entry->buffer_memory) != VK_SUCCESS ||
++	    vk.BindBufferMemory(vk.device, entry->buffer, entry->buffer_memory, 0) != VK_SUCCESS)
++		goto out;
++	if (vk.MapMemory(vk.device, entry->buffer_memory, 0, buffer_info.size, 0, &map) != VK_SUCCESS)
++		goto out;
++	entry->fd = fcntl(fd, F_DUPFD_CLOEXEC, 0);
++	entry->key_fd = fd;
++	entry->width = width;
++	entry->height = height;
++	entry->stride = stride;
++	entry->bpp = vram_bpp(vram_format_of(drm_format));
++	entry->map_flags = map_flags;
++	entry->map = map;
++	entry->buffer_size = buffer_info.size;
++	entry->next = staged.head;
++	staged.head = entry;
++	pthread_mutex_unlock(&vk.lock);
++	close(image_fd);
++
++	if (!vram_stage_rows(entry, entry->width, entry->height, entry->stride, entry->bpp, true)) {
++		vram_release_key(entry->key_fd);
++		goto err;
++	}
++	*state = entry;
++	return map;
++
++out:
++	pthread_mutex_unlock(&vk.lock);
++	if (image_fd >= 0)
++		close(image_fd);
++	if (entry && entry->image != VK_NULL_HANDLE)
++		vk.DestroyImage(vk.device, entry->image, NULL);
++	free(entry);
++err:
++	errno = EINVAL;
++	return MAP_FAILED;
++}
++
++bool vram_flush(void *state)
++{
++	struct vram_staging *entry = state;
++
++	if (!(entry->map_flags & PROT_WRITE))
++		return true;
++	return vram_stage_rows(entry, entry->width, entry->height, entry->stride, entry->bpp,
++			       false);
++}
++
++/* Re-stage what the GPU drew since the last lock, for read-only maps. */
++void vram_refresh(int key_fd)
++{
++	struct vram_staging *entry = vram_staging_of(key_fd);
++
++	if (!entry || (entry->map_flags & PROT_WRITE))
++		return;
++	vram_stage_rows(entry, entry->width, entry->height, entry->stride, entry->bpp, true);
++}
++
++void vram_release_key(int key_fd)
++{
++	struct vram_staging *entry = vram_staging_of(key_fd);
++	struct vram_staging **link = &staged.head;
++
++	if (!entry)
++		return;
++	pthread_mutex_lock(&staged.lock);
++	while (*link && *link != entry)
++		link = &(*link)->next;
++	if (*link)
++		*link = entry->next;
++	pthread_mutex_unlock(&staged.lock);
++	vk.UnmapMemory(vk.device, entry->buffer_memory);
++	vk.DestroyBuffer(vk.device, entry->buffer, NULL);
++	vk.FreeMemory(vk.device, entry->buffer_memory, NULL);
++	vk.DestroyImage(vk.device, entry->image, NULL);
++	vk.FreeMemory(vk.device, entry->image_memory, NULL);
++	close(entry->fd);
++	free(entry);
++}
 diff --git a/vram_images.h b/vram_images.h
 new file mode 100644
-index 0000000..6d546c7
+index 0000000..66bc546
 --- /dev/null
 +++ b/vram_images.h
-@@ -0,0 +1,44 @@
+@@ -0,0 +1,62 @@
 +/*
 + * Use of this source code is governed by a BSD-style license that can be
 + * found in the LICENSE file.
@@ -622,6 +1024,24 @@ index 0000000..6d546c7
 + */
 +int vram_image_create(uint32_t drm_format, uint32_t width, uint32_t height, uint64_t limit,
 +		      struct vram_image *out);
++
++/* CPU access to a VRAM buffer: the buffer's DMA-BUF imports as a Vulkan image
++ * of its own layout, and a linear host-visible copy moves in and out by GPU
++ * copy. The map reports the buffer's own stride, so CPU consumers keep the
++ * layout the handle promised. `map_flags` carries PROT_READ and PROT_WRITE.
++ * `state` holds the staging objects until vram_release; keep it across maps.
++ */
++void *vram_map(int fd, uint64_t modifier, uint32_t drm_format, uint32_t width, uint32_t height,
++	       uint32_t stride, uint64_t size, uint32_t map_flags, void **state);
++
++/* Move CPU writes of a mapped buffer back into VRAM. */
++bool vram_flush(void *state);
++
++/* Re-stage what the GPU drew since the last lock, for read-only maps. */
++void vram_refresh(int key_fd);
++
++/* Drop the staging copy of a buffer whose handle closed. */
++void vram_release_key(int key_fd);
 +
 +/* Where the DMA-heap image allocator gets VRAM; unset, every image is LINEAR
 + * system memory. The gralloc allocator sets it, which keeps Vulkan out of
