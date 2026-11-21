@@ -1,0 +1,39 @@
+{
+  "version": "0.1.0",
+  "release": 49,
+  "comment": "Pinned Droidloom release packages from https://github.com/denialwm/droidloom/releases/download/packages. Regenerate with nix/update-prebuilt-hashes.sh after bumping packaging/arch/version.json.",
+  "architectures": {
+    "x86_64": {
+      "runtime": {
+        "sha256": "a50a30fc664f1284556d1ced51a386441ab2b4c2177ae581285a0eb002a4684c"
+      },
+      "image": {
+        "sha256": "a6dcc49e87727262a6b249bd7ad0ed140d1149250b983f351d151e5bdafaf69f"
+      },
+      "base": {
+        "sha256": "aa313d072f8935c6c56732a7440a2d7bab8eb797540e30e07411ca91b95f726e"
+      },
+      "partitions": {
+        "system.img": "e25eb6d9ae519f82e63b91389c0802ddfe789156c8fdf9c4cada4f8addd62526",
+        "system_ext.img": "0f719b318ed03b5b471393accf19d3c71d9053354c9cccf94d91777e0f52274d",
+        "product.img": "d753e625700fbae949f5b6b78614f3a1d04503c4765bdc654f229c3e3e7195d4"
+      }
+    },
+    "aarch64": {
+      "runtime": {
+        "sha256": "6e5cf18c7c196f3ffa5a79ca938e0caf8315548610f21bb6db4adae0e35dbc28"
+      },
+      "image": {
+        "sha256": "8257effad113503ec5d0ed369e0b2d6d61cd976f37f93ce5b9a206f883a96062"
+      },
+      "base": {
+        "sha256": "40712a6eb1bcc451c8c4bdd2ca5b2951f845d041c4746a4bb2a07b3259b49473"
+      },
+      "partitions": {
+        "system.img": "7f55209f19dcad75f68e86322484b6c63a389d2b9e6a911ecec4515113644327",
+        "system_ext.img": "ae33e66aea99f1381810c640a63d0e6dfc6015d6dad67c736351210ff68beb20",
+        "product.img": "376a439a8ce38d74f0f5993ce679f2cc13059d91f10270abe6da8f6ff7fe7513"
+      }
+    }
+  }
+}

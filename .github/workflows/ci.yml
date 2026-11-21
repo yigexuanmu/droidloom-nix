@@ -1,0 +1,61 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build:
+    name: Build x86_64-linux
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: cachix/install-nix-action@v31
+        with:
+          nix_path: nixpkgs=channel:nixos-unstable
+
+      # Host binaries from source (the full Cargo workspace).
+      - name: Build host package
+        run: nix build .#droidloom -L
+
+      # The activated Android tree from the pinned release packages.
+      - name: Build Android bundle
+        run: nix build .#droidloom-android -L
+
+      # Evaluate the NixOS module and dump the generated configuration.
+      - name: Check module evaluation
+        run: |
+          nix eval --raw '.#nixosConfigurations.test.config.environment.etc."droidloom/cell.json".text' > cell.json
+          nix eval --raw '.#nixosConfigurations.test.config.environment.etc."droidloom/runtime.env".text' > runtime.env
+          python3 - <<'EOF'
+          import json
+          spec = json.load(open("cell.json"))
+          required = [
+              "host_uid", "subordinate_uids", "subordinate_gids", "image_dir",
+              "vendor_image", "android_file_overrides", "android_runtime_directories",
+              "data_dir", "runtime_dir", "render_node", "denial_socket",
+          ]
+          missing = [key for key in required if key not in spec]
+          assert not missing, f"cell.json is missing {missing}"
+          assert spec["host_uid"] is not None
+          assert spec["image_dir"].endswith("/usr/lib/droidloom/images")
+          assert spec["vendor_image"].endswith("/vendor.raw.img")
+          print(f"cell.json: {len(spec['android_file_overrides'])} overrides, host_uid={spec['host_uid']}")
+          print("runtime.env:")
+          print(open("runtime.env").read(), end="")
+          EOF
+
+  evaluate-aarch64:
+    name: Evaluate aarch64-linux
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: cachix/install-nix-action@v31
+        with:
+          nix_path: nixpkgs=channel:nixos-unstable
+      # The prebuilt package set exists for aarch64; only evaluation is
+      # checked here because GitHub's hosted runners are x86_64.
+      - name: Evaluate packages
+        run: nix eval .#packages.aarch64-linux.droidloom-android.name
