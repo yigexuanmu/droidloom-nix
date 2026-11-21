@@ -182,6 +182,43 @@ apps are not included; an experimental
 [builder](docs/BUILDING.md#optional-google-apps) can add them from archives you
 supply.
 
+## Nix Flake
+
+Add this flake as an input, enable its overlay, and configure the module:
+
+```nix
+# flake.nix
+{
+  inputs.droidloom-nix.url = "github:yigexuanmu/droidloom-nix";
+
+  outputs = { self, nixpkgs, droidloom-nix }: {
+    nixosConfigurations.myhost = nixpkgs.lib.nixosSystem {
+      system = "x86_64-linux";
+      modules = [
+        {
+          nixpkgs.overlays = [ droidloom-nix.overlays.default ];
+        }
+        droidloom-nix.nixosModules.default
+        ({ lib, ... }: {
+          services.droidloom = {
+            enable = true;
+            user = "alice";           # explicit uid required (see below)
+            # graphicsBackend = "forwarding";
+            # gpu = "0000:04:00.0";   # NVIDIA GPU forwarding
+          };
+        })
+      ];
+    };
+  };
+}
+```
+
+Then:
+
+```console
+$ nixos-rebuild switch --flake .#myhost
+```
+
 ## Use Droidloom
 
 ```console
