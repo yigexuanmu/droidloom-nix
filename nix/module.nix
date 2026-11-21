@@ -482,6 +482,12 @@ in
   };
 
   config = lib.mkIf cfg.enable {
+    # Expose droidloomctl (and the rest of the host binaries) on the
+    # interactive PATH; the systemd units reference the store path
+    # directly and would work without this, but the documented
+    # `droidloomctl start` workflow would not.
+    environment.systemPackages = [ cfg.package ];
+
     assertions = [
       {
         assertion = builtins.hasAttr cfg.user config.users.users;
