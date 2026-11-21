@@ -85,7 +85,7 @@ pub fn split_nals(data: &[u8]) -> AccessUnit<'_> {
         if data[index] == 0 && data[index + 1] == 0 && data[index + 2] == 1 {
             if let Some(begin) = start.take() {
                 let payload = &data[begin..index];
-                push_nal(&mut unit, data[begin + 3], payload);
+                push_nal(&mut unit, data[begin], payload);
             }
             index += 3;
             start = Some(index);
@@ -94,7 +94,12 @@ pub fn split_nals(data: &[u8]) -> AccessUnit<'_> {
         index += 1;
     }
     if let Some(begin) = start {
-        push_nal(&mut unit, data[begin + 3], &data[begin..]);
+        // A trailing start code with no payload (the RBSP trailing bits of
+        // one NAL ending 00 00 01) is not a NAL; only a real byte after the
+        // start code makes one, and the kind byte is that first byte.
+        if begin < data.len() {
+            push_nal(&mut unit, data[begin], &data[begin..]);
+        }
     }
     unit
 }

@@ -10,8 +10,12 @@ pub struct NvVideoSession {
 /// Opens a session sized to the DPB grant. Returns null on failure; the
 /// caller logs why through the component's own path.
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn droidloom_video_open(max_dpb_slots: u32) -> *mut NvVideoSession {
-    match crate::Session::new(max_dpb_slots) {
+pub unsafe extern "C" fn droidloom_video_open(
+    width: u32,
+    height: u32,
+    _max_dpb_slots: u32,
+) -> *mut NvVideoSession {
+    match crate::Session::new((width, height)) {
         Ok(session) => Box::into_raw(Box::new(NvVideoSession { inner: session })),
         Err(_) => std::ptr::null_mut(),
     }
@@ -31,8 +35,8 @@ pub unsafe extern "C" fn droidloom_video_configure(
     }
 }
 
-/// Decodes one frame into `dmabuf`, returning the completion fence or -1
-/// when the frame needs more input before a picture comes out.
+/// Decodes one frame, returning 1 with the DPB slot the picture occupies,
+/// 0 when the frame needs more input before a picture comes out.
 #[unsafe(no_mangle)]
 pub unsafe extern "C" fn droidloom_video_decode(
     session: *mut NvVideoSession,
@@ -40,15 +44,15 @@ pub unsafe extern "C" fn droidloom_video_decode(
     size: usize,
     dmabuf: i32,
     ordinal: u64,
-    out_fence: *mut i32,
+    out_slot: *mut u32,
 ) -> i32 {
     let Some(session) = (unsafe { session.as_mut() }) else { return -1 };
     let bytes = unsafe { std::slice::from_raw_parts(data, size) };
     match session.inner.decode(bytes, dmabuf, ordinal) {
-        Ok(Some(picture)) => {
-            if !out_fence.is_null() {
+        Ok(Some(slot)) => {
+            if !out_slot.is_null() {
                 unsafe {
-                    *out_fence = picture.fence;
+                    *out_slot = slot;
                 }
             }
             1
