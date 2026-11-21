@@ -95,9 +95,7 @@ fn run() -> Result<(), String> {
 
     let mut session = droidloom_video::Session::new((320, 240)).map_err(|error| format!("session: {error}"))?;
     println!("dpb slots: {}", session.dpb_slots());
-    eprintln!("test: csd {} bytes, {} frame slices", csd.len(), frames.len());
     session.configure(&csd)?;
-    eprintln!("test: configured");
 
     let reference = fs::read(&options.reference).map_err(|error| format!("read reference: {error}")).ok();
     let frame_bytes = reference.as_ref().map(|reference| reference.len() / frames.len().max(1));
@@ -111,7 +109,6 @@ fn run() -> Result<(), String> {
             bytes.extend_from_slice(&[0, 0, 0, 1]);
             bytes.extend_from_slice(payload);
         }
-        eprintln!("test: frame {index} bytes {}", bytes.len());
         let slot = session
             .decode(&bytes, -1, index as u64)
             .map_err(|error| format!("frame {index}: {error}"))?

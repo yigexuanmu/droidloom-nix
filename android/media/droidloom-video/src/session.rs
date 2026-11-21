@@ -144,6 +144,7 @@ struct DeviceFns {
     CmdBeginVideoCodingKHR: unsafe extern "system" fn(gvk::VkCommandBuffer, *const gvk::VkVideoBeginCodingInfoKHR),
     CmdEndVideoCodingKHR: unsafe extern "system" fn(gvk::VkCommandBuffer, *const gvk::VkVideoEndCodingInfoKHR),
     CmdDecodeVideoKHR: unsafe extern "system" fn(gvk::VkCommandBuffer, *const gvk::VkVideoDecodeInfoKHR),
+    CmdControlVideoCodingKHR: unsafe extern "system" fn(gvk::VkCommandBuffer, *const gvk::VkVideoCodingControlInfoKHR),
     CmdCopyImageToBuffer: unsafe extern "system" fn(gvk::VkCommandBuffer, gvk::VkImage, i32, gvk::VkBuffer, u32, *const gvk::VkBufferImageCopy),
     QueueSubmit: unsafe extern "system" fn(gvk::VkQueue, u32, *const gvk::VkSubmitInfo, gvk::VkFence) -> i32,
     QueueWaitIdle: unsafe extern "system" fn(gvk::VkQueue) -> i32,
@@ -362,13 +363,6 @@ fn query_dpb_format(entry: &Entry, instance: gvk::VkInstance, physical: usize, p
     // The DPB picture is decoded into and copied out of: it needs the decode
     // usages and the transfer bits for the host copy. G8_B8R8_2PLANE_420_UNORM
     // is the format Android's 4:2:0 output maps onto.
-    eprintln!("DPB format candidates ({}):", properties.len());
-    for format in &properties {
-        eprintln!(
-            "  format {} tiling {} usage {:#x}",
-            format.format, format.imageTiling, format.imageUsageFlags
-        );
-    }
     for format in &properties {
         let want = USAGE_DECODE_DPB | USAGE_DECODE_DST | USAGE_TRANSFER_SRC | USAGE_TRANSFER_DST;
         if format.format == 1000156003 && format.imageUsageFlags & want == want {
@@ -427,6 +421,7 @@ fn device_fns(entry: &Entry, instance: gvk::VkInstance, _device: gvk::VkDevice) 
         CmdBeginVideoCodingKHR: dev!("vkCmdBeginVideoCodingKHR"),
         CmdEndVideoCodingKHR: dev!("vkCmdEndVideoCodingKHR"),
         CmdDecodeVideoKHR: dev!("vkCmdDecodeVideoKHR"),
+        CmdControlVideoCodingKHR: dev!("vkCmdControlVideoCodingKHR"),
         CmdCopyImageToBuffer: dev!("vkCmdCopyImageToBuffer"),
         QueueSubmit: dev!("vkQueueSubmit"),
         QueueWaitIdle: dev!("vkQueueWaitIdle"),
@@ -635,7 +630,6 @@ impl VideoSession {
         if unsafe { (fns.GetVideoSessionMemoryRequirementsKHR)(device, session, &mut bind_count, std::ptr::null_mut()) } != 0 {
             return Err("session memory requirements failed".into());
         }
-        eprintln!("session memory binds: {bind_count}");
         let mut requirements = vec![unsafe { std::mem::zeroed::<gvk::VkVideoSessionMemoryRequirementsKHR>() }; bind_count as usize];
         for requirement in &mut requirements {
             requirement.sType = gvk::VK_STRUCTURE_TYPE_VIDEO_SESSION_MEMORY_REQUIREMENTS_KHR;
@@ -661,17 +655,6 @@ impl VideoSession {
         // DPB pictures: one image per slot, general layout, transfer source.
         // Images carrying video usage must name the profile they serve
         // (VUID-VkImageCreateInfo-usage-04815).
-        unsafe {
-            let bytes = std::slice::from_raw_parts((&profile.profile) as *const _ as *const u8, 32);
-            eprintln!(
-                "profile bytes: op={} chroma={} luma={} chromad={} raw={:02x?}",
-                profile.profile.videoCodecOperation,
-                profile.profile.chromaSubsampling,
-                profile.profile.lumaBitDepth,
-                profile.profile.chromaBitDepth,
-                bytes
-            );
-        }
         let profile_list = gvk::VkVideoProfileListInfoKHR {
             sType: gvk::VK_STRUCTURE_TYPE_VIDEO_PROFILE_LIST_INFO_KHR,
             pNext: std::ptr::null(),
@@ -864,6 +847,63 @@ impl VideoSession {
             return Err("copy buffer map failed".into());
         }
 
+        // A RESET coding scope on a fresh session initializes the DPB: the
+        // video spec requires it before the first decode (the 07011 class).
+        let reset_begin = gvk::VkVideoBeginCodingInfoKHR {
+            sType: gvk::VK_STRUCTURE_TYPE_VIDEO_BEGIN_CODING_INFO_KHR,
+            pNext: std::ptr::null(),
+            flags: 0,
+            videoSession: session,
+            videoSessionParameters: 0,
+            referenceSlotCount: 0,
+            pReferenceSlots: std::ptr::null(),
+        };
+        let reset_ctrl = gvk::VkVideoCodingControlInfoKHR {
+            sType: gvk::VK_STRUCTURE_TYPE_VIDEO_CODING_CONTROL_INFO_KHR,
+            pNext: std::ptr::null(),
+            flags: 0x1, // VK_VIDEO_CODING_CONTROL_RESET_BIT_KHR (registry bitpos 0)
+        };
+        let reset_end = gvk::VkVideoEndCodingInfoKHR {
+            sType: gvk::VK_STRUCTURE_TYPE_VIDEO_END_CODING_INFO_KHR,
+            pNext: std::ptr::null(),
+            flags: 0,
+        };
+        let begin_cb = gvk::VkCommandBufferBeginInfo {
+            sType: gvk::VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO,
+            pNext: std::ptr::null(),
+            flags: 0x1, // ONE_TIME_SUBMIT
+            pInheritanceInfo: std::ptr::null(),
+        };
+        unsafe {
+            (fns.ResetCommandBuffer)(command, 0);
+            if (fns.BeginCommandBuffer)(command, &begin_cb) != 0 {
+                return Err("reset begin".into());
+            }
+            (fns.CmdBeginVideoCodingKHR)(command, &reset_begin);
+            (fns.CmdControlVideoCodingKHR)(command, &reset_ctrl);
+            (fns.CmdEndVideoCodingKHR)(command, &reset_end);
+            if (fns.EndCommandBuffer)(command) != 0 {
+                return Err("reset end".into());
+            }
+            let submit = gvk::VkSubmitInfo {
+                sType: gvk::VK_STRUCTURE_TYPE_SUBMIT_INFO,
+                pNext: std::ptr::null(),
+                waitSemaphoreCount: 0,
+                pWaitSemaphores: std::ptr::null(),
+                pWaitDstStageMask: std::ptr::null(),
+                commandBufferCount: 1,
+                pCommandBuffers: &command,
+                signalSemaphoreCount: 0,
+                pSignalSemaphores: std::ptr::null(),
+            };
+            if (fns.QueueSubmit)(queue, 1, &submit, 0) != 0 { // null fence: QueueWaitIdle follows
+                return Err("reset submit".into());
+            }
+            if (fns.QueueWaitIdle)(queue) != 0 {
+                return Err("reset wait".into());
+            }
+        }
+
         let slot_state = vec![SlotState::default(); caps.max_dpb_slots as usize];
         Ok(Self {
             coded_extent: aligned,
@@ -1030,14 +1070,45 @@ impl VideoSession {
             slot.pNext = (&begin_dpb_infos[i] as *const gvk::VkVideoDecodeH264DpbSlotInfoKHR).cast();
             slot.pPictureResource = &begin_resources[i];
         }
+        let setup_std = session_state.reference_info(header.frame_num);
+        let setup_resource = gvk::VkVideoPictureResourceInfoKHR {
+            sType: gvk::VK_STRUCTURE_TYPE_VIDEO_PICTURE_RESOURCE_INFO_KHR,
+            pNext: std::ptr::null(),
+            codedOffset: gvk::VkOffset2D { x: 0, y: 0 },
+            codedExtent: gvk::VkExtent2D { width: aligned.0, height: aligned.1 },
+            baseArrayLayer: 0,
+            imageViewBinding: self.dpb_images[setup_slot].view,
+        };
+        let setup_dpb_info = gvk::VkVideoDecodeH264DpbSlotInfoKHR {
+            sType: gvk::VK_STRUCTURE_TYPE_VIDEO_DECODE_H264_DPB_SLOT_INFO_KHR,
+            pNext: std::ptr::null(),
+            pStdReferenceInfo: &setup_std,
+        };
+        let setup_slot_info = gvk::VkVideoReferenceSlotInfoKHR {
+            sType: gvk::VK_STRUCTURE_TYPE_VIDEO_REFERENCE_SLOT_INFO_KHR,
+            pNext: (&setup_dpb_info as *const _) as *const core::ffi::c_void,
+            slotIndex: setup_slot as i32,
+            pPictureResource: &setup_resource,
+        };
+        // The current picture's resource, bound as an inactive reference
+        // (slotIndex = -1): exempt from the active-slot requirement and the
+        // match the setup slot's resource needs (07149).
+        let current_inactive = gvk::VkVideoReferenceSlotInfoKHR {
+            sType: gvk::VK_STRUCTURE_TYPE_VIDEO_REFERENCE_SLOT_INFO_KHR,
+            pNext: std::ptr::null(),
+            slotIndex: -1,
+            pPictureResource: &setup_resource,
+        };
+        let mut all_begin_slots = begin_slots.clone();
+        all_begin_slots.push(current_inactive);
         let begin_info = gvk::VkVideoBeginCodingInfoKHR {
             sType: gvk::VK_STRUCTURE_TYPE_VIDEO_BEGIN_CODING_INFO_KHR,
             pNext: std::ptr::null(),
             flags: 0,
             videoSession: self.session,
             videoSessionParameters: self.parameters.unwrap_or(0),
-            referenceSlotCount: begin_slots.len() as u32,
-            pReferenceSlots: begin_slots.as_ptr(),
+            referenceSlotCount: all_begin_slots.len() as u32,
+            pReferenceSlots: all_begin_slots.as_ptr(),
         };
 
         // The decode's reference slots: the active slots the picture reads.
