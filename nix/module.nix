@@ -203,7 +203,10 @@ let
       unitConfig.ConditionPathExists = "/etc/droidloom/cell.json";
       environment = {
         # Bare-name calls (systemctl) from droidloomctl must resolve.
-        PATH = "/run/current-system/sw/bin";
+        # mkForce: nixos-unstable sets a default environment.PATH on user
+        # services (nixos/modules/system/boot/systemd/user.nix); a plain
+        # definition conflicts with it at the same priority.
+        PATH = lib.mkForce "/run/current-system/sw/bin";
       };
       serviceConfig = {
         Type = "notify";
