@@ -78,11 +78,56 @@ pub fn emit(api: &Api) -> String {
         let members = registry.struct_members(name).expect("structure");
         let keyword = if registry.is_union(name) { "union" } else { "struct" };
         writeln!(out, "    #[repr(C)]\n    #[derive(Clone, Copy)]\n    pub {keyword} {name} {{").ok();
-        for member in members {
-            assert!(!member.bitfield, "{name} has bitfields");
-            writeln!(out, "        pub {}: {},", ident(&member.name), declared(api, member)).ok();
+        // Bitfields never appear in the wire code, but the layout must match
+        // C exactly, because the host driver reads these bytes. Consecutive
+        // bitfields of one storage type share a unit until it is full (the
+        // rule the Std headers are written against); each unit becomes one
+        // opaque field, and one-bit members get named bit constants.
+        let mut bits: Vec<(String, u32)> = Vec::new();
+        let mut index = 0;
+        while index < members.len() {
+            let member = &members[index];
+            if member.bitfield {
+                let storage = type_name(api, &member.ty);
+                let capacity = match storage.as_str() {
+                    "u8" => 8,
+                    "u16" => 16,
+                    "u32" | "i32" => 32,
+                    "u64" | "i64" => 64,
+                    other => panic!("{name}: bitfield storage {other}"),
+                };
+                let mut used = 0;
+                let first = member.name.clone();
+                while index < members.len() {
+                    let unit = &members[index];
+                    if !unit.bitfield || type_name(api, &unit.ty) != storage {
+                        break;
+                    }
+                    let width = unit.bit_width.unwrap_or_else(|| panic!("{name}: bitfield without width"));
+                    if width == 0 || used + width > capacity {
+                        break;
+                    }
+                    if width == 1 && unit.name != "reserved" {
+                        bits.push((unit.name.to_ascii_uppercase(), used));
+                    }
+                    used += width;
+                    index += 1;
+                }
+                assert!(used > 0, "{name}: unusable bitfield {}", member.name);
+                writeln!(out, "        pub {}_bits: {storage},", ident(&first)).ok();
+            } else {
+                writeln!(out, "        pub {}: {},", ident(&member.name), declared(api, member)).ok();
+                index += 1;
+            }
         }
         out.push_str("    }\n");
+        if !bits.is_empty() {
+            writeln!(out, "    impl {name} {{").ok();
+            for (member, shift) in &bits {
+                writeln!(out, "        /// Bit {shift} of the packed unit.\n        pub const {member}: u32 = 1 << {shift};").ok();
+            }
+            out.push_str("    }\n");
+        }
     }
     out.push('\n');
     for cmd in &api.commands {

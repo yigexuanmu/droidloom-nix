@@ -130,6 +130,12 @@ pub fn c_type(name: &str) -> Option<&'static str> {
     })
 }
 
+thread_local! {
+    /// Generation-time warnings already printed, so one member warns once.
+    static UNSUPPORTED_LENGTHS: std::cell::RefCell<std::collections::HashSet<String>> =
+        std::cell::RefCell::new(std::collections::HashSet::new());
+}
+
 /// Dispatch level from the first parameter.
 fn level_of(registry: &Registry, command: &Command) -> Level {
     match command.params.first().map(|p| registry.resolve(&p.ty)) {
@@ -376,6 +382,46 @@ impl<'r> Api<'r> {
             .filter(|len| len != "null-terminated" && len != "1")
     }
 
+    /// Whether the length expression only names members of the enclosing
+    /// structure (or registry constants). The video headers reference the
+    /// enclosing SPS's `max_sub_layers_minus1` from inside
+    /// StdVideoH265HrdParameters, which a struct-level encoder cannot reach;
+    /// such members travel as unsupported until a protocol extension gives
+    /// them a count.
+    fn length_resolvable(&self, owner: &str, member: &Member) -> bool {
+        let length = self.length(member);
+        let Some(expression) = length.as_deref() else { return true };
+        let names: std::collections::HashSet<&str> = self
+            .registry
+            .struct_members(owner)
+            .map(|members| members.iter().map(|m| m.name.as_str()).collect())
+            .unwrap_or_default();
+        let mut word = String::new();
+        for c in expression.chars().chain([' ']) {
+            if c.is_ascii_alphanumeric() || c == '_' {
+                word.push(c);
+                continue;
+            }
+            if !word.is_empty() {
+                let known = word.starts_with("VK_")
+                    || word.starts_with("STD_VIDEO_")
+                    || names.contains(word.as_str())
+                    || c_type(&word).is_some();
+                if !known {
+                    UNSUPPORTED_LENGTHS.with(|set| {
+                        let key = format!("{owner}.{}", member.name);
+                        if set.borrow_mut().insert(key.clone()) {
+                            eprintln!("note: {key}: length {expression:?} names {word:?}, which is not a member of {owner}; the member travels as unsupported");
+                        }
+                    });
+                    return false;
+                }
+                word.clear();
+            }
+        }
+        true
+    }
+
     fn pointee(&self, member: &Member, owner: &str) -> Pointee {
         let registry = self.registry;
         let ty = registry.resolve(&member.ty);
@@ -428,8 +474,15 @@ impl<'r> Api<'r> {
                 }
             }
             Pointer::Value => MemberKind::Pod,
-            Pointer::Const | Pointer::ConstConst => MemberKind::Pointer(self.pointee(member, owner), self.length(member)),
-            Pointer::Mut if ty != "void" => MemberKind::Scratch(ty.to_owned(), self.length(member)),
+            Pointer::Const | Pointer::ConstConst
+                if self.length_resolvable(owner, member) =>
+            {
+                MemberKind::Pointer(self.pointee(member, owner), self.length(member))
+            }
+            Pointer::Const | Pointer::ConstConst => MemberKind::Unsupported,
+            Pointer::Mut if ty != "void" && self.length_resolvable(owner, member) => {
+                MemberKind::Scratch(ty.to_owned(), self.length(member))
+            }
             // Opaque pointers inside input structures (pUserData and similar).
             Pointer::Mut | Pointer::MutMut => MemberKind::Unsupported,
         }

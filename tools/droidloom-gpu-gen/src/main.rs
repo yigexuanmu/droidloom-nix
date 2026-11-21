@@ -1,9 +1,11 @@
 //! Generate the GPU forwarding protocol from vk.xml and the allow-list.
 //!
-//! `droidloom-gpu-gen [--check] [--registry vk.xml]` writes (or, with
-//! `--check`, compares) three files: the shared protocol, the Android-side
-//! encoders and the host-side handlers. The registry defaults to the Vulkan
-//! headers pinned by the AOSP source lock, the ones Android's loader uses.
+//! `droidloom-gpu-gen [--check] [--registry vk.xml] [--video-registry video.xml]`
+//! writes (or, with `--check`, compares) three files: the shared protocol,
+//! the Android-side encoders and the host-side handlers. The registries
+//! default to the Vulkan headers pinned by the AOSP source lock, the ones
+//! Android's loader uses; video.xml carries the `StdVideo*` structures the
+//! video extensions reference.
 
 mod client;
 mod model;
@@ -17,6 +19,7 @@ use std::process::ExitCode;
 
 const ALLOWLIST: &str = "graphics/droidloom-gpu-protocol/api.txt";
 const DEFAULT_REGISTRY: &str = ".work/arch/build/aosp-source/external/vulkan-headers/registry/vk.xml";
+const VIDEO_REGISTRY_NAME: &str = "video.xml";
 const OUTPUTS: [&str; 3] = [
     "graphics/droidloom-gpu-protocol/src/generated.rs",
     "android/gpu/droidloom-vulkan/src/generated.rs",
@@ -27,11 +30,15 @@ fn main() -> ExitCode {
     let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
     let mut check = false;
     let mut registry_path = root.join(DEFAULT_REGISTRY);
+    let mut video_registry_path = None;
     let mut arguments = std::env::args().skip(1);
     while let Some(argument) = arguments.next() {
         match argument.as_str() {
             "--check" => check = true,
             "--registry" => registry_path = PathBuf::from(arguments.next().expect("--registry needs a path")),
+            "--video-registry" => {
+                video_registry_path = Some(PathBuf::from(arguments.next().expect("--video-registry needs a path")))
+            }
             other => {
                 eprintln!("unknown argument {other}");
                 return ExitCode::FAILURE;
@@ -40,8 +47,15 @@ fn main() -> ExitCode {
     }
     let text = std::fs::read_to_string(&registry_path)
         .unwrap_or_else(|error| panic!("read {}: {error}", registry_path.display()));
+    // The video registry sits next to vk.xml in the pinned headers; a tree
+    // without it cannot name the structures the video commands carry.
+    let video_path = video_registry_path
+        .unwrap_or_else(|| registry_path.parent().expect("registry directory").join(VIDEO_REGISTRY_NAME));
+    let video_text = std::fs::read_to_string(&video_path).unwrap_or_else(|error| {
+        panic!("read {}: {error} (the StdVideo types live in video.xml beside vk.xml)", video_path.display())
+    });
     let allowlist = std::fs::read_to_string(root.join(ALLOWLIST)).expect("read the allow-list");
-    let registry = registry::Registry::parse(&text);
+    let registry = registry::Registry::parse(&[&text, &video_text]);
     let api = model::Api::build(&registry, &allowlist);
     let outputs = [protocol::emit(&api), client::emit(&api), server::emit(&api)];
 

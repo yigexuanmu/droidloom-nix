@@ -31,6 +31,8 @@ pub struct Member {
     pub len: Option<String>,
     pub values: Option<String>,
     pub bitfield: bool,
+    /// Declared width of a bitfield member (`uint32_t x : 3`).
+    pub bit_width: Option<u32>,
 }
 
 #[derive(Clone, Debug)]
@@ -140,6 +142,11 @@ fn parse_member(node: Node) -> Member {
     }
     let latex = node.attribute("len").is_some_and(|len| len.starts_with("latexmath"));
     let len = if latex { node.attribute("altlen") } else { node.attribute("len") };
+    let bit_width = if rest.starts_with(':') {
+        Some(rest[1..].trim().trim_end_matches("</member>").trim().parse().unwrap_or_else(|error| panic!("bitfield width on {name}: {error}")))
+    } else {
+        None
+    };
     Member {
         name,
         ty,
@@ -148,6 +155,7 @@ fn parse_member(node: Node) -> Member {
         len: len.map(str::to_owned),
         values: node.attribute("values").map(str::to_owned),
         bitfield: rest.starts_with(':'),
+        bit_width,
     }
 }
 
@@ -177,9 +185,12 @@ fn parse_integer(value: &str) -> Option<i64> {
 }
 
 impl Registry {
-    pub fn parse(text: &str) -> Self {
-        let document = Document::parse(text).expect("vk.xml parses");
-        let root = document.root_element();
+    /// Parse one or more registry documents into a single namespace. The
+    /// Vulkan headers ship the main vk.xml and, since 2024, a sibling
+    /// video.xml with the `StdVideo*` structures the video extensions
+    /// reference: those names exist in neither file's other half, so the
+    /// merge is plain.
+    pub fn parse(texts: &[&str]) -> Self {
         let mut registry = Self {
             types: HashMap::new(),
             type_aliases: HashMap::new(),
@@ -196,12 +207,39 @@ impl Registry {
         };
         let mut wide_enums = std::collections::HashSet::new();
         let mut value_aliases = Vec::new();
+        for text in texts {
+            registry.parse_one(text, &mut wide_enums, &mut value_aliases);
+        }
+
+        for _ in 0..4 {
+            for (name, alias) in &value_aliases {
+                if let Some(&value) = registry.values.get(alias) {
+                    registry.values.entry(name.clone()).or_insert(value);
+                }
+            }
+        }
+        for (name, def) in &mut registry.types {
+            if let TypeDef::Enum { wide } = def {
+                *wide = wide_enums.contains(name);
+            }
+        }
+        registry
+    }
+
+    fn parse_one(
+        &mut self,
+        text: &str,
+        wide_enums: &mut std::collections::HashSet<String>,
+        value_aliases: &mut Vec<(String, String)>,
+    ) {
+        let document = Document::parse(text).expect("the registry parses");
+        let root = document.root_element();
 
         for section in root.children().filter(Node::is_element) {
             match section.tag_name().name() {
                 "types" => {
                     for node in section.children().filter(|n| n.has_tag_name("type") && for_vulkan(*n)) {
-                        registry.add_type(node);
+                        self.add_type(node);
                     }
                 }
                 "enums" => {
@@ -213,18 +251,18 @@ impl Registry {
                         let value_name = value.attribute("name").unwrap_or_default().to_owned();
                         if name == "API Constants" {
                             if let (Some(ty), Some(v)) = (value.attribute("type"), value.attribute("value")) {
-                                registry.constants.insert(value_name, (ty.to_owned(), v.to_owned()));
+                                self.constants.insert(value_name, (ty.to_owned(), v.to_owned()));
                             }
                         } else if let Some(alias) = value.attribute("alias") {
                             value_aliases.push((value_name, alias.to_owned()));
                         } else if let Some(v) = value.attribute("value").and_then(parse_integer) {
-                            registry.values.insert(value_name, v);
+                            self.values.insert(value_name, v);
                         }
                     }
                 }
                 "commands" => {
                     for node in section.children().filter(|n| n.has_tag_name("command") && for_vulkan(*n)) {
-                        registry.add_command(node);
+                        self.add_command(node);
                     }
                 }
                 "feature" | "extensions" => {
@@ -239,12 +277,12 @@ impl Registry {
                     {
                         for command in section.descendants().filter(|n| n.has_tag_name("command")) {
                             let name = command.attribute("name").unwrap_or_default().to_owned();
-                            if !registry.core.contains(&name) {
-                                registry.core.push(name);
+                            if !self.core.contains(&name) {
+                                self.core.push(name);
                             }
                         }
                         for ty in section.descendants().filter(|n| n.has_tag_name("type")) {
-                            registry.core_types.insert(ty.attribute("name").unwrap_or_default().to_owned());
+                            self.core_types.insert(ty.attribute("name").unwrap_or_default().to_owned());
                         }
                     }
                     for block in blocks {
@@ -262,7 +300,7 @@ impl Registry {
                                 .flat_map(|require| require.children().filter(|n| n.has_tag_name("type")))
                                 .map(|ty| ty.attribute("name").unwrap_or_default().to_owned())
                                 .collect();
-                            registry.device_extensions.push(DeviceExtension {
+                            self.device_extensions.push(DeviceExtension {
                                 name: block.attribute("name").unwrap_or_default().to_owned(),
                                 commands,
                                 types,
@@ -270,6 +308,19 @@ impl Registry {
                             });
                         }
                         let number = block.attribute("number").and_then(|n| n.parse().ok());
+                        // video.xml declares its API constants (array sizes
+                        // such as STD_VIDEO_H264_SCALING_LIST_4X4_NUM_LISTS)
+                        // in extension blocks with a `type` attribute, where
+                        // vk.xml keeps them in the "API Constants" section.
+                        let constants = block.descendants().filter(|n| {
+                            n.has_tag_name("enum") && n.attribute("type").is_some() && n.attribute("value").is_some() && for_vulkan(*n)
+                        });
+                        for value in constants {
+                            let name = value.attribute("name").unwrap_or_default().to_owned();
+                            if let (Some(ty), Some(v)) = (value.attribute("type"), value.attribute("value")) {
+                                self.constants.entry(name).or_insert((ty.to_owned(), v.to_owned()));
+                            }
+                        }
                         let enums = block
                             .descendants()
                             .filter(|n| n.has_tag_name("enum") && n.attribute("extends").is_some() && for_vulkan(*n));
@@ -278,7 +329,7 @@ impl Registry {
                             if let Some(alias) = value.attribute("alias") {
                                 value_aliases.push((value_name, alias.to_owned()));
                             } else if let Some(v) = extension_value(value, number) {
-                                registry.values.insert(value_name, v);
+                                self.values.insert(value_name, v);
                             }
                         }
                     }
@@ -286,19 +337,6 @@ impl Registry {
                 _ => {}
             }
         }
-        for _ in 0..4 {
-            for (name, alias) in &value_aliases {
-                if let Some(&value) = registry.values.get(alias) {
-                    registry.values.entry(name.clone()).or_insert(value);
-                }
-            }
-        }
-        for (name, def) in &mut registry.types {
-            if let TypeDef::Enum { wide } = def {
-                *wide = wide_enums.contains(name);
-            }
-        }
-        registry
     }
 
     fn add_type(&mut self, node: Node) {

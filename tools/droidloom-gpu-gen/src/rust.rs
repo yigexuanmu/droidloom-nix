@@ -33,7 +33,12 @@ pub fn declared(api: &Api, member: &Member) -> String {
 }
 
 pub fn array_length(dim: &str) -> String {
-    if dim.starts_with("VK_") { format!("{dim} as usize") } else { dim.to_owned() }
+    // A numeric literal stays verbatim; a constant name (VK_* or the
+    // video headers' STD_VIDEO_*) casts to usize for the array length.
+    match dim.parse::<usize>() {
+        Ok(literal) => literal.to_string(),
+        Err(_) => format!("{dim} as usize"),
+    }
 }
 
 /// The scalar a plain type stands for, for `pub type` aliases.
@@ -57,9 +62,12 @@ pub fn scalar_definition(api: &Api, name: &str) -> String {
 
 pub fn constant(c_ty: &str, value: &str) -> (String, String) {
     let ty = match c_ty {
+        "uint8_t" => "u8",
+        "uint16_t" => "u16",
         "uint32_t" => "u32",
         "uint64_t" => "u64",
         "int32_t" => "i32",
+        "int64_t" => "i64",
         "float" => "f32",
         other => panic!("constant of type {other}"),
     };

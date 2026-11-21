@@ -159,7 +159,10 @@
               pkg-config
               glslang # droidloom-gpu-server build.rs
               pipewire # droidloom-audio build.rs
-              mesa # libgbm (gbm-sys)
+              libgbm # gbm-sys
+              wayland # gbm's import-wayland feature (wayland-server.pc)
+              libxkbcommon # smithay-client-toolkit
+              libdrm # droidloom-dmabuf-probe C shim
               libglvnd # EGL/GLESv2 (droidloom-dmabuf-probe)
             ];
           };
