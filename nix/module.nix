@@ -103,6 +103,11 @@ let
     ]
     ++ lib.optionals (cfg.graphicsBackend == "forwarding") [
       "DROIDLOOM_GPU=${cfg.gpu}"
+      # droidloom-gpu-server dlopens libvulkan.so.1. Upstream installs the
+      # loader into /usr/lib, which systemd user units always search; NixOS
+      # has no /usr/lib, so point the loader at the nixpkgs Vulkan loader,
+      # which scans /run/opengl-driver for the vendor ICD.
+      "LD_LIBRARY_PATH=${lib.makeLibraryPath [ pkgs.vulkan-loader ]}"
     ]
   ) + "\n";
 
